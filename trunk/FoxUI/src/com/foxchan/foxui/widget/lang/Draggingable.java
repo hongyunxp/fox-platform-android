@@ -118,6 +118,8 @@ public class Draggingable implements OnTouchListener, OnGestureListener {
 		if(e.getAction() == MotionEvent.ACTION_UP && isAutoBack){
 			final RelativeLayout.LayoutParams layoutParams = 
 					(RelativeLayout.LayoutParams)layout.getLayoutParams();
+			final int deltaX = Math.abs(layoutParams.leftMargin);
+			final int deltaY = Math.abs(layoutParams.topMargin);
 			FoxAsynMove asynMove = new FoxAsynMove(maxWidth, layout);
 			//向左移动
 			if(layoutParams.leftMargin >= 0){
@@ -125,8 +127,7 @@ public class Draggingable implements OnTouchListener, OnGestureListener {
 					
 					@Override
 					public void onTaskComplete() {
-						onItemDraggedListener.onDraggedToRight(Math.abs(layoutParams.leftMargin), 
-								Math.abs(layoutParams.topMargin), maxWidth, 0, obj);
+						onItemDraggedListener.onDraggedToRight(deltaX, deltaY, maxWidth, 0, obj);
 					}
 				});
 				asynMove.execute(-SPEED);
@@ -135,8 +136,7 @@ public class Draggingable implements OnTouchListener, OnGestureListener {
 					
 					@Override
 					public void onTaskComplete() {
-						onItemDraggedListener.onDraggedToLeft(Math.abs(layoutParams.leftMargin), 
-								Math.abs(layoutParams.topMargin), maxWidth, 0, obj);
+						onItemDraggedListener.onDraggedToLeft(deltaX, deltaY, maxWidth, 0, obj);
 					}
 				});
 				asynMove.execute(SPEED);
