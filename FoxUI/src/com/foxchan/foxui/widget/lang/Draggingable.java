@@ -30,9 +30,10 @@ public class Draggingable implements OnTouchListener, OnGestureListener {
 	/** 是否Measured */
 	private boolean isMeasured = false;
 	/** 每次自动展开/收缩的速度 */
-	private final static int SPEED = 30;
+	private final static int SPEED = 50;
 	/** 手势 */
 	private GestureDetector gestureDetector;
+	/** 当前组件是否滚动的标志 */
 	private boolean isScrolling = false;
 	/** 滑块滑动距离 */
 	private float scrollX;
@@ -40,18 +41,18 @@ public class Draggingable implements OnTouchListener, OnGestureListener {
 	private int windowWidth;
 	/** 需要滑动的布局 */
 	private LinearLayout layout;
+	/** 组件被拖动的最大距离 */
 	private int maxWidth;
+	/** 用户松开选项后是否自动回到原来的地方的标志 */
+	private boolean isAutoBack = true;
+	/** 当前控件需要传递的数据 */
+	private Object obj;
 	
 	/** 组件被拖动中的事件的监听器 */
 	private OnItemDraggingListener onItemDraggingListener;
 	/** 组件被拖动完毕的事件的监听器 */
 	private OnItemDraggedListener onItemDraggedListener;
-	/** 用户松开选项后是否自动回到原来的地方的标志 */
-	private boolean isAutoBack = true;
-	/** 当前控件需要传递的数据 */
-	private Object obj;
-	/** 用户滑动的方向 */
-	private int direction;
+	/** 列表项的点击事件的监听器 */
 	private OnItemClickListener onItemClickListener;
 	
 	public Draggingable(Activity activity, LinearLayout layout, Object obj){
@@ -166,7 +167,7 @@ public class Draggingable implements OnTouchListener, OnGestureListener {
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
 			float distanceY) {
 		isScrolling = true;
-		if(Math.abs(distanceY) <= 50){
+		if(Math.abs(distanceY) <= 200){
 			scrollX += distanceX;//向左为正，向右为负
 			RelativeLayout.LayoutParams layoutParams = 
 					(RelativeLayout.LayoutParams)layout.getLayoutParams();
@@ -187,7 +188,7 @@ public class Draggingable implements OnTouchListener, OnGestureListener {
 						Math.abs(layoutParams.topMargin), maxWidth, 0, layout);
 			}
 		}
-		return false;
+		return true;
 	}
 
 	@Override

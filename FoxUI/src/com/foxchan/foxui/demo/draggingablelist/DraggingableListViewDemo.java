@@ -3,13 +3,8 @@ package com.foxchan.foxui.demo.draggingablelist;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.R.array;
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -56,8 +51,18 @@ public class DraggingableListViewDemo extends Activity implements OnItemDraggedL
 	public void onDraggedToRight(int deltaX, int deltaY, int maxDeltaX,
 			int maxDeltaY, Object obj) {
 		int position = (Integer)obj;
-		strings.remove(position);
-		adapter.notifyDataSetChanged();
+		int result = deltaX / (maxDeltaX / 4);
+		if(result <= 0){
+			Toast.makeText(this, strings.get(position) + "已经标志为已读。", Toast.LENGTH_SHORT).show();
+		} else if(result <= 1){
+			Toast.makeText(this, strings.get(position) + "已经标志为事件。", Toast.LENGTH_SHORT).show();
+		} else if(result <= 2){
+			Toast.makeText(this, strings.get(position) + "已经标志为待处理。", Toast.LENGTH_SHORT).show();
+		} else {
+			Toast.makeText(this, strings.get(position) + "已经被删除。", Toast.LENGTH_SHORT).show();
+			strings.remove(position);
+			adapter.notifyDataSetChanged();
+		}
 	}
 
 }
