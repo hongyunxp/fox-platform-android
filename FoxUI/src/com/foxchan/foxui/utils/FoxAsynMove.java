@@ -9,12 +9,13 @@ import android.widget.RelativeLayout;
  * @author gulangxiangjie@gmail.com
  * @create 2013-4-2
  */
-public class FoxAsynMove extends AsyncTask<Integer, Integer, Void> {
+public class FoxAsynMove extends AsyncTask<Integer, Integer, Boolean> {
 	
 	/** 移动的最大距离 */
 	private int maxWidth = 0;
 	/** 需要移动的布局 */
 	private LinearLayout layout;
+	private OnTaskCompleteListener onTaskCompleteListener;
 
 	/**
 	 * 构造一个控件的移动效果
@@ -26,7 +27,7 @@ public class FoxAsynMove extends AsyncTask<Integer, Integer, Void> {
 	}
 
 	@Override
-	protected Void doInBackground(Integer... params) {
+	protected Boolean doInBackground(Integer... params) {
 		int times = 0;
 		if(maxWidth % Math.abs(params[0]) == 0){
 			times = maxWidth / Math.abs(params[0]);
@@ -39,9 +40,10 @@ public class FoxAsynMove extends AsyncTask<Integer, Integer, Void> {
 				Thread.sleep(Math.abs(params[0]));
 			} catch (InterruptedException e) {
 				e.printStackTrace();
+				return false;
 			}
 		}
-		return null;
+		return true;
 	}
 
 	@Override
@@ -55,6 +57,37 @@ public class FoxAsynMove extends AsyncTask<Integer, Integer, Void> {
 			layoutParams.leftMargin = Math.max(layoutParams.leftMargin + values[0], 0);
 		}
 		layout.setLayoutParams(layoutParams);
+	}
+	
+	@Override
+	protected void onPostExecute(Boolean result) {
+		if(result && onTaskCompleteListener != null){
+			onTaskCompleteListener.onTaskComplete();
+		}
+		super.onPostExecute(result);
+	}
+
+	public OnTaskCompleteListener getOnTaskCompleteListener() {
+		return onTaskCompleteListener;
+	}
+
+	public void setOnTaskCompleteListener(
+			OnTaskCompleteListener onTaskCompleteListener) {
+		this.onTaskCompleteListener = onTaskCompleteListener;
+	}
+
+	/**
+	 * 任务完成的监听器
+	 * @author gulangxiangjie@gmail.com
+	 * @create 2013-4-3
+	 */
+	public interface OnTaskCompleteListener{
+		
+		/**
+		 * 任务完成之后执行的事件
+		 */
+		void onTaskComplete();
+		
 	}
 	
 }

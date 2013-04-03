@@ -15,7 +15,8 @@ public interface OnItemDraggedListener {
 	 * @param maxDeltaY	控件在Y轴方向上能够被拖动的最大距离
 	 * @param obj		控件上绑定的数据
 	 */
-	void onDraggedToLeft(int deltaX, int deltaY, int maxDeltaX, int maxDeltaY, Object obj);
+	void onDraggedToLeft(int deltaX, int deltaY, int maxDeltaX, int maxDeltaY,
+			Object obj);
 	
 	/**
 	 * 当向右拖动组件到目标位置时将触发该事件
@@ -25,6 +26,7 @@ public interface OnItemDraggedListener {
 	 * @param maxDeltaY	控件在Y轴方向上能够被拖动的最大距离
 	 * @param obj		控件上绑定的数据
 	 */
-	void onDraggedToRight(int deltaX, int deltaY, int maxDeltaX, int maxDeltaY, Object obj);
+	void onDraggedToRight(int deltaX, int deltaY, int maxDeltaX, int maxDeltaY,
+			Object obj);
 
 }
