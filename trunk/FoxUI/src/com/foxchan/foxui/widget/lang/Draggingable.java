@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.foxchan.foxui.utils.FoxAsynMove;
+import com.foxchan.foxui.utils.FoxAsynMove.OnTaskCompleteListener;
 import com.foxchan.foxui.widget.listener.OnItemDraggedListener;
 import com.foxchan.foxui.widget.listener.OnItemDraggingListener;
 
@@ -115,17 +116,30 @@ public class Draggingable implements OnTouchListener, OnGestureListener {
 			throw new NullPointerException("导致的原因：" + OnItemDraggedListener.class + "当前为NULL，请设置该监听器的值。");
 		}
 		if(e.getAction() == MotionEvent.ACTION_UP && isAutoBack){
-			RelativeLayout.LayoutParams layoutParams = 
+			final RelativeLayout.LayoutParams layoutParams = 
 					(RelativeLayout.LayoutParams)layout.getLayoutParams();
+			FoxAsynMove asynMove = new FoxAsynMove(maxWidth, layout);
 			//向左移动
 			if(layoutParams.leftMargin >= 0){
-				new FoxAsynMove(maxWidth, layout).execute(-SPEED);
-				onItemDraggedListener.onDraggedToRight(Math.abs(layoutParams.leftMargin), 
-						Math.abs(layoutParams.topMargin), maxWidth, 0, obj);
+				asynMove.setOnTaskCompleteListener(new OnTaskCompleteListener() {
+					
+					@Override
+					public void onTaskComplete() {
+						onItemDraggedListener.onDraggedToRight(Math.abs(layoutParams.leftMargin), 
+								Math.abs(layoutParams.topMargin), maxWidth, 0, obj);
+					}
+				});
+				asynMove.execute(-SPEED);
 			} else {//向右移动
-				new FoxAsynMove(maxWidth, layout).execute(SPEED);
-				onItemDraggedListener.onDraggedToLeft(Math.abs(layoutParams.leftMargin), 
-						Math.abs(layoutParams.topMargin), maxWidth, 0, obj);
+					asynMove.setOnTaskCompleteListener(new OnTaskCompleteListener() {
+					
+					@Override
+					public void onTaskComplete() {
+						onItemDraggedListener.onDraggedToLeft(Math.abs(layoutParams.leftMargin), 
+								Math.abs(layoutParams.topMargin), maxWidth, 0, obj);
+					}
+				});
+				asynMove.execute(SPEED);
 			}
 		}
 		return gestureDetector.onTouchEvent(e);
@@ -182,7 +196,9 @@ public class Draggingable implements OnTouchListener, OnGestureListener {
 
 	@Override
 	public boolean onSingleTapUp(MotionEvent e) {
-//		onItemClickListener.onItemClick(obj);
+		if(onItemClickListener != null){
+			onItemClickListener.onItemClick(obj);
+		}
 		return true;
 	}
 	
