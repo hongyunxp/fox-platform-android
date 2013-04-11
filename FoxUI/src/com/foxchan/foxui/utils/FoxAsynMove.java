@@ -15,15 +15,19 @@ public class FoxAsynMove extends AsyncTask<Integer, Integer, Boolean> {
 	private int maxWidth = 0;
 	/** 需要移动的布局 */
 	private LinearLayout layout;
+	/** 移动方向的标志，为true表示向左移动，否则表示向右移动 */
+	private boolean isMoveToLeft = true;
 	private OnTaskCompleteListener onTaskCompleteListener;
 
 	/**
 	 * 构造一个控件的移动效果
-	 * @param maxWidth	移动的最大距离
+	 * @param maxWidth		移动的最大距离
+	 * @param isMoveToLeft	移动方向的标志，为true表示向左移动，否则表示向右移动
 	 */
-	public FoxAsynMove(int maxWidth, LinearLayout layout) {
+	public FoxAsynMove(int maxWidth, LinearLayout layout, boolean isMoveToLeft) {
 		this.maxWidth = maxWidth;
 		this.layout = layout;
+		this.isMoveToLeft = isMoveToLeft;
 	}
 
 	@Override
@@ -50,11 +54,20 @@ public class FoxAsynMove extends AsyncTask<Integer, Integer, Boolean> {
 	protected void onProgressUpdate(Integer... values) {
 		RelativeLayout.LayoutParams layoutParams = 
 				(RelativeLayout.LayoutParams)layout.getLayoutParams();
-		//向右移动
-		if(values[0] > 0){
-			layoutParams.leftMargin = Math.min(layoutParams.leftMargin + values[0], 0);
-		} else {//向左移动
-			layoutParams.leftMargin = Math.max(layoutParams.leftMargin + values[0], 0);
+		if(isMoveToLeft == true){
+			//向右移动
+			if(values[0] > 0){
+				layoutParams.leftMargin = Math.min(layoutParams.leftMargin + values[0], 0);
+			} else {//向左移动
+				layoutParams.leftMargin = Math.max(layoutParams.leftMargin + values[0], -maxWidth);
+			}
+		} else {
+			//向右移动
+			if(values[0] > 0){
+				layoutParams.leftMargin = Math.min(layoutParams.leftMargin + values[0], maxWidth);
+			} else {//向左移动
+				layoutParams.leftMargin = Math.max(layoutParams.leftMargin + values[0], 0);
+			}
 		}
 		layout.setLayoutParams(layoutParams);
 	}
