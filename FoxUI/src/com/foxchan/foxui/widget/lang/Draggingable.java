@@ -124,7 +124,7 @@ public class Draggingable implements OnTouchListener, OnGestureListener {
 			FoxAsynMove asynMove = null;
 			//向左移动
 			if(layoutParams.leftMargin >= 0){
-				asynMove = new FoxAsynMove(maxWidth, layout, true);
+				asynMove = new FoxAsynMove(maxWidth, layout, false);
 				asynMove.setOnTaskCompleteListener(new OnTaskCompleteListener() {
 					
 					@Override
@@ -134,7 +134,7 @@ public class Draggingable implements OnTouchListener, OnGestureListener {
 				});
 				asynMove.execute(-SPEED);
 			} else {//向右移动
-					asynMove = new FoxAsynMove(maxWidth, layout, false);
+					asynMove = new FoxAsynMove(maxWidth, layout, true);
 					asynMove.setOnTaskCompleteListener(new OnTaskCompleteListener() {
 					
 					@Override
