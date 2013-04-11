@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fox_drawer_view"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+    
+    <LinearLayout
+        android:id="@+id/fox_drawer_view_left"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginRight="53dip"
+        android:background="@android:color/background_dark"
+        android:orientation="vertical"
+        android:padding="10dip" >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="这是左边的界面"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+        <ListView
+            android:id="@+id/fox_drawer_view_left_listview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:cacheColorHint="@null"
+            android:divider="@android:color/background_light"
+            android:dividerHeight="0.6dip" />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/fox_drawer_view_right"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="53dip"
+        android:background="@android:color/background_dark"
+        android:orientation="vertical"
+        android:padding="10dip" >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="这是右边的界面"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+        <ListView
+            android:id="@+id/fox_drawer_view_right_listview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:cacheColorHint="@null"
+            android:divider="@android:color/background_light"
+            android:dividerHeight="0.6dip" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/fox_drawer_view_middle"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@android:color/white"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:layout_width="320dip"
+            android:layout_height="fill_parent"
+            android:background="@drawable/fox_drawer_main" />
+    </LinearLayout>
+
+</RelativeLayout>
