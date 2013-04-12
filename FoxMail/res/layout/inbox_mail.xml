@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/inbox_mail"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/inbox_list_mail_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="6dip"
+        android:paddingTop="6dip" >
+
+        <CheckBox
+            android:id="@+id/inbox_mail_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/checkbox"
+            android:button="@null" />
+
+        <RelativeLayout
+            android:id="@+id/inbox_mail_right"
+            android:layout_width="294dip"
+            android:layout_height="@dimen/inbox_list_mail_content_height_append"
+            android:gravity="center_vertical"
+            android:orientation="vertical" >
+            
+            <RelativeLayout
+                android:id="@+id/inbox_mail_right_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical" >
+
+                <TextView
+                    android:id="@+id/inbox_mail_contactor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_loading"
+                    android:textColor="@color/inbox_list_mail_contactor"
+                    android:textSize="@dimen/inbox_list_mail_contactor"
+                    android:textStyle="italic" />
+
+                <TextView
+                    android:id="@+id/inbox_mail_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/inbox_mail_contactor"
+                    android:background="@drawable/balloon_gray"
+                    android:paddingBottom="3dip"
+                    android:paddingLeft="3dip"
+                    android:paddingRight="3dip"
+                    android:text="23"
+                    android:textColor="@color/inbox_list_mail_count"
+                    android:textSize="@dimen/inbox_list_mail_count" />
+
+                <TextView
+                    android:id="@+id/inbox_list_mail_receive_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="2小时前"
+                    android:textColor="@color/inbox_list_mail_receive_date"
+                    android:textSize="@dimen/inbox_list_mail_receive_date" />
+            </RelativeLayout>
+            
+            <ImageView
+                android:id="@+id/inbox_mail_type_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:src="@drawable/logo_qq_mail" />
+            
+            <TextView
+                android:id="@+id/inbox_list_mail_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/inbox_mail_right_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:paddingRight="40dip"
+                android:text="[资讯非常道-文学组合]具有世界影响力的撒切尔夫人去世了，世界各地都在讨论这位已故英国首相的功与过，但是讨论的很激烈啊"
+                android:textColor="@color/inbox_list_mail_content"
+                android:textSize="@dimen/inbox_list_mail_content" />
+            
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

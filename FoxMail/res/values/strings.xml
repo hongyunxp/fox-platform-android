@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">FoxMail</string>
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
-
+    <string name="app_name">狐邮件</string>
+    <string name="action_settings">设置</string>
+    <string name="app_loading">加载中...loading...</string>
+    
+    <!-- 收件箱 -->
+    <string name="inbox_header_title">收件箱</string>
 </resources>
