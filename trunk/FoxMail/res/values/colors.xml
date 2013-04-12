@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 控件 -->
+    <color name="widget_press_bg">#7fcdea</color>
+    <!-- 收件箱 -->
+    <color name="inbox_bg">#FFFFFF</color>
+    <color name="inbox_header_bg">#FFFFFF</color>
+    <color name="inbox_header_line_bg">#33b5e5</color>
+    <color name="inbox_header_title_color">#000000</color>
+    <color name="inbox_header_account_color">#777777</color>
+    <color name="inbox_list_devider_bg">#d6d6d6</color>
+    <color name="inbox_list_mail_bg">#FFFFFF</color>
+    <color name="inbox_list_mail_contactor">#000000</color>
+    <color name="inbox_list_mail_count">#FFFFFF</color>
+    <color name="inbox_list_mail_receive_date">#858585</color>
+    <color name="inbox_list_mail_content">#858585</color>
+    <color name="inbox_tabs_bg">#dddddd</color>
+    <color name="inbox_tabs_line_bg">#c5c5c5</color>
+</resources>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/inbox"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/inbox_bg"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/inbox_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="6dip"
+        android:layout_marginRight="6dip"
+        android:background="@color/inbox_header_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/app_logo"
+            android:layout_width="48dip"
+            android:layout_height="48dip"
+            android:src="@drawable/ic_launcher" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dip"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/inbox_header_title"
+                android:textColor="@color/inbox_header_title_color"
+                android:textSize="@dimen/inbox_header_title" />
+
+            <Button
+                android:id="@+id/inbox_list_header_account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/widget_spinner"
+                android:gravity="left"
+                android:paddingBottom="2dip"
+                android:paddingLeft="2dip"
+                android:paddingRight="13dip"
+                android:paddingTop="2dip"
+                android:text="@string/app_loading"
+                android:textColor="@color/inbox_header_account_color"
+                android:textSize="@dimen/inbox_header_account" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="4dip"
+        android:background="@color/inbox_header_line_bg" />
+
+    <ListView
+        android:id="@+id/inbox_list"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:cacheColorHint="@color/widget_press_bg"
+        android:divider="@color/inbox_list_devider_bg"
+        android:dividerHeight="1dp"
+        android:listSelector="@color/widget_press_bg"
+        android:scrollbars="vertical" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="@color/inbox_tabs_line_bg" />
+
+    <LinearLayout
+        android:id="@+id/inbox_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/inbox_tabs_bg"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/inbox_tabs_new_mail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:clickable="true"
+            android:gravity="center"
+            android:src="@drawable/new_mail" />
+
+        <ImageView
+            android:id="@+id/inbox_tabs_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:clickable="true"
+            android:gravity="center"
+            android:src="@drawable/action_search" />
+
+        <ImageView
+            android:id="@+id/inbox_tabs_tags"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:clickable="true"
+            android:gravity="center"
+            android:src="@drawable/collections_labels" />
+
+        <ImageView
+            android:id="@+id/inbox_tabs_refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:clickable="true"
+            android:gravity="center"
+            android:src="@drawable/navigation_refresh" />
+
+        <ImageView
+            android:id="@+id/inbox_tabs_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:clickable="true"
+            android:gravity="center"
+            android:src="@drawable/menu_more" />
+    </LinearLayout>
+
+</LinearLayout>

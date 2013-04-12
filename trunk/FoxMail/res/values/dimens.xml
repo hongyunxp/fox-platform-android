@@ -3,5 +3,16 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    
+    <!-- 收件箱 -->
+    <dimen name="inbox_header_title">15dp</dimen>
+    <dimen name="inbox_header_account">12dp</dimen>
+    <dimen name="inbox_list_mail_contactor">12dp</dimen>
+    <dimen name="inbox_list_mail_count">12dp</dimen>
+    <dimen name="inbox_list_mail_receive_date">12dp</dimen>
+    <dimen name="inbox_list_mail_content">12dp</dimen>
+    <dimen name="inbox_list_mail_content_height">48dip</dimen>
+    <dimen name="inbox_list_mail_content_height_append">60dip</dimen>
+    <dimen name="inbox_list_mail_checkbox">28dip</dimen>
 
 </resources>
