@@ -34,6 +34,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
 
+            <ImageView
+                android:id="@+id/diary_tool"
+                android:layout_width="@dimen/diary_title_width"
+                android:layout_height="@dimen/diary_title_height"
+                android:background="@drawable/green_circle"
+                android:padding="@dimen/diary_tools_padding"
+                android:src="@drawable/icon_plus_normal" />
+
             <TextView
                 android:id="@+id/diary_title"
                 android:layout_width="@dimen/diary_title_width"
@@ -47,14 +55,6 @@
                 android:text="@string/loading"
                 android:textColor="@color/white"
                 android:textSize="@dimen/diary_title_size" />
-
-            <ImageView
-                android:id="@+id/diary_tool"
-                android:layout_width="@dimen/diary_title_width"
-                android:layout_height="@dimen/diary_title_height"
-                android:background="@drawable/green_circle"
-                android:padding="@dimen/diary_tools_padding"
-                android:src="@drawable/icon_plus_normal" />
         </ViewSwitcher>
     </LinearLayout>
 

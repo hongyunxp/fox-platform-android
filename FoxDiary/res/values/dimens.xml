@@ -3,6 +3,7 @@
 	<dimen name="diary_title_width">88dip</dimen>
 	<dimen name="diary_title_height">88dip</dimen>
 	<dimen name="diary_title_padding">12dip</dimen>
+	<dimen name="diary_tools_padding">20dip</dimen>
 	<dimen name="diary_title_size">12dp</dimen>
 	<dimen name="diray_create_date_size">16dp</dimen>
 </resources>

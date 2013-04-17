@@ -1,5 +1,6 @@
 package com.foxchan.foxdiary.view;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -7,10 +8,15 @@ import java.util.List;
 import com.foxchan.foxdiary.adapter.DiaryLineAdapter;
 import com.foxchan.foxdiary.core.R;
 import com.foxchan.foxdiary.entity.Diary;
+import com.wecan.veda.utils.DateUtil;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.Toast;
 
 /**
  * 日记时间线界面
@@ -40,6 +46,25 @@ public class DiaryLineView extends Activity {
 	 */
 	private void initWidgets() {
 		lvDiarys = (ListView)findViewById(R.id.diary_line_listview);
+		lvDiarys.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View v, int position,
+					long id) {
+				if(position < diaries.size()){
+					//点击的日记
+					Toast.makeText(
+							v.getContext(),
+							"你你现在点击的是第" + position + "篇日记，日记的标题是："
+									+ diaries.get(position).getTitle(),
+							Toast.LENGTH_SHORT).show();
+				} else {
+					Toast.makeText(
+							v.getContext(),
+							"添加一篇日记", Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
 		diaryLineAdapter = new DiaryLineAdapter(this, diaries);
 		lvDiarys.setAdapter(diaryLineAdapter);
 	}
@@ -50,9 +75,15 @@ public class DiaryLineView extends Activity {
 	private void initDatas() {
 		diaries = new ArrayList<Diary>();
 		for(int i = 0; i < 10; i++){
+			Date createDate = new Date();
+			try {
+				createDate = DateUtil.generateDateFrom("2013-4-17 " + (i + 8) + ":35:00");
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 			Diary diary = new Diary();
 			diary.setContent("正文内容" + i);
-			diary.setCreateDate(new Date());
+			diary.setCreateDate(createDate);
 			diary.setEmotion(0);
 			diary.setId(i + "");
 			diary.setImagePath("/path/...");

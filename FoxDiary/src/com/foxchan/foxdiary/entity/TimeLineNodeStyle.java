@@ -7,7 +7,7 @@ import com.foxchan.foxdiary.core.R;
  * @author gulangxiangjie@gmail.com
  * @create 2013-4-16
  */
-public class DiaryStyle {
+public class TimeLineNodeStyle {
 	
 	/** 日记颜色的类型，黄色 */
 	public static final int STYLE_YELLOW = 0;
@@ -42,60 +42,62 @@ public class DiaryStyle {
 	private int lineBarRightId;
 	/** 字体的颜色的ID号 */
 	private int textColor;
+	/** 日期的字体的颜色的ID号 */
+	private int dateTextColor;
 	
 	/**
 	 * 构造一个日记的类型
 	 * @param style	颜色类型
 	 */
-	public DiaryStyle(int style){
+	public TimeLineNodeStyle(int style){
 		switch(style){
 		case STYLE_BLUE:
 			init(R.drawable.blue_circle, R.drawable.blue_line_bar_left,
-					R.drawable.blue_line_bar_right, R.color.blue);
+					R.drawable.blue_line_bar_right, R.color.blue, -1);
 			break;
 		case STYLE_DARK_BLUE:
 			init(R.drawable.dark_blue_circle, R.drawable.dark_blue_line_bar_left,
-					R.drawable.dark_blue_line_bar_right, R.color.dark_blue);
+					R.drawable.dark_blue_line_bar_right, R.color.dark_blue, -1);
 			break;
 		case STYLE_DARK_ORANGE:
 			init(R.drawable.dark_orange_circle, R.drawable.dark_orange_line_bar_left,
-					R.drawable.dark_orange_line_bar_right, R.color.dark_orange);
+					R.drawable.dark_orange_line_bar_right, R.color.dark_orange, -1);
 			break;
 		case STYLE_DARK_PURPLE:
 			init(R.drawable.dark_purple_circle, R.drawable.dark_purple_line_bar_left,
-					R.drawable.dark_purple_line_bar_right, R.color.dark_purple);
+					R.drawable.dark_purple_line_bar_right, R.color.dark_purple, -1);
 			break;
 		case STYLE_GREEN:
 			init(R.drawable.green_circle, R.drawable.green_line_bar_left,
-					R.drawable.green_line_bar_right, R.color.green);
+					R.drawable.green_line_bar_right, R.color.green, -1);
 			break;
 		case STYLE_LITE_BLUE:
 			init(R.drawable.lite_blue_circle, R.drawable.lite_blue_line_bar_left,
-					R.drawable.lite_blue_line_bar_right, R.color.lite_blue);
+					R.drawable.lite_blue_line_bar_right, R.color.lite_blue, -1);
 			break;
 		case STYLE_LITE_GREEN:
 			init(R.drawable.lite_green_circle, R.drawable.lite_green_line_bar_left,
-					R.drawable.lite_green_line_bar_right, R.color.lite_green);
+					R.drawable.lite_green_line_bar_right, R.color.lite_green, -1);
 			break;
 		case STYLE_LITE_ORANGE:
 			init(R.drawable.lite_orange_circle, R.drawable.lite_orange_line_bar_left,
-					R.drawable.lite_orange_line_bar_right, R.color.lite_orange);
+					R.drawable.lite_orange_line_bar_right, R.color.lite_orange, -1);
 			break;
 		case STYLE_ORANGE:
 			init(R.drawable.orange_circle, R.drawable.orange_line_bar_left,
-					R.drawable.orange_line_bar_right, R.color.orange);
+					R.drawable.orange_line_bar_right, R.color.orange, -1);
 			break;
 		case STYLE_PURPLE:
 			init(R.drawable.purple_circle, R.drawable.purple_line_bar_left,
-					R.drawable.purple_line_bar_right, R.color.purple);
+					R.drawable.purple_line_bar_right, R.color.purple, -1);
 			break;
 		case STYLE_RED:
 			init(R.drawable.red_circle, R.drawable.red_line_bar_left,
-					R.drawable.red_line_bar_right, R.color.red);
+					R.drawable.red_line_bar_right, R.color.red, -1);
 			break;
 		case STYLE_YELLOW:
 			init(R.drawable.yellow_circle, R.drawable.yellow_line_bar_left,
-					R.drawable.yellow_line_bar_right, R.color.yellow);
+					R.drawable.yellow_line_bar_right, R.color.yellow, R.color.dark_purple);
 			break;
 		}
 	}
@@ -106,13 +108,19 @@ public class DiaryStyle {
 	 * @param lineBarLeftId		中轴（左）的资源ID号
 	 * @param lineBarRightId	中轴（右）的资源ID号
 	 * @param textColor			字体的颜色的ID号
+	 * @param dateTextColor		日期的字体的颜色的ID号
 	 */
 	public void init(int circleId, int lineBarLeftId, int lineBarRightId,
-			int textColor) {
+			int dateTextColor, int textColor) {
 		this.circleId = circleId;
 		this.lineBarLeftId = lineBarLeftId;
 		this.lineBarRightId = lineBarRightId;
-		this.textColor = textColor;
+		if(textColor == -1){
+			this.textColor = R.color.white;
+		} else {
+			this.textColor = textColor;
+		}
+		this.dateTextColor = dateTextColor;
 	}
 
 	public int getCircleId() {
@@ -145,6 +153,14 @@ public class DiaryStyle {
 
 	public void setTextColor(int textColor) {
 		this.textColor = textColor;
+	}
+
+	public int getDateTextColor() {
+		return dateTextColor;
+	}
+
+	public void setDateTextColor(int dateTextColor) {
+		this.dateTextColor = dateTextColor;
 	}
 
 }
