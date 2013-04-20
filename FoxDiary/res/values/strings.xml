@@ -4,7 +4,8 @@
     <string name="action_settings">设置</string>
     <string name="hello_world">你好</string>
 	<string name="loading">加载中...</string>
-	<string name="date_temp">上午 08:00</string>
+	<string name="date_temp">2013年4月20日</string>
+	<string name="time_temp">20:06</string>
 	
 	<!-- 日记时间线 -->
 	<string name="diary_line_add">写点什么</string>
