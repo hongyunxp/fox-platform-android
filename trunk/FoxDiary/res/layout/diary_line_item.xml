@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/diary_line_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/border_padding"
+    android:paddingRight="@dimen/border_padding" >
+
+    <TextView
+        android:id="@+id/diary_line_item_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text="@string/time_temp"
+        android:textColor="@color/blue"
+        android:textSize="@dimen/diary_line_time_font_size" />
+
+    <ImageView
+        android:layout_width="4dip"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dip"
+        android:layout_toRightOf="@id/diary_line_item_time"
+        android:background="@color/diary_line_color" />
+
+    <ImageView
+        android:id="@+id/diary_line_node"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="4dip"
+        android:layout_toRightOf="@id/diary_line_item_time"
+        android:background="@drawable/node_lite_purple"
+        android:padding="2dip"
+        android:src="@drawable/emotion_angery" />
+
+    <TextView
+        android:id="@+id/diary_line_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="6dip"
+        android:layout_toRightOf="@id/diary_line_node"
+        android:background="@drawable/ballon_lite_purple"
+        android:paddingBottom="6dip"
+        android:paddingLeft="12dip"
+        android:paddingRight="6dip"
+        android:paddingTop="6dip"
+        android:text="在这里显示日记的正文"
+        android:textColor="@color/white"
+        android:textSize="@dimen/diary_line_content_font_size" />
+
+</RelativeLayout>

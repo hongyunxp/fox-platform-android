@@ -1,9 +1,8 @@
 <resources>
 	<!-- 日记的时间线控件 -->
-	<dimen name="diary_title_width">88dip</dimen>
-	<dimen name="diary_title_height">88dip</dimen>
-	<dimen name="diary_title_padding">12dip</dimen>
-	<dimen name="diary_tools_padding">20dip</dimen>
-	<dimen name="diary_title_size">12dp</dimen>
-	<dimen name="diray_create_date_size">16dp</dimen>
+	<dimen name="border_padding">6dip</dimen>
+	<dimen name="diary_line_width">4dip</dimen>
+	<dimen name="diary_line_title_font_size">18dp</dimen>
+	<dimen name="diary_line_time_font_size">12dp</dimen>
+	<dimen name="diary_line_content_font_size">12dp</dimen>
 </resources>

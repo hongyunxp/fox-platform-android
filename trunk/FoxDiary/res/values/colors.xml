@@ -14,4 +14,7 @@
 	<color name="lite_blue">#00a2c8</color>
 	<color name="green">#0fad00</color>
 	<color name="lite_green">#8dc700</color>
+	
+	<!-- 日记时间线的界面 -->
+	<color name="diary_line_color">#5e607a</color>
 </resources>

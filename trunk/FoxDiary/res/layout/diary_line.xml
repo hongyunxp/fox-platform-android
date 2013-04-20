@@ -3,12 +3,32 @@
     android:id="@+id/diary_line"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/diary_line_bg"
     android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/diary_line_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/blue_bg"
+        android:gravity="center_vertical"
+        android:paddingBottom="@dimen/border_padding"
+        android:paddingLeft="@dimen/border_padding"
+        android:paddingRight="@dimen/border_padding"
+        android:paddingTop="0dip" >
+
+        <TextView
+            android:id="@+id/diary_line_header_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="@string/date_temp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/diary_line_title_font_size" />
+    </RelativeLayout>
 
     <ListView
         android:id="@+id/diary_line_listview"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:cacheColorHint="@android:color/transparent"
         android:divider="@null"
