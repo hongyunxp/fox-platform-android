@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:text="@string/time_temp"
-        android:textColor="@color/blue"
+        android:textColor="@color/cyan"
         android:textSize="@dimen/diary_line_time_font_size" />
 
     <ImageView
@@ -32,24 +32,44 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="4dip"
         android:layout_toRightOf="@id/diary_line_item_time"
-        android:background="@drawable/node_lite_purple"
+        android:background="@drawable/cyan_node"
+        android:clickable="true"
         android:padding="2dip"
         android:src="@drawable/emotion_angery" />
 
-    <TextView
-        android:id="@+id/diary_line_content"
+    <LinearLayout
+        android:id="@+id/diary_line_balloon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="6dip"
         android:layout_toRightOf="@id/diary_line_node"
-        android:background="@drawable/ballon_lite_purple"
+        android:background="@drawable/cyan_balloon"
+        android:clickable="true"
+        android:orientation="horizontal"
         android:paddingBottom="6dip"
         android:paddingLeft="12dip"
         android:paddingRight="6dip"
-        android:paddingTop="6dip"
-        android:text="在这里显示日记的正文"
-        android:textColor="@color/white"
-        android:textSize="@dimen/diary_line_content_font_size" />
+        android:paddingTop="6dip" >
+
+        <TextView
+            android:id="@+id/diary_line_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="在这里显示日记的正文，在这里呢用户最多可以写140字的日记，或者说的更准确一点，应该叫做记事吧。其实这里还可以写的更长，不知道你知道不知道啊，呵呵。"
+            android:textColor="@color/white"
+            android:textSize="@dimen/diary_line_content_font_size" />
+
+        <ImageView
+            android:id="@+id/diary_line_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="2dip"
+            android:background="@drawable/white_round_bg"
+            android:clickable="true"
+            android:padding="4dip" />
+    </LinearLayout>
 
 </RelativeLayout>

@@ -65,7 +65,6 @@ public class DiaryLineView extends Activity {
 				}
 			}
 		});
-		diaryLineAdapter = new DiaryLineAdapter(this, diaries);
 		lvDiarys.setAdapter(diaryLineAdapter);
 	}
 

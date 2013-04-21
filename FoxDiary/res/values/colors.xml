@@ -2,18 +2,21 @@
 <resources>
 	<color name="white">#FFFFFF</color>
 	<color name="black">#000000</color>
-	<color name="yellow">#ffff00</color>
-	<color name="lite_orange">#ffc501</color>
-	<color name="orange">#ff9400</color>
-	<color name="dark_orange">#ff6501</color>
-	<color name="red">#ff0000</color>
-	<color name="purple">#c4007c</color>
-	<color name="dark_purple">#6200a5</color>
-	<color name="dark_blue">#0010a3</color>
-	<color name="blue">#0064b4</color>
-	<color name="lite_blue">#00a2c8</color>
-	<color name="green">#0fad00</color>
-	<color name="lite_green">#8dc700</color>
+	<color name="half_white">#88FFFFFF</color>
+	<color name="half_black">#88000000</color>
+	
+	<color name="cyan_normal">#739ac2</color>
+	<color name="cyan_pressed">#5c7b9b</color>
+	<color name="green_normal">#7e9874</color>
+	<color name="green_pressed">#3f4c3a</color>
+	<color name="red_normal">#cd3737</color>
+	<color name="red_pressed">#a42c2c</color>
+	<color name="purple_normal">#967fb5</color>
+	<color name="purple_pressed">#4b3f5a</color>
+	<color name="orange_normal">#ff9400</color>
+	<color name="orange_pressed">#cc7600</color>
+	<color name="dark_blue_normal">#0010a4</color>
+	<color name="dark_blue_pressed">#000d83</color>
 	
 	<!-- 日记时间线的界面 -->
 	<color name="diary_line_color">#5e607a</color>
