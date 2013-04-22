@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/diary_write"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/diary_write_header"
+        style="@style/Header" >
+
+        <TextView
+            android:id="@+id/diary_write_header_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="@string/diary_write_title"
+            android:textColor="@color/white"
+            android:textSize="@dimen/header_title_font" />
+    </RelativeLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/diary_write_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/beige" >
+    </android.support.v4.view.ViewPager>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="@color/diarry_write_content_border" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-2dip" >
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/diary_write_text"
+                style="@style/FirstWriteDiaryCard"
+                android:checked="true"
+                android:drawableTop="@drawable/icon_edit_64" />
+
+            <RadioButton
+                android:id="@+id/diary_write_photo"
+                style="@style/WriteDiaryCard"
+                android:background="@drawable/diary_pic_write_card_bg"
+                android:drawableTop="@drawable/icon_pic_64" />
+
+            <RadioButton
+                android:id="@+id/diary_write_camera"
+                style="@style/WriteDiaryCard"
+                android:background="@drawable/diary_camera_write_card_bg"
+                android:drawableTop="@drawable/icon_camera_64" />
+
+            <RadioButton
+                android:id="@+id/diary_write_voice"
+                style="@style/WriteDiaryCard"
+                android:background="@drawable/diary_voice_write_card_bg"
+                android:drawableTop="@drawable/icon_voice_64" />
+        </RadioGroup>
+    </RelativeLayout>
+
+</LinearLayout>
