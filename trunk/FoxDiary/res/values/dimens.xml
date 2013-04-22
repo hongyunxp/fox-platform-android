@@ -1,8 +1,9 @@
 <resources>
+    <!-- 头部布局 -->
+    <dimen name="header_title_font">18dp</dimen>
 	<!-- 日记的时间线控件 -->
 	<dimen name="border_padding">6dip</dimen>
 	<dimen name="diary_line_width">4dip</dimen>
-	<dimen name="diary_line_title_font_size">18dp</dimen>
 	<dimen name="diary_line_time_font_size">12dp</dimen>
 	<dimen name="diary_line_content_font_size">12dp</dimen>
 </resources>
