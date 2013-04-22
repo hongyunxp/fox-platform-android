@@ -37,39 +37,89 @@
         android:padding="2dip"
         android:src="@drawable/emotion_angery" />
 
-    <LinearLayout
-        android:id="@+id/diary_line_balloon"
+    <ViewSwitcher
+        android:id="@+id/diary_line_view_switcher"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="6dip"
-        android:layout_toRightOf="@id/diary_line_node"
-        android:background="@drawable/cyan_balloon"
-        android:clickable="true"
-        android:orientation="horizontal"
-        android:paddingBottom="6dip"
-        android:paddingLeft="12dip"
-        android:paddingRight="6dip"
-        android:paddingTop="6dip" >
+        android:layout_toRightOf="@id/diary_line_node" >
 
-        <TextView
-            android:id="@+id/diary_line_content"
+        <LinearLayout
+            android:id="@+id/diary_line_balloon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="在这里显示日记的正文，在这里呢用户最多可以写140字的日记，或者说的更准确一点，应该叫做记事吧。其实这里还可以写的更长，不知道你知道不知道啊，呵呵。"
-            android:textColor="@color/white"
-            android:textSize="@dimen/diary_line_content_font_size" />
-
-        <ImageView
-            android:id="@+id/diary_line_photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="2dip"
-            android:background="@drawable/white_round_bg"
+            android:background="@drawable/cyan_balloon"
             android:clickable="true"
-            android:padding="4dip" />
-    </LinearLayout>
+            android:orientation="horizontal"
+            android:paddingBottom="6dip"
+            android:paddingLeft="12dip"
+            android:paddingRight="6dip"
+            android:paddingTop="6dip" >
+
+            <TextView
+                android:id="@+id/diary_line_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="在这里显示日记的正文，在这里呢用户最多可以写140字的日记，或者说的更准确一点，应该叫做记事吧。其实这里还可以写的更长，不知道你知道不知道啊，呵呵。"
+                android:textColor="@color/white"
+                android:textSize="@dimen/diary_line_content_font_size" />
+
+            <ImageView
+                android:id="@+id/diary_line_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="2dip"
+                android:background="@drawable/white_round_bg"
+                android:clickable="true"
+                android:padding="4dip" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/diary_line_tools"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/diary_line_tool_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="6dip"
+                android:background="@drawable/red_circle"
+                android:clickable="true"
+                android:src="@drawable/icon_delete" />
+
+            <ImageView
+                android:id="@+id/diary_line_tool_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="6dip"
+                android:background="@drawable/purple_circle"
+                android:clickable="true"
+                android:src="@drawable/icon_edit" />
+
+            <ImageView
+                android:id="@+id/diary_line_tool_share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="6dip"
+                android:background="@drawable/cyan_circle"
+                android:clickable="true"
+                android:src="@drawable/icon_share" />
+
+            <ImageView
+                android:id="@+id/diary_line_tool_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="6dip"
+                android:background="@drawable/green_circle"
+                android:clickable="true"
+                android:src="@drawable/icon_undo" />
+        </LinearLayout>
+    </ViewSwitcher>
 
 </RelativeLayout>
