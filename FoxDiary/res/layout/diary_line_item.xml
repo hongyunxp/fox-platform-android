@@ -35,7 +35,7 @@
         android:background="@drawable/cyan_node"
         android:clickable="true"
         android:padding="2dip"
-        android:src="@drawable/emotion_angery" />
+        android:src="@drawable/icon_plus_small" />
 
     <ViewSwitcher
         android:id="@+id/diary_line_view_switcher"
