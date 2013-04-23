@@ -22,5 +22,6 @@
 	<!-- 日记时间线的界面 -->
 	<color name="diary_line_color">#5e607a</color>
 	<!-- 写日记界面 -->
-	<color name="diarry_write_content_border">#d9cec1</color>
+	<color name="diary_write_content_border">#d9cec1</color>
+	<color name="diary_write_content_font">#383838</color>
 </resources>

@@ -30,7 +30,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dip"
-        android:background="@color/diarry_write_content_border" />
+        android:background="@color/diary_write_content_border" />
 
     <RelativeLayout
         android:layout_width="match_parent"
