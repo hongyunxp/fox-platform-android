@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/diary_write_pic"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ImageView
+        android:id="@+id/diary_write_pic_main"
+        android:layout_width="253dip"
+        android:layout_height="253dip"
+        android:layout_centerInParent="true"
+        android:background="@drawable/demo_pic2" />
+
+    <ImageView
+        android:id="@+id/diary_write_pic_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/diary_write_pic_main"
+        android:layout_alignRight="@id/diary_write_pic_main"
+        android:layout_centerVertical="true"
+        android:background="@drawable/purple_node"
+        android:clickable="true"
+        android:layout_marginRight="50dip"
+        android:padding="2dip"
+        android:src="@drawable/icon_edit" />
+
+    <ImageView
+        android:id="@+id/diary_write_pic_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/diary_write_pic_main"
+        android:layout_alignRight="@id/diary_write_pic_main"
+        android:layout_centerVertical="true"
+        android:background="@drawable/red_node"
+        android:clickable="true"
+        android:padding="2dip"
+        android:layout_marginBottom="24dip"
+        android:layout_marginRight="16dip"
+        android:src="@drawable/icon_delete" />
+
+</RelativeLayout>

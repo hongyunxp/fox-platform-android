@@ -1,4 +1,10 @@
 <resources>
+    <!-- 提示性文字的大小 -->
+    <dimen name="h1">36dp</dimen>
+    <dimen name="h2">30dp</dimen>
+    <dimen name="h3">24dp</dimen>
+    <dimen name="h4">18dp</dimen>
+    <dimen name="h5">12dp</dimen>
     <!-- 头部布局 -->
     <dimen name="header_title_font">18dp</dimen>
 	<!-- 日记的时间线控件 -->
