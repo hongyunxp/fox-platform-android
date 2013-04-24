@@ -13,4 +13,6 @@
 	<!-- 写日记的界面 -->
 	<string name="diary_write_title">写日记</string>
 	<string name="diary_write_left_words">%1$s字</string>
+	<string name="diary_write_press_to_record">按下开始录音</string>
+	<string name="diary_write_recording">正在录音中...</string>
 </resources>

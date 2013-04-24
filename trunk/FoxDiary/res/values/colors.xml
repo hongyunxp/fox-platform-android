@@ -24,4 +24,6 @@
 	<!-- 写日记界面 -->
 	<color name="diary_write_content_border">#d9cec1</color>
 	<color name="diary_write_content_font">#383838</color>
+	<color name="diary_write_voice_round_bg_normal">#7e9874</color>
+	<color name="diary_write_voice_round_bg_pressed">#657a5d</color>
 </resources>
