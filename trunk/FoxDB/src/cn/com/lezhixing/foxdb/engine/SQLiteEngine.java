@@ -2,24 +2,27 @@ package cn.com.lezhixing.foxdb.engine;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.wecan.veda.utils.StringUtil;
-
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
+import android.util.Log;
+import cn.com.lezhixing.foxdb.annotation.GeneratedType;
 import cn.com.lezhixing.foxdb.core.FoxDB;
-import cn.com.lezhixing.foxdb.core.SQLEngine;
 import cn.com.lezhixing.foxdb.core.FoxDB.DbConfiguration;
+import cn.com.lezhixing.foxdb.core.SQLEngine;
 import cn.com.lezhixing.foxdb.exception.FoxDbException;
 import cn.com.lezhixing.foxdb.table.Column;
 import cn.com.lezhixing.foxdb.table.Id;
 import cn.com.lezhixing.foxdb.table.KeyValue;
+import cn.com.lezhixing.foxdb.table.ManyToOne;
 import cn.com.lezhixing.foxdb.table.SQLObject;
 import cn.com.lezhixing.foxdb.utils.FieldUtils;
+
+import com.wecan.veda.utils.StringUtil;
 
 /**
  * SQLite数据库的语言构造器
@@ -66,6 +69,11 @@ public class SQLiteEngine implements SQLEngine {
 				sql.append(" NOT NULL");
 			}
 			sql.append(",");
+		}
+		
+		Collection<ManyToOne> manyToOneList = tableInfo.manyToOneMap.values();
+		for(ManyToOne m2o : manyToOneList){
+			sql.append("\"").append(m2o.getName()).append("\",");
 		}
 		
 		sql.deleteCharAt(sql.length() - 1);
@@ -146,12 +154,9 @@ public class SQLiteEngine implements SQLEngine {
 		List<KeyValue> keyValues = new ArrayList<KeyValue>();
 		TableInfo table = TableInfo.getInstance(entity.getClass());
 		Object idValue = table.getId().getValue(entity);
-		
-		if(!(idValue instanceof Integer)){//没有使用自增长类型
-			if(idValue instanceof String && !StringUtil.isEmpty(idValue)){
-				KeyValue keyValue = new KeyValue(table.getId().getName(), idValue);
-				keyValues.add(keyValue);
-			}
+		if(!StringUtil.isEmpty(idValue)){
+			KeyValue keyValue = new KeyValue(table.getId().getName(), idValue);
+			keyValues.add(keyValue);
 		}
 		
 		//添加属性
@@ -162,7 +167,28 @@ public class SQLiteEngine implements SQLEngine {
 				keyValues.add(kv);
 			}
 		}
+		
+		//添加外键
+		Collection<ManyToOne> manyToOneList = table.manyToOneMap.values();
+		for(ManyToOne m2o : manyToOneList){
+			KeyValue kv = m2o.toKeyValue(entity);
+			if(m2o.isOptional() == false && kv == null){
+				throw new FoxDbException("caused by: 您的映射策略标志了[" + kv.getKey() + "]该值不能为空，请为该值赋值。");
+			} else if(kv != null){
+				keyValues.add(kv);
+			}
+		}
 		return keyValues;
+	}
+
+	@Override
+	public String getPKValueSQL(Object entity) {
+		TableInfo table = TableInfo.getInstance(entity.getClass());
+		StringBuilder sql = new StringBuilder();
+		sql.append("select last_insert_rowid() from ");
+		sql.append(table.getTableName());
+		debug(sql.toString());
+		return sql.toString();
 	}
 
 	@Override
@@ -181,6 +207,25 @@ public class SQLiteEngine implements SQLEngine {
 		debug(sql.toString());
 		
 		SQLObject sqlObject = new SQLObject(sql, idValue);
+		return sqlObject;
+	}
+
+	@Override
+	public SQLObject getDeleteSQL(Class<?> clazz, HashMap<String, Object> where) {
+		TableInfo table = TableInfo.getInstance(clazz);
+		StringBuilder sql = new StringBuilder();
+		sql.append("DELETE FROM ").append(table.getTableName());
+		LinkedList<Object> params = new LinkedList<Object>();
+		if(!StringUtil.isEmpty(where)){
+			sql.append(" WHERE ");
+			for(String key : where.keySet()){
+				sql.append(key).append(" = ?").append(" and ");
+				params.add(where.get(key));
+			}
+			sql = sql.delete(sql.length()-5, sql.length());
+		}
+		SQLObject sqlObject = new SQLObject(sql, params);
+		debug(sql.toString());
 		return sqlObject;
 	}
 

@@ -1,5 +1,6 @@
 package cn.com.lezhixing.foxdb.core;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import cn.com.lezhixing.foxdb.engine.TableInfo;
@@ -40,11 +41,26 @@ public interface SQLEngine {
 	SQLObject getInsertSQL(Object entity);
 	
 	/**
+	 * 获得插入对象的主键值的SQL语句的方法
+	 * @param entity	实体
+	 * @return			返回插入对象的主键值的SQL语句的方法
+	 */
+	String getPKValueSQL(Object entity);
+	
+	/**
 	 * 获得删除对象的SQL语句的方法
 	 * @param entity	实体
 	 * @return			返回删除对象的SQL语句的SQL对象
 	 */
 	SQLObject getDeleteSQL(Object entity);
+	
+	/**
+	 * 获得删除对象的SQL语句的方法
+	 * @param clazz	需要删除的类名
+	 * @param where	删除的条件
+	 * @return		返回删除对象的SQL语句的SQL对象
+	 */
+	SQLObject getDeleteSQL(Class<?> clazz, HashMap<String, Object> where);
 	
 	/**
 	 * 获得更新对象的SQL语句的方法

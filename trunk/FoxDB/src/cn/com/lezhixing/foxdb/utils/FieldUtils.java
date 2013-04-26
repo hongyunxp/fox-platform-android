@@ -7,7 +7,13 @@ import java.util.Date;
 
 import com.wecan.veda.utils.StringUtil;
 
+import cn.com.lezhixing.foxdb.annotation.CascadeType;
 import cn.com.lezhixing.foxdb.annotation.Column;
+import cn.com.lezhixing.foxdb.annotation.FetchType;
+import cn.com.lezhixing.foxdb.annotation.GeneratedType;
+import cn.com.lezhixing.foxdb.annotation.GeneratedValue;
+import cn.com.lezhixing.foxdb.annotation.ManyToOne;
+import cn.com.lezhixing.foxdb.annotation.OneToMany;
 import cn.com.lezhixing.foxdb.annotation.Transient;
 
 /**
@@ -170,6 +176,79 @@ public class FieldUtils {
 		return true;
 	}
 	
+	/**
+	 * 获得该属性的级联策略
+	 * @param field
+	 * @return
+	 */
+	public static CascadeType[] getCascadeTypes(Field field){
+		ManyToOne manyToOne = field.getAnnotation(ManyToOne.class);
+		if(manyToOne != null){
+			return manyToOne.cascade();
+		}
+		OneToMany oneToMany = field.getAnnotation(OneToMany.class);
+		if(oneToMany != null){
+			return oneToMany.cascade();
+		}
+		return null;
+	}
+	
+	/**
+	 * 获得该属性的取值属性
+	 * @param field
+	 * @return
+	 */
+	public static FetchType getFetchType(Field field){
+		ManyToOne manyToOne = field.getAnnotation(ManyToOne.class);
+		if(manyToOne != null){
+			return manyToOne.fetch();
+		}
+		OneToMany oneToMany = field.getAnnotation(OneToMany.class);
+		if(oneToMany != null){
+			return oneToMany.fetch();
+		}
+		return null;
+	}
+	
+	/**
+	 * 获得该属性是否为可选的标志
+	 * @param field
+	 * @return
+	 */
+	public static boolean getOptional(Field field){
+		ManyToOne manyToOne = field.getAnnotation(ManyToOne.class);
+		if(manyToOne != null){
+			return manyToOne.optional();
+		}
+		return true;
+	}
+	
+	/**
+	 * 获得控制反转的应设计属性的名称
+	 * @param field
+	 * @return
+	 */
+	public static String getMappedBy(Field field){
+		OneToMany oneToMany = field.getAnnotation(OneToMany.class);
+		if(oneToMany != null){
+			return oneToMany.mappedBy();
+		}
+		return null;
+	}
+	
+	/**
+	 * 获得主键的生成策略的类型
+	 * @param field
+	 * @return
+	 */
+	public static GeneratedType getStrategy(Field field){
+		GeneratedValue generatedValue = field.getAnnotation(GeneratedValue.class);
+		if(generatedValue != null){
+			return generatedValue.strategy();
+		}
+		return GeneratedType.IDENTITY;
+	}
+	
 	public static Object getFieldValue(Object entity, Field field){
 		Method method = getFieldGetMethod(entity.getClass(), field);
 		return invoke(entity, method);
@@ -209,6 +288,15 @@ public class FieldUtils {
 				clazz.equals(java.util.Date.class) ||
 				clazz.equals(java.sql.Date.class) ||
 				clazz.isPrimitive();
+	}
+	
+	/**
+	 * 判断数据类型是否是字符串
+	 * @param clazz
+	 * @return
+	 */
+	public static boolean isString(Class<?> clazz){
+		return clazz.equals(String.class);
 	}
 	
 	/**
@@ -262,6 +350,24 @@ public class FieldUtils {
 	public static boolean isTransient(Field field){
 		Transient transient1 = field.getAnnotation(Transient.class);
 		return  transient1 != null ? true : false;
+	}
+	
+	/**
+	 * 判断属性上是否有{@link ManyToOne}注解
+	 * @param field
+	 * @return
+	 */
+	public static boolean isManyToOne(Field field){
+		return field.getAnnotation(ManyToOne.class) != null;
+	}
+	
+	/**
+	 * 判断属性上是否有{@link OneToMany}注解
+	 * @param field
+	 * @return
+	 */
+	public static boolean isOneToMany(Field field){
+		return field.getAnnotation(OneToMany.class) != null;
 	}
 
 }

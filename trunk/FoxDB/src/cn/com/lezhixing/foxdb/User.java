@@ -4,6 +4,7 @@ import java.util.Date;
 
 import cn.com.lezhixing.foxdb.annotation.Column;
 import cn.com.lezhixing.foxdb.annotation.Id;
+import cn.com.lezhixing.foxdb.annotation.ManyToOne;
 import cn.com.lezhixing.foxdb.annotation.Table;
 import cn.com.lezhixing.foxdb.annotation.Transient;
 
@@ -20,6 +21,8 @@ public class User {
 	private Double weight;
 	@Transient
 	private Float height;
+	@ManyToOne
+	private Group group;
 
 	public Integer getId() {
 		return id;
@@ -67,6 +70,14 @@ public class User {
 
 	public void setHeight(Float height) {
 		this.height = height;
+	}
+
+	public Group getGroup() {
+		return group;
+	}
+
+	public void setGroup(Group group) {
+		this.group = group;
 	}
 
 }

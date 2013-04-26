@@ -1,6 +1,8 @@
 package cn.com.lezhixing.foxdb.utils;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +11,8 @@ import cn.com.lezhixing.foxdb.annotation.Id;
 import cn.com.lezhixing.foxdb.annotation.Table;
 import cn.com.lezhixing.foxdb.exception.FoxDbException;
 import cn.com.lezhixing.foxdb.table.Column;
+import cn.com.lezhixing.foxdb.table.ManyToOne;
+import cn.com.lezhixing.foxdb.table.OneToMany;
 
 import com.wecan.veda.utils.StringUtil;
 
@@ -96,6 +100,59 @@ public class ClassUtils {
 			throw new FoxDbException(e.getMessage(), e);
 		}
 		return columns;
+	}
+	
+	public static List<ManyToOne> getManyToOneList(Class<?> clazz){
+		List<ManyToOne> list = new ArrayList<ManyToOne>();
+		Field[] fields = clazz.getDeclaredFields();
+		for(Field f : fields){
+			if(!FieldUtils.isTransient(f) && FieldUtils.isManyToOne(f)){
+				ManyToOne m2o = new ManyToOne();
+				m2o.setManyClass(f.getType());
+				m2o.setName(FieldUtils.getColumnByField(f));
+				m2o.setFieldName(f.getName());
+				m2o.setDataType(f.getType());
+				m2o.setSet(FieldUtils.getFieldSetMethod(clazz, f));
+				m2o.setGet(FieldUtils.getFieldGetMethod(clazz, f));
+				m2o.setCascadeTypes(FieldUtils.getCascadeTypes(f));
+				m2o.setOptional(FieldUtils.getOptional(f));
+				m2o.setFetchType(FieldUtils.getFetchType(f));
+				list.add(m2o);
+			}
+		}
+		return list;
+	}
+	
+	public static List<OneToMany> getOneToManyList(Class<?> clazz){
+		List<OneToMany> list = new ArrayList<OneToMany>();
+		Field[] fields = clazz.getDeclaredFields();
+		for(Field f : fields){
+			if(!FieldUtils.isTransient(f) && FieldUtils.isOneToMany(f)){
+				OneToMany o2m = new OneToMany();
+				o2m.setName(FieldUtils.getColumnByField(f));
+				o2m.setFieldName(f.getName());
+				
+				Type type = f.getGenericType();
+				if(type instanceof ParameterizedType){
+					ParameterizedType pType = (ParameterizedType)f.getGenericType();
+					Class<?> pClazz = (Class<?>)pType.getActualTypeArguments()[0];
+					if(pClazz != null){
+						o2m.setOneClass(pClazz);
+					}
+				} else {
+					throw new FoxDbException("caused by: " + f.getName() + "'s type is null.");
+				}
+				o2m.setDataType(f.getClass());
+				o2m.setSet(FieldUtils.getFieldSetMethod(clazz, f));
+				o2m.setGet(FieldUtils.getFieldGetMethod(clazz, f));
+				o2m.setCascadeTypes(FieldUtils.getCascadeTypes(f));
+				o2m.setFetchType(FieldUtils.getFetchType(f));
+				o2m.setMappedBy(FieldUtils.getMappedBy(f));
+				
+				list.add(o2m);
+			}
+		}
+		return list;
 	}
 
 }
