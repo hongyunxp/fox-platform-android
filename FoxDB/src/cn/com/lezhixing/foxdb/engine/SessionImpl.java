@@ -1,19 +1,28 @@
 package cn.com.lezhixing.foxdb.engine;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
-
-import com.wecan.veda.utils.StringUtil;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import cn.com.lezhixing.foxdb.annotation.CascadeType;
+import cn.com.lezhixing.foxdb.annotation.GeneratedType;
 import cn.com.lezhixing.foxdb.core.SQLEngine;
 import cn.com.lezhixing.foxdb.core.Session;
 import cn.com.lezhixing.foxdb.exception.FoxDbException;
+import cn.com.lezhixing.foxdb.table.Id;
+import cn.com.lezhixing.foxdb.table.OneToMany;
 import cn.com.lezhixing.foxdb.table.SQLObject;
 import cn.com.lezhixing.foxdb.utils.Closer;
 import cn.com.lezhixing.foxdb.utils.CursorUtils;
+import cn.com.lezhixing.foxdb.utils.FieldUtils;
+
+import com.wecan.veda.utils.StringUtil;
 
 /**
  * Session的实现
@@ -32,16 +41,43 @@ public class SessionImpl implements Session {
 
 	@Override
 	public Object save(Object object) throws FoxDbException {
+		TableInfo table = TableInfo.getInstance(object.getClass());
+		if (table.strategy == GeneratedType.UUID) {
+			String str_id = StringUtil.getUUID();
+			TableInfo.getInstance(object.getClass()).getId().setValue(object, str_id);
+		}
 		sqlEngine.checkTableExist(object.getClass());
 		SQLObject sqlObject = sqlEngine.getInsertSQL(object);
 		db.execSQL(sqlObject.getSql(), sqlObject.getParams().toArray());
-		//获得该对象
-		return null;
+		//获得插入的对象的主键并且封装为对象
+		Cursor c = db.rawQuery(sqlEngine.getPKValueSQL(object), null);
+		if (table.strategy == GeneratedType.IDENTITY
+				&& FieldUtils.isInteger(object.getClass())) {
+			int int_id = c.getInt(0);
+			table.getId().setValue(object, int_id);
+		}
+		return object;
 	}
-
+	
 	@Override
 	public void delete(Object object) throws FoxDbException {
 		sqlEngine.checkTableExist(object.getClass());
+		//当删除少的一方时同时删除多的一方
+		TableInfo table = TableInfo.getInstance(object.getClass());
+		Collection<OneToMany> oneToManies = table.oneToManyMap.values();
+		for(OneToMany o2m : oneToManies){
+			String mappedId = TableInfo.buildForeignKeyName(o2m.getMappedBy());
+			List<CascadeType> cascadeTypes = Arrays.asList(o2m.getCascadeTypes());
+			if ((cascadeTypes.contains(CascadeType.ALL) || 
+					cascadeTypes.contains(CascadeType.REMOVE)) && 
+					!StringUtil.isEmpty(o2m.getMappedBy())) {
+				HashMap<String, Object> where = new HashMap<String, Object>();
+				Object idValue = table.getId().getValue(object);
+				where.put(mappedId, idValue);
+				SQLObject deleteSqlObject = sqlEngine.getDeleteSQL(o2m.getOneClass(), where);
+				db.execSQL(deleteSqlObject.getSql(), deleteSqlObject.getParams().toArray());
+			}
+		}
 		SQLObject sqlObject = sqlEngine.getDeleteSQL(object);
 		db.execSQL(sqlObject.getSql(), sqlObject.getParams().toArray());
 	}
@@ -52,7 +88,7 @@ public class SessionImpl implements Session {
 		sqlEngine.checkTableExist(clazz);
 		SQLObject sqlObject = sqlEngine.getUpdateSQL(object);
 		db.execSQL(sqlObject.getSql(), sqlObject.getParams().toArray());
-		return null;
+		return object;
 	}
 
 	@Override
@@ -147,6 +183,38 @@ public class SessionImpl implements Session {
 	public <T> T findObject(String where, Object[] params, Class<T> clazz) {
 		List<T> list = list(where, params, clazz);
 		return StringUtil.isEmpty(list) ? null : list.get(0);
+	}
+
+	@Override
+	public <T> List<T> listFrom(int startIndex, int maxResult, String where,
+			Object[] params, LinkedHashMap<String, String> orderBy,
+			Object parent, String attributeName, Class<?> sonClass) {
+		TableInfo table = TableInfo.getInstance(parent.getClass());
+		Id parentIdObject = table.getId();
+		OneToMany o2m = table.oneToManyMap.get(attributeName);
+		String parentIdKey = "";
+		if(o2m != null){
+			parentIdKey = TableInfo.buildForeignKeyName(o2m.getMappedBy());
+		}
+		Object parentIdValue = parentIdObject.getValue(parent);
+		String whereOrinal = where;
+		if(!StringUtil.isEmpty(whereOrinal)){
+			where = StringUtil.concat(new Object[]{
+					where.trim(), " and ", parentIdKey, " = ?"
+			});
+		} else {
+			where = StringUtil.concat(new Object[]{
+					parentIdKey, " = ?"
+			});
+		}
+		LinkedList<Object> newParams = new LinkedList<Object>();
+		if(!StringUtil.isEmpty(params)){
+			for(Object param : params){
+				newParams.add(param);
+			}
+		}
+		newParams.add(parentIdValue);
+		return list(startIndex, maxResult, where, newParams.toArray(), orderBy, sonClass);
 	}
 
 }

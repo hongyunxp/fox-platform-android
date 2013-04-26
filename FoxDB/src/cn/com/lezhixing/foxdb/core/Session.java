@@ -146,4 +146,8 @@ public interface Session {
 	 */
 	<T> T findObject(String where, Object[] params, Class<T> clazz);
 	
+	<T> List<T> listFrom(int startIndex, int maxResult, String where,
+			Object[] params, LinkedHashMap<String, String> orderBy,
+			Object parent, String attributeName, Class<?> sonClass);
+	
 }

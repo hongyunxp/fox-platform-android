@@ -81,7 +81,7 @@ public class Column {
 	}
 	
 	/**
-	 * 获取某个实体执行某个方法的结果
+	 * 获取实体的该属性的值
 	 * @param object
 	 * @return
 	 */
