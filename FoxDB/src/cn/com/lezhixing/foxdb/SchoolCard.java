@@ -13,7 +13,6 @@ public class SchoolCard {
 	private String id;
 	@Column
 	private String number;
-	private User owener;
 
 	public String getId() {
 		return id;
@@ -29,14 +28,6 @@ public class SchoolCard {
 
 	public void setNumber(String number) {
 		this.number = number;
-	}
-
-	public User getOwener() {
-		return owener;
-	}
-
-	public void setOwener(User owener) {
-		this.owener = owener;
 	}
 
 }

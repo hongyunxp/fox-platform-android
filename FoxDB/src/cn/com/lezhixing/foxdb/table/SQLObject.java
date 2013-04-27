@@ -41,7 +41,7 @@ public class SQLObject {
 	
 	public SQLObject(String sql, Object param){
 		this.sql = sql;
-		if(StringUtil.isEmpty(param)) params = new LinkedList<Object>();
+		if(StringUtil.isEmpty(params)) params = new LinkedList<Object>();
 		this.params.add(param);
 	}
 

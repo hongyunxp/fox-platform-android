@@ -11,6 +11,7 @@ import cn.com.lezhixing.foxdb.table.Enumerated;
 import cn.com.lezhixing.foxdb.table.Id;
 import cn.com.lezhixing.foxdb.table.ManyToOne;
 import cn.com.lezhixing.foxdb.table.OneToMany;
+import cn.com.lezhixing.foxdb.table.OneToOne;
 import cn.com.lezhixing.foxdb.table.Temporal;
 import cn.com.lezhixing.foxdb.utils.ClassUtils;
 import cn.com.lezhixing.foxdb.utils.FieldUtils;
@@ -35,6 +36,7 @@ public class TableInfo {
 	public final HashMap<String, Enumerated> enumMap = new HashMap<String, Enumerated>();
 	public final HashMap<String, Temporal> temporalMap = new HashMap<String, Temporal>();
 	public final HashMap<String, OneToMany> oneToManyMap = new HashMap<String, OneToMany>();
+	public final HashMap<String, OneToOne> oneToOneMap = new HashMap<String, OneToOne>();
 	public final HashMap<String, ManyToOne> manyToOneMap = new HashMap<String, ManyToOne>();
 	
 	/** 是否已经检查过数据库 */
@@ -94,6 +96,14 @@ public class TableInfo {
 				for(OneToMany o2m : oneToManieList){
 					if(o2m != null){
 						tableInfo.oneToManyMap.put(o2m.getName(), o2m);
+					}
+				}
+			}
+			List<OneToOne> oneToOneList = ClassUtils.getOneToOneList(clazz);
+			if(!StringUtil.isEmpty(oneToOneList)){
+				for(OneToOne o2o : oneToOneList){
+					if(o2o != null){
+						tableInfo.oneToOneMap.put(o2o.getName(), o2o);
 					}
 				}
 			}

@@ -25,23 +25,53 @@ public class FoxDBTest extends Activity {
 		FoxDB db = FoxDB.create(this, "fox.db", 1);
 		Session session = db.openSession();
 		
+//		User user = session.findObject("id = ?", new Object[]{2}, User.class);
+//		Log.d("FoxDB", "User's name is " + user.getName());
+//		SchoolCard card = session.findObjectFrom(user, "card", SchoolCard.class);
+//		Log.d("FoxDB", "SchoolCard's number is " + card.getNumber());
+//		Group group = session.findObjectFrom(user, "group", Group.class);
+//		Log.d("FoxDB", "Group's name is " + group.getName());
+//		List<User> users = session.listFrom(group, "users", User.class);
+//		Log.d("FoxDB", group.getName() + "中一共有" + users.size() + "名成员。");
+		
 //		Group group = session.findObject("id=?", new Object[]{"0fe52f22128646009a6588b94dd2c21e"}, Group.class);
 //		session.delete(group);
 		
-		Group group = session.findObject("id=?", new Object[]{"a5874cedcab9407392075994c89b9a1d"}, Group.class);
-		List<User> users = session.listFrom(-1, -1, "weight > ?", new Object[]{16}, null, group, "users", User.class);
-		Log.d("FoxDB", users.size() + "");
+//		Group group = session.findObject("id=?", new Object[]{"a5874cedcab9407392075994c89b9a1d"}, Group.class);
+//		List<User> users = session.listFrom(-1, -1, "weight > ?", new Object[]{16}, null, group, "users", User.class);
+//		Log.d("FoxDB", users.size() + "");
+		
+		Pager<User> pager = new Pager<User>(15, 2);
+		LinkedHashMap<String, String> orderBy = new LinkedHashMap<String, String>();
+		orderBy.put("createDate", "desc");
+		orderBy.put("id", "desc");
+		PagerTemplate<User> pt = session.query(pager, null, null, orderBy, User.class);
+		pager.setContent(pt.getPageData());
+		pager.setTotalRecordsNumber((int)pt.getTotalRecordsCount());
+		Log.d("FoxDB",
+				"总共有" + pager.getTotalPage() + "页数据，总共"
+						+ pager.getTotalRecordsNumber() + "条数据，每页显示"
+						+ pager.getRecordsNumber() + "条数据，当前是第"
+						+ pager.getCurrentPage() + "页。");
+		for(User u : pager.getContent()){
+			Log.d("FoxDB", u.toString());
+		}
 		
 //		Group group = new Group();
 //		group.setName("小组一");
 //		session.save(group);
 //		
 //		for(int i = 0; i < 43; i++){
+//			SchoolCard card = new SchoolCard();
+//			card.setNumber("2220093210620" + i);
+//			session.save(card);
+//			
 //			User user = new User();
 //			user.setCreateDate(new Date());
 //			user.setIsGood(true);
 //			user.setName("FoxDB" + i);
 //			user.setGroup(group);
+//			user.setCard(card);
 //			session.save(user);
 //		}
 //		

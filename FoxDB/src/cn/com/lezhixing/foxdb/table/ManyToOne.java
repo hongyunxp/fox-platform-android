@@ -1,10 +1,7 @@
 package cn.com.lezhixing.foxdb.table;
 
-import android.util.Log;
-
 import com.wecan.veda.utils.StringUtil;
 
-import cn.com.lezhixing.foxdb.Group;
 import cn.com.lezhixing.foxdb.annotation.CascadeType;
 import cn.com.lezhixing.foxdb.annotation.FetchType;
 import cn.com.lezhixing.foxdb.engine.TableInfo;
@@ -59,31 +56,26 @@ public class ManyToOne extends Column {
 	}
 
 	@Override
-	public String getName(){
-		return TableInfo.buildForeignKeyName(super.getName());
-	}
-	
-	@Override
-	public KeyValue toKeyValue(Object target){
+	public KeyValue toKeyValue(Object target) {
 		KeyValue kv = null;
-		String manyColumn = getName();
+		String manyColumn = TableInfo.buildForeignKeyName(getName());
 		Object manyObject = getValue(target);
-		if(manyObject != null){
+		if (manyObject != null) {
 			Object manyValue = TableInfo.getInstance(manyObject.getClass())
 					.getId().getValue(manyObject);
-			Log.d("FoxDB", "ManyValue: " + ((Group)manyObject).getId());
-			if(!StringUtil.isEmpty(manyColumn) && !StringUtil.isEmpty(manyValue)){
+			if (!StringUtil.isEmpty(manyColumn)
+					&& !StringUtil.isEmpty(manyValue)) {
 				kv = new KeyValue(manyColumn, manyValue);
 			} else {
 				throw new FoxDbException("[" + target.getClass() + "]的["
 						+ getFieldName() + "]属性设置了非空属性，当前值为空，请检查实体的配置信息或者为属性["
 						+ getFieldName() + "]设置一个值。");
 			}
-			 if(isOptional == false){
-				 throw new FoxDbException("[" + target.getClass() + "]的["
-							+ getFieldName() + "]属性设置了非空属性，当前值为空，请检查实体的配置信息或者为属性["
-							+ getFieldName() + "]设置一个值。");
-			 }
+			if (isOptional == false) {
+				throw new FoxDbException("[" + target.getClass() + "]的["
+						+ getFieldName() + "]属性设置了非空属性，当前值为空，请检查实体的配置信息或者为属性["
+						+ getFieldName() + "]设置一个值。");
+			}
 		}
 		return kv;
 	}

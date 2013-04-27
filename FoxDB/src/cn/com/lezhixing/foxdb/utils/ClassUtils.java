@@ -13,6 +13,7 @@ import cn.com.lezhixing.foxdb.exception.FoxDbException;
 import cn.com.lezhixing.foxdb.table.Column;
 import cn.com.lezhixing.foxdb.table.ManyToOne;
 import cn.com.lezhixing.foxdb.table.OneToMany;
+import cn.com.lezhixing.foxdb.table.OneToOne;
 
 import com.wecan.veda.utils.StringUtil;
 
@@ -150,6 +151,26 @@ public class ClassUtils {
 				o2m.setMappedBy(FieldUtils.getMappedBy(f));
 				
 				list.add(o2m);
+			}
+		}
+		return list;
+	}
+	
+	public static List<OneToOne> getOneToOneList(Class<?> clazz){
+		List<OneToOne> list = new ArrayList<OneToOne>();
+		Field[] fields = clazz.getDeclaredFields();
+		for(Field f : fields){
+			if(!FieldUtils.isTransient(f) && FieldUtils.isOneToOne(f)){
+				OneToOne o2o = new OneToOne();
+				o2o.setName(FieldUtils.getColumnByField(f));
+				o2o.setFieldName(f.getName());
+				o2o.setDataType(f.getClass());
+				o2o.setSet(FieldUtils.getFieldSetMethod(clazz, f));
+				o2o.setGet(FieldUtils.getFieldGetMethod(clazz, f));
+				o2o.setCascadeTypes(FieldUtils.getCascadeTypes(f));
+				o2o.setFetchType(FieldUtils.getFetchType(f));
+				o2o.setMappedBy(FieldUtils.getMappedBy(f));
+				list.add(o2o);
 			}
 		}
 		return list;

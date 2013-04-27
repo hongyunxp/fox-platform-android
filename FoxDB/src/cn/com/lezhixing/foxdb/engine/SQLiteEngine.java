@@ -9,8 +9,6 @@ import java.util.List;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
-import cn.com.lezhixing.foxdb.annotation.GeneratedType;
 import cn.com.lezhixing.foxdb.core.FoxDB;
 import cn.com.lezhixing.foxdb.core.FoxDB.DbConfiguration;
 import cn.com.lezhixing.foxdb.core.SQLEngine;
@@ -19,6 +17,7 @@ import cn.com.lezhixing.foxdb.table.Column;
 import cn.com.lezhixing.foxdb.table.Id;
 import cn.com.lezhixing.foxdb.table.KeyValue;
 import cn.com.lezhixing.foxdb.table.ManyToOne;
+import cn.com.lezhixing.foxdb.table.OneToOne;
 import cn.com.lezhixing.foxdb.table.SQLObject;
 import cn.com.lezhixing.foxdb.utils.FieldUtils;
 
@@ -73,7 +72,12 @@ public class SQLiteEngine implements SQLEngine {
 		
 		Collection<ManyToOne> manyToOneList = tableInfo.manyToOneMap.values();
 		for(ManyToOne m2o : manyToOneList){
-			sql.append("\"").append(m2o.getName()).append("\",");
+			sql.append("\"").append(TableInfo.buildForeignKeyName(m2o.getName())).append("\",");
+		}
+		
+		Collection<OneToOne> oneToOneList = tableInfo.oneToOneMap.values();
+		for(OneToOne o2o : oneToOneList){
+			sql.append("\"").append(TableInfo.buildForeignKeyName(o2o.getName())).append("\",");
 		}
 		
 		sql.deleteCharAt(sql.length() - 1);
@@ -178,6 +182,13 @@ public class SQLiteEngine implements SQLEngine {
 				keyValues.add(kv);
 			}
 		}
+		Collection<OneToOne> oneToOneList = table.oneToOneMap.values();
+		for(OneToOne o2o : oneToOneList){
+			KeyValue kv = o2o.toKeyValue(entity);
+			if(kv != null){
+				keyValues.add(kv);
+			}
+		}
 		return keyValues;
 	}
 
@@ -185,7 +196,7 @@ public class SQLiteEngine implements SQLEngine {
 	public String getPKValueSQL(Object entity) {
 		TableInfo table = TableInfo.getInstance(entity.getClass());
 		StringBuilder sql = new StringBuilder();
-		sql.append("select last_insert_rowid() from ");
+		sql.append("SELECT last_insert_rowid() FROM ");
 		sql.append(table.getTableName());
 		debug(sql.toString());
 		return sql.toString();
@@ -331,6 +342,32 @@ public class SQLiteEngine implements SQLEngine {
 		.append(tableName).append(buildWhere(where, params));
 		debug(sql.toString());
 		SQLObject sqlObject = new SQLObject(sql, params);
+		return sqlObject;
+	}
+
+	@Override
+	public SQLObject getQueryObjectSQL(Object parentId, Object parent,
+			String attributeName, Class<?> sonClass) {
+		TableInfo parentTable = TableInfo.getInstance(parent.getClass());
+		Id parentIdObject = parentTable.getId();
+		String foreignKeyName = "id";
+		OneToOne o2o = parentTable.oneToOneMap.get(attributeName);
+		if(o2o != null){
+			foreignKeyName = TableInfo.buildForeignKeyName(o2o.getName());
+		}
+		ManyToOne m2o = parentTable.manyToOneMap.get(attributeName);
+		if(m2o != null){
+			foreignKeyName = TableInfo.buildForeignKeyName(m2o.getName());
+		}
+		TableInfo sonTable = TableInfo.getInstance(sonClass);
+		Id sonId = sonTable.getId();
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT * FROM ").append(sonTable.getTableName())
+		.append(" WHERE ").append(sonId.getName()).append(" = (SELECT ")
+		.append(foreignKeyName).append(" FROM ").append(parentTable.getTableName())
+		.append(" WHERE ").append(parentIdObject.getName()).append(" = ?)");
+		debug(sql.toString());
+		SQLObject sqlObject = new SQLObject(sql.toString(), parentId);
 		return sqlObject;
 	}
 

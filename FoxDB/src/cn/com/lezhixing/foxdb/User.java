@@ -2,9 +2,12 @@ package cn.com.lezhixing.foxdb;
 
 import java.util.Date;
 
+import com.wecan.veda.utils.StringUtil;
+
 import cn.com.lezhixing.foxdb.annotation.Column;
 import cn.com.lezhixing.foxdb.annotation.Id;
 import cn.com.lezhixing.foxdb.annotation.ManyToOne;
+import cn.com.lezhixing.foxdb.annotation.OneToOne;
 import cn.com.lezhixing.foxdb.annotation.Table;
 import cn.com.lezhixing.foxdb.annotation.Transient;
 
@@ -23,6 +26,8 @@ public class User {
 	private Float height;
 	@ManyToOne
 	private Group group;
+	@OneToOne
+	private SchoolCard card;
 
 	public Integer getId() {
 		return id;
@@ -78,6 +83,21 @@ public class User {
 
 	public void setGroup(Group group) {
 		this.group = group;
+	}
+
+	public SchoolCard getCard() {
+		return card;
+	}
+
+	public void setCard(SchoolCard card) {
+		this.card = card;
+	}
+	
+	@Override
+	public String toString(){
+		return StringUtil.concat(new Object[]{
+				"name : ", name, "--createDate : ", createDate.toLocaleString()
+		});
 	}
 
 }
