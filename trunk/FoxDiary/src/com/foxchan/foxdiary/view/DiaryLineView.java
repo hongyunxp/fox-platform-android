@@ -5,11 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.foxchan.foxdiary.adapter.DiaryLineAdapter;
-import com.foxchan.foxdiary.core.R;
-import com.foxchan.foxdiary.entity.Diary;
-import com.wecan.veda.utils.DateUtil;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +12,11 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.foxchan.foxdiary.adapter.DiaryLineAdapter;
+import com.foxchan.foxdiary.core.R;
+import com.foxchan.foxdiary.entity.Diary;
+import com.foxchan.foxutils.data.DateUtils;
 
 /**
  * 日记时间线界面
@@ -76,7 +76,7 @@ public class DiaryLineView extends Activity {
 		for(int i = 0; i < 10; i++){
 			Date createDate = new Date();
 			try {
-				createDate = DateUtil.generateDateFrom("2013-4-17 " + (i + 8) + ":35:00");
+				createDate = DateUtils.generateDateFrom("2013-4-17 " + (i + 8) + ":35:00");
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}

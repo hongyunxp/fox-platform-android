@@ -1,9 +1,5 @@
 package com.foxchan.foxdiary.entity;
 
-import java.util.Date;
-
-import com.wecan.veda.utils.DateUtil;
-
 /**
  * 时间线的节点
  * @author gulangxiangjie@gmail.com
