@@ -14,6 +14,7 @@ import cn.com.lezhixing.foxdb.annotation.GeneratedType;
 import cn.com.lezhixing.foxdb.annotation.GeneratedValue;
 import cn.com.lezhixing.foxdb.annotation.ManyToOne;
 import cn.com.lezhixing.foxdb.annotation.OneToMany;
+import cn.com.lezhixing.foxdb.annotation.OneToOne;
 import cn.com.lezhixing.foxdb.annotation.Transient;
 
 /**
@@ -190,6 +191,10 @@ public class FieldUtils {
 		if(oneToMany != null){
 			return oneToMany.cascade();
 		}
+		OneToOne oneToOne = field.getAnnotation(OneToOne.class);
+		if(oneToOne != null){
+			return oneToOne.cascade();
+		}
 		return null;
 	}
 	
@@ -206,6 +211,10 @@ public class FieldUtils {
 		OneToMany oneToMany = field.getAnnotation(OneToMany.class);
 		if(oneToMany != null){
 			return oneToMany.fetch();
+		}
+		OneToOne oneToOne = field.getAnnotation(OneToOne.class);
+		if(oneToOne != null){
+			return oneToOne.fetch();
 		}
 		return null;
 	}
@@ -232,6 +241,10 @@ public class FieldUtils {
 		OneToMany oneToMany = field.getAnnotation(OneToMany.class);
 		if(oneToMany != null){
 			return oneToMany.mappedBy();
+		}
+		OneToOne oneToOne = field.getAnnotation(OneToOne.class);
+		if(oneToOne != null){
+			return oneToOne.mappedBy();
 		}
 		return null;
 	}
@@ -368,6 +381,15 @@ public class FieldUtils {
 	 */
 	public static boolean isOneToMany(Field field){
 		return field.getAnnotation(OneToMany.class) != null;
+	}
+	
+	/**
+	 * 判断属性上是否有{@link OneToOne}注解
+	 * @param field
+	 * @return
+	 */
+	public static boolean isOneToOne(Field field){
+		return field.getAnnotation(OneToOne.class) != null;
 	}
 
 }

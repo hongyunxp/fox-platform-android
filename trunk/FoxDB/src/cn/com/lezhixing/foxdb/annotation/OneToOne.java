@@ -6,27 +6,24 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 一对多的注解。该注解被用于表示实体之间的一个对象与多个相关对象之间的关系。
- * 该对象将被使用在表示一对多关系的一的一方的类属性上，同时该注解必须和注解
- * {@link ManyToOne}同时出现和使用，下面是该注解的使用示例：
+ * 一对一的注解。该注解被用于表示两个对象之间一一对应的映射关系。下面是该注解的使用范例：
  * <p>示例：</p>
- * <p>// In Customer class:</p>
+ * <p>// On Customer class:</p>
  * <p>
- * {@code @OneToMany(cascade=ALL, mappedBy="customer")}<br/>
- * {@code public Set<Order> getOrders() { return orders; }<br/>
+ * {@code @OneToOne}<br/>
+ * {@code public CustomerRecord getCustomerRecord() { return customerRecord; }}<br/>
  * </p>
- * <p>// In Order class:</p>
+ * <p>// On CustomerRecord class:</p>
  * <p>
- * {@code @ManyToOne}<br/>
- * {@code @JoinColumn(name="CUST_ID", nullable=false)}<br/>
- * {@code public Customer getCustomer() { return customer; }<br/>
+ * {@code @OneToOne(mappedBy="customerRecord")}<br/>
+ * {@code public Customer getCustomer() { return customer; }}
  * </p>
  * @author foxchan@live.cn
- * @create 2013-4-24
+ * @create 2013-4-26
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.METHOD})
-public @interface OneToMany {
+public @interface OneToOne {
 	
 	/**
 	 * 获得相关对象的级联方式

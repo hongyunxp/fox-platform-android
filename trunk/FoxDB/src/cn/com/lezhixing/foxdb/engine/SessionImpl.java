@@ -186,6 +186,12 @@ public class SessionImpl implements Session {
 	}
 
 	@Override
+	public <T> List<T> listFrom(Object parent, String attributeName,
+			Class<?> sonClass) {
+		return listFrom(-1, -1, null, null, null, parent, attributeName, sonClass);
+	}
+
+	@Override
 	public <T> List<T> listFrom(int startIndex, int maxResult, String where,
 			Object[] params, LinkedHashMap<String, String> orderBy,
 			Object parent, String attributeName, Class<?> sonClass) {
@@ -215,6 +221,19 @@ public class SessionImpl implements Session {
 		}
 		newParams.add(parentIdValue);
 		return list(startIndex, maxResult, where, newParams.toArray(), orderBy, sonClass);
+	}
+
+	@Override
+	public <T> T findObjectFrom(Object parent, String attributeName, Class<?> targetClass) {
+		TableInfo parentTable = TableInfo.getInstance(parent.getClass());
+		Object parentIdValue = parentTable.getId().getValue(parent);
+		SQLObject sqlObject = sqlEngine.getQueryObjectSQL(parentIdValue, parent, attributeName, targetClass);
+		Cursor c = db.rawQuery(sqlObject.getSql(), sqlObject.getBindArgsAsStringArray());
+		T result = null;
+		if(c.moveToFirst()){
+			result = (T) CursorUtils.getEntity(c, targetClass);
+		}
+		return result;
 	}
 
 }

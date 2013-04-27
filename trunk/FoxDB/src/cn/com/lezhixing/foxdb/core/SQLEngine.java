@@ -90,5 +90,16 @@ public interface SQLEngine {
 	 * @return			返回查询数据数量的SQL对象
 	 */
 	SQLObject getQueryCountSQL(String where, Object[] params, Class<?> clazz);
+	
+	/**
+	 * 构造查询对象中的内置对象的SQL语句
+	 * @param parentId		宿主对象的主键值
+	 * @param parent		宿主对象
+	 * @param attributeName	目标对象的属性名称
+	 * @param sonClass		目标对象的类型
+	 * @return				返回对象中的内置对象
+	 */
+	SQLObject getQueryObjectSQL(Object parentId, Object parent,
+			String attributeName, Class<?> sonClass);
 
 }
