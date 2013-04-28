@@ -1,5 +1,6 @@
 package com.foxchan.foxdiary.view;
 
+import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -7,16 +8,21 @@ import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 import com.foxchan.foxdiary.adapter.DiaryLineAdapter;
+import com.foxchan.foxdiary.adapter.DiaryLineAdapter.NodeListener;
 import com.foxchan.foxdiary.core.R;
 import com.foxchan.foxdiary.entity.Diary;
+import com.foxchan.foxdiary.entity.TimeLineNodeStyle;
 import com.foxchan.foxutils.data.DateUtils;
+import com.foxchan.foxutils.tool.SdCardUtils;
 
 /**
  * 日记时间线界面
@@ -51,18 +57,28 @@ public class DiaryLineView extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View v, int position,
 					long id) {
-				if(position < diaries.size()){
-					//点击的日记
-					Toast.makeText(
-							v.getContext(),
-							"你你现在点击的是第" + position + "篇日记，日记的标题是："
-									+ diaries.get(position).getTitle(),
-							Toast.LENGTH_SHORT).show();
-				} else {
-					Toast.makeText(
-							v.getContext(),
-							"添加一篇日记", Toast.LENGTH_SHORT).show();
-				}
+				
+			}
+		});
+		diaryLineAdapter = new DiaryLineAdapter(this, diaries);
+		diaryLineAdapter.setNodeListener(new NodeListener() {
+			
+			@Override
+			public void share(int position) {
+				Diary diary = diaries.get(position);
+				Toast.makeText(DiaryLineView.this, "分享的日记的标题是：" + diary.getTitle(), Toast.LENGTH_SHORT).show();
+			}
+			
+			@Override
+			public void edit(int position) {
+				Diary diary = diaries.get(position);
+				Toast.makeText(DiaryLineView.this, "编辑的日记的标题是：" + diary.getTitle(), Toast.LENGTH_SHORT).show();
+			}
+			
+			@Override
+			public void delete(int position) {
+				Diary diary = diaries.get(position);
+				Toast.makeText(DiaryLineView.this, "删除的日记的标题是：" + diary.getTitle(), Toast.LENGTH_SHORT).show();
 			}
 		});
 		lvDiarys.setAdapter(diaryLineAdapter);
@@ -80,13 +96,15 @@ public class DiaryLineView extends Activity {
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
+			TimeLineNodeStyle style = TimeLineNodeStyle.getRandomStyle();
 			Diary diary = new Diary();
 			diary.setContent("正文内容" + i);
 			diary.setCreateDate(createDate);
 			diary.setEmotion(0);
 			diary.setId(i + "");
-			diary.setImagePath("/path/...");
+			diary.setImagePath("demo_pic");
 			diary.setTitle("标题" + i);
+			diary.setStyle(style);
 			diaries.add(diary);
 		}
 	}
