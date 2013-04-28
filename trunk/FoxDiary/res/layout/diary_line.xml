@@ -19,14 +19,27 @@
             android:textSize="@dimen/header_title_font" />
     </RelativeLayout>
 
-    <ListView
-        android:id="@+id/diary_line_listview"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:cacheColorHint="@android:color/transparent"
-        android:divider="@null"
-        android:dividerHeight="1dp"
-        android:listSelector="@android:color/transparent"
-        android:scrollbars="vertical" />
+        android:layout_weight="1" >
+
+        <ImageView
+            android:layout_width="4dip"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="50.5dip"
+            android:background="@color/diary_line_color" />
+
+        <ListView
+            android:id="@+id/diary_line_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@null"
+            android:dividerHeight="0dip"
+            android:listSelector="@android:color/transparent"
+            android:scrollbars="vertical" />
+    </RelativeLayout>
 
 </LinearLayout>

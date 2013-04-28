@@ -1,5 +1,7 @@
 package com.foxchan.foxdiary.entity;
 
+import java.util.Random;
+
 import com.foxchan.foxdiary.core.R;
 
 /**
@@ -21,6 +23,9 @@ public class TimeLineNodeStyle {
 	public static final int STYLE_ORANGE = 4;
 	/** 日记颜色的类型，深蓝色 */
 	public static final int STYLE_DARK_BLUE = 5;
+	
+	/** 日记类型的总数 */
+	public static final int STYLE_COUNT = 6;
 	
 	/** 日记发表的时间的颜色 */
 	private int timeColor;
@@ -85,6 +90,15 @@ public class TimeLineNodeStyle {
 		this.nodeBg = nodeBg;
 		this.balloonBg = balloonBg;
 		this.contentColor = contentColor;
+	}
+	
+	/**
+	 * 获得一个随机的节点样式
+	 * @return	返回一个随机的节点样式
+	 */
+	public static TimeLineNodeStyle getRandomStyle(){
+		int styleId = new Random().nextInt(STYLE_COUNT);
+		return new TimeLineNodeStyle(styleId);
 	}
 
 	public int getTimeColor() {

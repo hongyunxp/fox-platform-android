@@ -2,6 +2,11 @@ package com.foxchan.foxdiary.entity;
 
 import java.util.Date;
 
+import com.foxchan.foxutils.tool.BitmapUtils;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+
 /**
  * 实体：日记
  * @author gulangxiangjie@gmail.com
@@ -72,6 +77,19 @@ public class Diary extends TimeLineNode {
 
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
+	}
+	
+	/**
+	 * 获得节点的图片
+	 * @param context
+	 * @return			返回节点的图片
+	 */
+	public Bitmap photo(Context context){
+		Bitmap pic = BitmapUtils.loadBitmapFromSdCard(context, imagePath);
+		if(pic != null){
+			pic = BitmapUtils.getRoundedCornerBitmap(pic, 57.5f);
+		}
+		return pic;
 	}
 	
 }
