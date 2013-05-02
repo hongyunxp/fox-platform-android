@@ -16,7 +16,7 @@ import cn.com.lezhixing.foxdb.table.Temporal;
 import cn.com.lezhixing.foxdb.utils.ClassUtils;
 import cn.com.lezhixing.foxdb.utils.FieldUtils;
 
-import com.wecan.veda.utils.StringUtil;
+import com.foxchan.foxutils.data.StringUtils;
 
 /**
  * 该类存储数据表的信息
@@ -76,7 +76,7 @@ public class TableInfo {
 			}
 			
 			List<Column> columns = ClassUtils.getColumnList(clazz);
-			if(!StringUtil.isEmpty(columns)){
+			if(!StringUtils.isEmpty(columns)){
 				for(Column column : columns){
 					if(column != null){
 						tableInfo.columnMap.put(column.getName(), column);
@@ -84,7 +84,7 @@ public class TableInfo {
 				}
 			}
 			List<ManyToOne> manyToOneList = ClassUtils.getManyToOneList(clazz);
-			if(!StringUtil.isEmpty(manyToOneList)){
+			if(!StringUtils.isEmpty(manyToOneList)){
 				for(ManyToOne m2o : manyToOneList){
 					if(m2o != null){
 						tableInfo.manyToOneMap.put(m2o.getName(), m2o);
@@ -92,7 +92,7 @@ public class TableInfo {
 				}
 			}
 			List<OneToMany> oneToManieList = ClassUtils.getOneToManyList(clazz);
-			if(!StringUtil.isEmpty(oneToManieList)){
+			if(!StringUtils.isEmpty(oneToManieList)){
 				for(OneToMany o2m : oneToManieList){
 					if(o2m != null){
 						tableInfo.oneToManyMap.put(o2m.getName(), o2m);
@@ -100,7 +100,7 @@ public class TableInfo {
 				}
 			}
 			List<OneToOne> oneToOneList = ClassUtils.getOneToOneList(clazz);
-			if(!StringUtil.isEmpty(oneToOneList)){
+			if(!StringUtils.isEmpty(oneToOneList)){
 				for(OneToOne o2o : oneToOneList){
 					if(o2o != null){
 						tableInfo.oneToOneMap.put(o2o.getName(), o2o);
@@ -163,7 +163,7 @@ public class TableInfo {
 	 * @return				返回外键在数据库中的数据字段的名称
 	 */
 	public static String buildForeignKeyName(String columnName){
-		return StringUtil.concat(new Object[]{
+		return StringUtils.concat(new Object[]{
 				columnName, "_id"
 		});
 	}

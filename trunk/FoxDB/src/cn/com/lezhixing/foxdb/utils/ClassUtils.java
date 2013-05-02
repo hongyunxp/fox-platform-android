@@ -6,7 +6,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.R.color;
 import cn.com.lezhixing.foxdb.annotation.Id;
 import cn.com.lezhixing.foxdb.annotation.Table;
 import cn.com.lezhixing.foxdb.exception.FoxDbException;
@@ -15,7 +14,7 @@ import cn.com.lezhixing.foxdb.table.ManyToOne;
 import cn.com.lezhixing.foxdb.table.OneToMany;
 import cn.com.lezhixing.foxdb.table.OneToOne;
 
-import com.wecan.veda.utils.StringUtil;
+import com.foxchan.foxutils.data.StringUtils;
 
 /**
  * 处理类的工具类
@@ -32,7 +31,7 @@ public class ClassUtils {
 	 */
 	public static String getTableName(Class<?> clazz){
 		Table table = clazz.getAnnotation(Table.class);
-		if(table == null || StringUtil.isEmpty(table.name())){
+		if(table == null || StringUtils.isEmpty(table.name())){
 			return clazz.getName().replaceAll("[.]", "_").toLowerCase();
 		}
 		return table.name();
@@ -46,7 +45,7 @@ public class ClassUtils {
 	public static Field getPrimaryKeyField(Class<?> clazz){
 		Field primaryKeyField = null;
 		Field[] fields = clazz.getDeclaredFields();
-		if(!StringUtil.isEmpty(fields)){
+		if(!StringUtils.isEmpty(fields)){
 			for(Field f : fields){
 				//获取ID注解
 				if(f.getAnnotation(Id.class) != null){

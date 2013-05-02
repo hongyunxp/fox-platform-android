@@ -1,11 +1,11 @@
 package cn.com.lezhixing.foxdb.table;
 
-import com.wecan.veda.utils.StringUtil;
-
 import cn.com.lezhixing.foxdb.annotation.CascadeType;
 import cn.com.lezhixing.foxdb.annotation.FetchType;
 import cn.com.lezhixing.foxdb.engine.TableInfo;
 import cn.com.lezhixing.foxdb.exception.FoxDbException;
+
+import com.foxchan.foxutils.data.StringUtils;
 
 /**
  * 多对一
@@ -63,8 +63,8 @@ public class ManyToOne extends Column {
 		if (manyObject != null) {
 			Object manyValue = TableInfo.getInstance(manyObject.getClass())
 					.getId().getValue(manyObject);
-			if (!StringUtil.isEmpty(manyColumn)
-					&& !StringUtil.isEmpty(manyValue)) {
+			if (!StringUtils.isEmpty(manyColumn)
+					&& !StringUtils.isEmpty(manyValue)) {
 				kv = new KeyValue(manyColumn, manyValue);
 			} else {
 				throw new FoxDbException("[" + target.getClass() + "]的["
