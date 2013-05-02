@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <com.foxchan.foxui.widget.lang.AutoChangeLineViewGroup
+        android:id="@+id/box_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/black" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="61.6dip"
+            android:background="@android:color/white" >
+
+            <TextView
+                android:layout_width="61.6dip"
+                android:layout_height="61.6dip"
+                android:text="第一个"
+                android:textColor="@android:color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="61.6dip"
+            android:layout_height="61.6dip"
+            android:background="#00FF00"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="61.6dip"
+                android:layout_height="61.6dip"
+                android:text="第二个"
+                android:textColor="@android:color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="61.6dip"
+            android:layout_height="61.6dip"
+            android:background="@android:color/white" >
+
+            <TextView
+                android:layout_width="61.6dip"
+                android:layout_height="61.6dip"
+                android:text="第三个"
+                android:textColor="@android:color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="61.6dip"
+            android:layout_height="61.6dip"
+            android:background="@android:color/white" >
+
+            <TextView
+                android:layout_width="61.6dip"
+                android:layout_height="61.6dip"
+                android:text="第四个"
+                android:textColor="@android:color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="61.6dip"
+            android:layout_height="61.6dip"
+            android:background="@android:color/white" >
+
+            <TextView
+                android:layout_width="61.6dip"
+                android:layout_height="61.6dip"
+                android:text="第五个"
+                android:textColor="@android:color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="61.6dip"
+            android:background="@android:color/white" >
+
+            <TextView
+                android:layout_width="61.6dip"
+                android:layout_height="61.6dip"
+                android:text="第六个"
+                android:textColor="@android:color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="61.6dip"
+            android:layout_height="61.6dip"
+            android:background="#00FF00"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="61.6dip"
+                android:layout_height="61.6dip"
+                android:text="第七个"
+                android:textColor="@android:color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="124.2dip"
+            android:layout_height="61.6dip"
+            android:background="#0000FF" >
+
+            <TextView
+                android:layout_width="124.2dip"
+                android:layout_height="61.6dip"
+                android:text="第八个"
+                android:textColor="@android:color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="61.6dip"
+            android:layout_height="61.6dip"
+            android:background="@android:color/white" >
+
+            <TextView
+                android:layout_width="61.6dip"
+                android:layout_height="61.6dip"
+                android:text="第十个"
+                android:textColor="@android:color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </com.foxchan.foxui.widget.lang.AutoChangeLineViewGroup>
+
+</LinearLayout>
