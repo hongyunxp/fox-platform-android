@@ -98,11 +98,6 @@ public class DiaryLineAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public int getViewTypeCount() {
-		return 2;
-	}
-
-	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		NodeItem nodeItem = null;
 		if(convertView == null){

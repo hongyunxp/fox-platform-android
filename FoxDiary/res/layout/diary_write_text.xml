@@ -11,11 +11,12 @@
         android:layout_margin="6dip"
         android:background="@android:color/transparent"
         android:gravity="top|left"
-        android:text="在这里输入日记的内容..."
+        android:hint="@string/diary_write_words_hint"
         android:textColor="@color/diary_write_content_font"
         android:textSize="@dimen/diary_line_content_font_size" />
 
     <LinearLayout
+        android:id="@+id/diary_write_text_clear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -26,6 +27,9 @@
         android:gravity="center"
         android:orientation="horizontal"
         android:paddingLeft="8dip"
+        android:paddingTop="0dip"
+        android:paddingBottom="0dip"
+        android:clickable="true"
         android:paddingRight="3dip" >
 
         <TextView
@@ -33,13 +37,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:maxLines="1"
+            android:padding="0dip"
             android:text="@string/diary_write_left_words"
             android:textColor="@color/beige"
             android:textSize="@dimen/diary_line_content_font_size" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="20dip"
+            android:layout_height="20dip"
+            android:padding="0dip"
             android:background="@drawable/icon_delete_32" />
     </LinearLayout>
 

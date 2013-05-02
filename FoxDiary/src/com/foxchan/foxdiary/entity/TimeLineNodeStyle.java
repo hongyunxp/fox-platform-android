@@ -97,8 +97,16 @@ public class TimeLineNodeStyle {
 	 * @return	返回一个随机的节点样式
 	 */
 	public static TimeLineNodeStyle getRandomStyle(){
-		int styleId = new Random().nextInt(STYLE_COUNT);
+		int styleId = getRandomStyleId();
 		return new TimeLineNodeStyle(styleId);
+	}
+	
+	/**
+	 * 获得一个随机的节点样式的ID号
+	 * @return	返回一个随机的节点样式的ID号
+	 */
+	public static int getRandomStyleId(){
+		return new Random().nextInt(STYLE_COUNT);
 	}
 
 	public int getTimeColor() {

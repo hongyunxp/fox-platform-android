@@ -2,6 +2,12 @@ package com.foxchan.foxdiary.entity;
 
 import java.util.Date;
 
+import cn.com.lezhixing.foxdb.annotation.Column;
+import cn.com.lezhixing.foxdb.annotation.GeneratedType;
+import cn.com.lezhixing.foxdb.annotation.GeneratedValue;
+import cn.com.lezhixing.foxdb.annotation.Id;
+import cn.com.lezhixing.foxdb.annotation.Table;
+
 import com.foxchan.foxutils.tool.BitmapUtils;
 
 import android.content.Context;
@@ -12,24 +18,29 @@ import android.graphics.Bitmap;
  * @author gulangxiangjie@gmail.com
  * @create 2013-4-16
  */
-public class Diary extends TimeLineNode {
+@Table(name="tb_core_diary")
+public class Diary {
 	
 	/** 日记的唯一标识，采用32位UUID */
+	@Id @GeneratedValue(strategy=GeneratedType.UUID)
 	private String id;
 	/** 日记的标题，可以为空，最多15个字符 */
+	@Column(nullable=true)
 	private String title;
 	/** 日记的一张图片的存储位置 */
+	@Column
 	private String imagePath;
 	/** 日记的正文，不可为空，最多140字 */
+	@Column(nullable=false)
 	private String content;
 	/** 日记的心情 */
+	@Column
 	private int emotion;
 	/** 日记的生成时间 */
+	@Column(nullable=false)
 	private Date createDate;
-
-	public Diary() {
-		setType(TYPE_DIARY);
-	}
+	/** 时间线节点的样式类型 */
+	private int timeLineNodeStyleId;
 
 	public String getId() {
 		return id;
@@ -79,6 +90,14 @@ public class Diary extends TimeLineNode {
 		this.createDate = createDate;
 	}
 	
+	public int getTimeLineNodeStyleId() {
+		return timeLineNodeStyleId;
+	}
+
+	public void setTimeLineNodeStyleId(int timeLineNodeStyleId) {
+		this.timeLineNodeStyleId = timeLineNodeStyleId;
+	}
+	
 	/**
 	 * 获得节点的图片
 	 * @param context
@@ -90,6 +109,14 @@ public class Diary extends TimeLineNode {
 			pic = BitmapUtils.getRoundedCornerBitmap(pic, 57.5f);
 		}
 		return pic;
+	}
+	
+	/**
+	 * 获得日记节点的样式
+	 * @return	返回日记节点的样式
+	 */
+	public TimeLineNodeStyle getStyle(){
+		return new TimeLineNodeStyle(timeLineNodeStyleId);
 	}
 	
 }

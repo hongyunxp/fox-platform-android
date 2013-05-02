@@ -3,20 +3,42 @@
     android:id="@+id/diary_write"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/diary_write_bg"
     android:orientation="vertical" >
 
     <RelativeLayout
         android:id="@+id/diary_write_header"
         style="@style/Header" >
 
-        <TextView
-            android:id="@+id/diary_write_header_title"
+        <LinearLayout
+            android:id="@+id/diary_write_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_pressed_bg"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/icon_back_gray" />
+
+            <ImageView
+                android:layout_width="48dip"
+                android:layout_height="48dip"
+                android:layout_marginLeft="6dip"
+                android:background="@drawable/ic_launcher" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/diary_write_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="@string/diary_write_title"
-            android:textColor="@color/white"
-            android:textSize="@dimen/header_title_font" />
+            android:layout_centerVertical="true"
+            android:background="@drawable/btn_save"
+            android:clickable="true" />
     </RelativeLayout>
 
     <android.support.v4.view.ViewPager
@@ -38,6 +60,7 @@
         android:layout_marginTop="-2dip" >
 
         <RadioGroup
+            android:id="@+id/diary_write_down_menu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
