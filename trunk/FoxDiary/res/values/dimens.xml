@@ -10,6 +10,6 @@
 	<!-- 日记的时间线控件 -->
 	<dimen name="border_padding">6dip</dimen>
 	<dimen name="diary_line_width">4dip</dimen>
-	<dimen name="diary_line_time_font_size">12dp</dimen>
-	<dimen name="diary_line_content_font_size">12dp</dimen>
+	<dimen name="diary_line_time_font_size">14dp</dimen>
+	<dimen name="diary_line_content_font_size">14dp</dimen>
 </resources>

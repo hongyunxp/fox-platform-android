@@ -1,6 +1,5 @@
 package com.foxchan.foxdiary.view;
 
-import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -8,13 +7,11 @@ import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.ViewSwitcher;
 
 import com.foxchan.foxdiary.adapter.DiaryLineAdapter;
 import com.foxchan.foxdiary.adapter.DiaryLineAdapter.NodeListener;
@@ -22,7 +19,6 @@ import com.foxchan.foxdiary.core.R;
 import com.foxchan.foxdiary.entity.Diary;
 import com.foxchan.foxdiary.entity.TimeLineNodeStyle;
 import com.foxchan.foxutils.data.DateUtils;
-import com.foxchan.foxutils.tool.SdCardUtils;
 
 /**
  * 日记时间线界面
@@ -96,7 +92,7 @@ public class DiaryLineView extends Activity {
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-			TimeLineNodeStyle style = TimeLineNodeStyle.getRandomStyle();
+			int styleId = TimeLineNodeStyle.getRandomStyleId();
 			Diary diary = new Diary();
 			diary.setContent("正文内容" + i);
 			diary.setCreateDate(createDate);
@@ -104,7 +100,7 @@ public class DiaryLineView extends Activity {
 			diary.setId(i + "");
 			diary.setImagePath("demo_pic");
 			diary.setTitle("标题" + i);
-			diary.setStyle(style);
+			diary.setTimeLineNodeStyleId(styleId);
 			diaries.add(diary);
 		}
 	}
