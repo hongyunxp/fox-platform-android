@@ -22,7 +22,7 @@ import cn.com.lezhixing.foxdb.utils.Closer;
 import cn.com.lezhixing.foxdb.utils.CursorUtils;
 import cn.com.lezhixing.foxdb.utils.FieldUtils;
 
-import com.wecan.veda.utils.StringUtil;
+import com.foxchan.foxutils.data.StringUtils;
 
 /**
  * Session的实现
@@ -43,7 +43,7 @@ public class SessionImpl implements Session {
 	public Object save(Object object) throws FoxDbException {
 		TableInfo table = TableInfo.getInstance(object.getClass());
 		if (table.strategy == GeneratedType.UUID) {
-			String str_id = StringUtil.getUUID();
+			String str_id = StringUtils.getUUID();
 			TableInfo.getInstance(object.getClass()).getId().setValue(object, str_id);
 		}
 		sqlEngine.checkTableExist(object.getClass());
@@ -70,7 +70,7 @@ public class SessionImpl implements Session {
 			List<CascadeType> cascadeTypes = Arrays.asList(o2m.getCascadeTypes());
 			if ((cascadeTypes.contains(CascadeType.ALL) || 
 					cascadeTypes.contains(CascadeType.REMOVE)) && 
-					!StringUtil.isEmpty(o2m.getMappedBy())) {
+					!StringUtils.isEmpty(o2m.getMappedBy())) {
 				HashMap<String, Object> where = new HashMap<String, Object>();
 				Object idValue = table.getId().getValue(object);
 				where.put(mappedId, idValue);
@@ -153,13 +153,13 @@ public class SessionImpl implements Session {
 	@Override
 	public <T> T get(Integer id, Class<?> clazz) {
 		List<T> list = list("id=?", new Integer[]{id}, clazz);
-		return StringUtil.isEmpty(list) ? null : list.get(0);
+		return StringUtils.isEmpty(list) ? null : list.get(0);
 	}
 
 	@Override
 	public <T> T get(String id, Class<?> clazz) {
 		List<T> list = list("id=?", new String[]{id}, clazz);
-		return StringUtil.isEmpty(list) ? null : list.get(0);
+		return StringUtils.isEmpty(list) ? null : list.get(0);
 	}
 
 	@Override
@@ -182,7 +182,7 @@ public class SessionImpl implements Session {
 	@Override
 	public <T> T findObject(String where, Object[] params, Class<T> clazz) {
 		List<T> list = list(where, params, clazz);
-		return StringUtil.isEmpty(list) ? null : list.get(0);
+		return StringUtils.isEmpty(list) ? null : list.get(0);
 	}
 
 	@Override
@@ -204,17 +204,17 @@ public class SessionImpl implements Session {
 		}
 		Object parentIdValue = parentIdObject.getValue(parent);
 		String whereOrinal = where;
-		if(!StringUtil.isEmpty(whereOrinal)){
-			where = StringUtil.concat(new Object[]{
+		if(!StringUtils.isEmpty(whereOrinal)){
+			where = StringUtils.concat(new Object[]{
 					where.trim(), " and ", parentIdKey, " = ?"
 			});
 		} else {
-			where = StringUtil.concat(new Object[]{
+			where = StringUtils.concat(new Object[]{
 					parentIdKey, " = ?"
 			});
 		}
 		LinkedList<Object> newParams = new LinkedList<Object>();
-		if(!StringUtil.isEmpty(params)){
+		if(!StringUtils.isEmpty(params)){
 			for(Object param : params){
 				newParams.add(param);
 			}

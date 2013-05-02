@@ -2,7 +2,7 @@ package cn.com.lezhixing.foxdb.table;
 
 import java.util.Date;
 
-import com.wecan.veda.utils.DateUtil;
+import com.foxchan.foxutils.data.DateUtils;
 
 /**
  * 键值对对象
@@ -36,7 +36,7 @@ public class KeyValue {
 
 	public Object getValue() {
 		if(value instanceof java.util.Date || value instanceof java.sql.Date){
-			return DateUtil.formatDate((Date)value, "yyyy-MM-dd HH:mm:ss");
+			return DateUtils.formatDate((Date)value, "yyyy-MM-dd HH:mm:ss");
 		}
 		return value;
 	}

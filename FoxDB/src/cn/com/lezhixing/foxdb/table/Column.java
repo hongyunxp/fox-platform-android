@@ -8,8 +8,8 @@ import java.util.Date;
 
 import cn.com.lezhixing.foxdb.exception.FoxDbException;
 
-import com.wecan.veda.utils.DateUtil;
-import com.wecan.veda.utils.StringUtil;
+import com.foxchan.foxutils.data.DateUtils;
+import com.foxchan.foxutils.data.StringUtils;
 
 /**
  * 属性
@@ -49,7 +49,7 @@ public class Column {
 				} else if(dataType == long.class || dataType == Long.class){
 					set.invoke(receiver, value == null ? (Long)null : Long.parseLong(value.toString()));
 				} else if(dataType == java.util.Date.class || dataType == java.sql.Date.class){
-					set.invoke(receiver, value == null ? (Date)null : DateUtil.generateDateFrom(value.toString()));
+					set.invoke(receiver, value == null ? (Date)null : DateUtils.generateDateFrom(value.toString()));
 				} else if(dataType == boolean.class || dataType == Boolean.class){
 					set.invoke(receiver, value == null ? (Boolean)null : Boolean.parseBoolean(value.toString()));
 				} else {
@@ -176,7 +176,7 @@ public class Column {
 		if(value != null){
 			kv = new KeyValue(columnName, value);
 		} else {
-			if(!StringUtil.isEmpty(this.defaultValue)){
+			if(!StringUtils.isEmpty(this.defaultValue)){
 				kv = new KeyValue(columnName, defaultValue);
 			} else if(nullable == false){
 				throw new FoxDbException("[" + target.getClass() + "]的["

@@ -21,7 +21,7 @@ import cn.com.lezhixing.foxdb.table.OneToOne;
 import cn.com.lezhixing.foxdb.table.SQLObject;
 import cn.com.lezhixing.foxdb.utils.FieldUtils;
 
-import com.wecan.veda.utils.StringUtil;
+import com.foxchan.foxutils.data.StringUtils;
 
 /**
  * SQLite数据库的语言构造器
@@ -91,7 +91,7 @@ public class SQLiteEngine implements SQLEngine {
 			return true;
 		}
 		Cursor c = null;
-		String sql = StringUtil.concat(new Object[]{
+		String sql = StringUtils.concat(new Object[]{
 				"SELECT COUNT(*) FROM sqlite_master WHERE type = 'table' AND name = '",
 				table.getTableName(), "'"
 		});
@@ -158,7 +158,7 @@ public class SQLiteEngine implements SQLEngine {
 		List<KeyValue> keyValues = new ArrayList<KeyValue>();
 		TableInfo table = TableInfo.getInstance(entity.getClass());
 		Object idValue = table.getId().getValue(entity);
-		if(!StringUtil.isEmpty(idValue)){
+		if(!StringUtils.isEmpty(idValue)){
 			KeyValue keyValue = new KeyValue(table.getId().getName(), idValue);
 			keyValues.add(keyValue);
 		}
@@ -227,7 +227,7 @@ public class SQLiteEngine implements SQLEngine {
 		StringBuilder sql = new StringBuilder();
 		sql.append("DELETE FROM ").append(table.getTableName());
 		LinkedList<Object> params = new LinkedList<Object>();
-		if(!StringUtil.isEmpty(where)){
+		if(!StringUtils.isEmpty(where)){
 			sql.append(" WHERE ");
 			for(String key : where.keySet()){
 				sql.append(key).append(" = ?").append(" and ");
@@ -245,12 +245,12 @@ public class SQLiteEngine implements SQLEngine {
 		TableInfo table = TableInfo.getInstance(entity.getClass());
 		Id id = table.getId();
 		Object idValue = id.getValue(entity);
-		if(StringUtil.isEmpty(idValue)){
+		if(StringUtils.isEmpty(idValue)){
 			throw new FoxDbException("没有找到您要删除的对象[" + entity.getClass() + "]的id");
 		}
 		
 		List<KeyValue> keyValues = getKeyValuesFromEntity(entity);
-		if(StringUtil.isEmpty(keyValues)){
+		if(StringUtils.isEmpty(keyValues)){
 			throw new FoxDbException("没有在类[" + entity.getClass() + "]中找到任何属性。");
 		}
 		
@@ -291,7 +291,7 @@ public class SQLiteEngine implements SQLEngine {
 	 * @return
 	 */
 	private String buildWhere(String where, Object[] params){
-		if(!StringUtil.isEmpty(where) && !StringUtil.isEmpty(params)){
+		if(!StringUtils.isEmpty(where) && !StringUtils.isEmpty(params)){
 			StringBuilder whereSQL = new StringBuilder();
 			whereSQL.append(" WHERE ").append(where);
 			return whereSQL.toString();
@@ -305,7 +305,7 @@ public class SQLiteEngine implements SQLEngine {
 	 * @return			返回排序的条件组
 	 */
 	private String buildOrderBy(LinkedHashMap<String, String> orderBy){
-		if(!StringUtil.isEmpty(orderBy)){
+		if(!StringUtils.isEmpty(orderBy)){
 			StringBuilder orderBySQL = new StringBuilder();
 			orderBySQL.append(" ORDER BY ");
 			for(String key : orderBy.keySet()){

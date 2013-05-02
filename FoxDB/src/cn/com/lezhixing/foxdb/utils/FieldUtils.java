@@ -5,8 +5,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Date;
 
-import com.wecan.veda.utils.StringUtil;
-
 import cn.com.lezhixing.foxdb.annotation.CascadeType;
 import cn.com.lezhixing.foxdb.annotation.Column;
 import cn.com.lezhixing.foxdb.annotation.FetchType;
@@ -16,6 +14,8 @@ import cn.com.lezhixing.foxdb.annotation.ManyToOne;
 import cn.com.lezhixing.foxdb.annotation.OneToMany;
 import cn.com.lezhixing.foxdb.annotation.OneToOne;
 import cn.com.lezhixing.foxdb.annotation.Transient;
+
+import com.foxchan.foxutils.data.StringUtils;
 
 /**
  * 该类提供跟方法相关的方法
@@ -31,7 +31,7 @@ public class FieldUtils {
 	 */
 	public static String getColumnByField(Field field){
 		Column column = field.getAnnotation(Column.class);
-		if(column != null && !StringUtil.isEmpty(column.name())){
+		if(column != null && !StringUtils.isEmpty(column.name())){
 			return column.name();
 		}
 		return field.getName();
@@ -53,7 +53,7 @@ public class FieldUtils {
 	}
 	
 	public static Method getBooleanGetMethod(Class<?> clazz, String fieldName) {
-		String mn = StringUtil.concat(new Object[]{
+		String mn = StringUtils.concat(new Object[]{
 				"is" + fieldName.substring(0, 1).toUpperCase(), fieldName.substring(1)
 		});
 		if(isStartWithIs(fieldName)){
@@ -75,7 +75,7 @@ public class FieldUtils {
 	 * @return
 	 */
 	private static boolean isStartWithIs(String fieldName) {
-		if(!StringUtil.isEmpty(fieldName) && fieldName.startsWith("is") && !Character.isLowerCase(2)){
+		if(!StringUtils.isEmpty(fieldName) && fieldName.startsWith("is") && !Character.isLowerCase(2)){
 			return true;
 		}
 		return false;
@@ -88,7 +88,7 @@ public class FieldUtils {
 	 * @return
 	 */
 	public static Method getFieldGetMethod(Class<?> clazz, String fieldName){
-		String mn = StringUtil.concat(new Object[]{
+		String mn = StringUtils.concat(new Object[]{
 				"get", fieldName.substring(0, 1).toUpperCase(), fieldName.substring(1)
 		});
 		try {
@@ -103,7 +103,7 @@ public class FieldUtils {
 	
 	public static Method getFieldSetMethod(Class<?> clazz, Field field){
 		String fn = field.getName();//属性名称
-		String mn = StringUtil.concat(new Object[]{
+		String mn = StringUtils.concat(new Object[]{
 				"set", fn.substring(0, 1).toUpperCase(), fn.substring(1)
 		});
 		try {
@@ -138,7 +138,7 @@ public class FieldUtils {
 	 */
 	public static Method getBooleanFieldSetMethod(Class<?> clazz, Field field){
 		String fn = field.getName();
-		String mn = StringUtil.concat(new Object[]{
+		String mn = StringUtils.concat(new Object[]{
 				"set", fn.substring(2, 3).toUpperCase(), fn.substring(3)
 		});
 		try {
@@ -158,7 +158,7 @@ public class FieldUtils {
 	 */
 	public static String getColumnDefaultValue(Field field){
 		Column column = field.getAnnotation(Column.class);
-		if(column != null && !StringUtil.isEmpty(column.defaultValue())){
+		if(column != null && !StringUtils.isEmpty(column.defaultValue())){
 			return column.defaultValue();
 		}
 		return null;

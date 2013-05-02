@@ -2,7 +2,7 @@ package cn.com.lezhixing.foxdb.table;
 
 import java.util.LinkedList;
 
-import com.wecan.veda.utils.StringUtil;
+import com.foxchan.foxutils.data.StringUtils;
 
 /**
  * SQL操作对象
@@ -20,7 +20,7 @@ public class SQLObject {
 	
 	public SQLObject(StringBuilder sql, Object param){
 		this.sql = sql.toString();
-		if(StringUtil.isEmpty(this.params)) this.params = new LinkedList<Object>();
+		if(StringUtils.isEmpty(this.params)) this.params = new LinkedList<Object>();
 		this.params.add(param);
 	}
 	
@@ -32,7 +32,7 @@ public class SQLObject {
 	public SQLObject(StringBuilder sql, Object[] params) {
 		this.sql = sql.toString();
 		this.params = new LinkedList<Object>();
-		if(!StringUtil.isEmpty(params)){
+		if(!StringUtils.isEmpty(params)){
 			for(int i = 0; i < params.length; i++){
 				this.params.add(params[i]);
 			}
@@ -41,7 +41,7 @@ public class SQLObject {
 	
 	public SQLObject(String sql, Object param){
 		this.sql = sql;
-		if(StringUtil.isEmpty(params)) params = new LinkedList<Object>();
+		if(StringUtils.isEmpty(params)) params = new LinkedList<Object>();
 		this.params.add(param);
 	}
 
@@ -69,7 +69,7 @@ public class SQLObject {
 	public String toString(){
 		String str = "params:";
 		for(Object o : params){
-			str = StringUtil.concat(new Object[]{
+			str = StringUtils.concat(new Object[]{
 					str, o, ", "
 			});
 		}
@@ -77,7 +77,7 @@ public class SQLObject {
 	}
 	
 	public String[] getBindArgsAsStringArray(){
-		if(!StringUtil.isEmpty(params)){
+		if(!StringUtils.isEmpty(params)){
 			String[] args = new String[params.size()];
 			for(int i = 0; i < params.size(); i++){
 				args[i] = params.get(i).toString();

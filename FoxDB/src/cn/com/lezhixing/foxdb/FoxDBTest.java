@@ -22,7 +22,7 @@ public class FoxDBTest extends Activity {
 		setContentView(R.layout.start);
 		
 		FoxDB.DEBUG = true;
-		FoxDB db = FoxDB.create(this, "fox.db", 1);
+		FoxDB db = FoxDB.create(this, "fox.db", 10);
 		Session session = db.openSession();
 		
 //		User user = session.findObject("id = ?", new Object[]{2}, User.class);
@@ -41,48 +41,48 @@ public class FoxDBTest extends Activity {
 //		List<User> users = session.listFrom(-1, -1, "weight > ?", new Object[]{16}, null, group, "users", User.class);
 //		Log.d("FoxDB", users.size() + "");
 		
-		Pager<User> pager = new Pager<User>(15, 2);
-		LinkedHashMap<String, String> orderBy = new LinkedHashMap<String, String>();
-		orderBy.put("createDate", "desc");
-		orderBy.put("id", "desc");
-		PagerTemplate<User> pt = session.query(pager, null, null, orderBy, User.class);
-		pager.setContent(pt.getPageData());
-		pager.setTotalRecordsNumber((int)pt.getTotalRecordsCount());
-		Log.d("FoxDB",
-				"总共有" + pager.getTotalPage() + "页数据，总共"
-						+ pager.getTotalRecordsNumber() + "条数据，每页显示"
-						+ pager.getRecordsNumber() + "条数据，当前是第"
-						+ pager.getCurrentPage() + "页。");
-		for(User u : pager.getContent()){
-			Log.d("FoxDB", u.toString());
+//		Pager<User> pager = new Pager<User>(15, 2);
+//		LinkedHashMap<String, String> orderBy = new LinkedHashMap<String, String>();
+//		orderBy.put("createDate", "desc");
+//		orderBy.put("id", "desc");
+//		PagerTemplate<User> pt = session.query(pager, null, null, orderBy, User.class);
+//		pager.setContent(pt.getPageData());
+//		pager.setTotalRecordsNumber((int)pt.getTotalRecordsCount());
+//		Log.d("FoxDB",
+//				"总共有" + pager.getTotalPage() + "页数据，总共"
+//						+ pager.getTotalRecordsNumber() + "条数据，每页显示"
+//						+ pager.getRecordsNumber() + "条数据，当前是第"
+//						+ pager.getCurrentPage() + "页。");
+//		for(User u : pager.getContent()){
+//			Log.d("FoxDB", u.toString());
+//		}
+		
+		Group group = new Group();
+		group.setName("小组一");
+		session.save(group);
+		
+		for(int i = 0; i < 43; i++){
+			SchoolCard card = new SchoolCard();
+			card.setNumber("2220093210620" + i);
+			session.save(card);
+			
+			User user = new User();
+			user.setCreateDate(new Date());
+			user.setIsGood(true);
+			user.setName("FoxDB" + i);
+			user.setGroup(group);
+			user.setCard(card);
+			session.save(user);
 		}
 		
-//		Group group = new Group();
-//		group.setName("小组一");
-//		session.save(group);
-//		
-//		for(int i = 0; i < 43; i++){
-//			SchoolCard card = new SchoolCard();
-//			card.setNumber("2220093210620" + i);
-//			session.save(card);
-//			
-//			User user = new User();
-//			user.setCreateDate(new Date());
-//			user.setIsGood(true);
-//			user.setName("FoxDB" + i);
-//			user.setGroup(group);
-//			user.setCard(card);
-//			session.save(user);
-//		}
-//		
-//		User user = session.get(2, User.class);
-//		System.out.println("2号用户的信息：" + user.getName());
-//		user.setName("我是2号");
-//		user.setWeight(22.0);
-//		user.setIsGood(true);
-//		session.update(user);
-//		user = session.get(user.getId(), User.class);
-//		System.out.println("2号用户新的信息：" + user.getName());
+		User user = session.get(2, User.class);
+		System.out.println("2号用户的信息：" + user.getName());
+		user.setName("我是2号");
+		user.setWeight(22.0);
+		user.setIsGood(true);
+		session.update(user);
+		user = session.get(user.getId(), User.class);
+		System.out.println("2号用户新的信息：" + user.getName());
 	}
 
 	@Override

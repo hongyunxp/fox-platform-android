@@ -2,7 +2,7 @@ package cn.com.lezhixing.foxdb;
 
 import java.util.Date;
 
-import com.wecan.veda.utils.StringUtil;
+import com.foxchan.foxutils.data.StringUtils;
 
 import cn.com.lezhixing.foxdb.annotation.Column;
 import cn.com.lezhixing.foxdb.annotation.Id;
@@ -95,7 +95,7 @@ public class User {
 	
 	@Override
 	public String toString(){
-		return StringUtil.concat(new Object[]{
+		return StringUtils.concat(new Object[]{
 				"name : ", name, "--createDate : ", createDate.toLocaleString()
 		});
 	}

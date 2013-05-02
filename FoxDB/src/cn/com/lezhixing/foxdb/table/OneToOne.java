@@ -5,7 +5,7 @@ import cn.com.lezhixing.foxdb.annotation.FetchType;
 import cn.com.lezhixing.foxdb.engine.TableInfo;
 import cn.com.lezhixing.foxdb.exception.FoxDbException;
 
-import com.wecan.veda.utils.StringUtil;
+import com.foxchan.foxutils.data.StringUtils;
 
 /**
  * 一对一
@@ -59,7 +59,7 @@ public class OneToOne extends Column {
 	public KeyValue toKeyValue(Object target){
 		KeyValue kv = null;
 		String oneColumn = mappedBy;
-		if(StringUtil.isEmpty(oneColumn)){
+		if(StringUtils.isEmpty(oneColumn)){
 			oneColumn = TableInfo.buildForeignKeyName(getName());
 		} else {
 			oneColumn = TableInfo.buildForeignKeyName(mappedBy);
@@ -68,11 +68,11 @@ public class OneToOne extends Column {
 		if(oneObject != null){
 			Object oneValue = TableInfo.getInstance(oneObject.getClass())
 					.getId().getValue(oneObject);
-			if(StringUtil.isEmpty(oneValue)){
+			if(StringUtils.isEmpty(oneValue)){
 				throw new FoxDbException("错误原因，缺少主键。[" + target.getClass() + "]的["
 						+ getFieldName() + "]对象还没有进行持久化，没有找到主键值。");
 			}
-			if(!StringUtil.isEmpty(oneColumn) && !StringUtil.isEmpty(oneValue)){
+			if(!StringUtils.isEmpty(oneColumn) && !StringUtils.isEmpty(oneValue)){
 				kv = new KeyValue(oneColumn, oneValue);
 			} else {
 				throw new FoxDbException("[" + target.getClass() + "]的["
