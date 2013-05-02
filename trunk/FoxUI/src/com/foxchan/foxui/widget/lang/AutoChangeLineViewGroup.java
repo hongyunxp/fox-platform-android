@@ -59,4 +59,12 @@ public class AutoChangeLineViewGroup extends ViewGroup {
 		}
 	}
 
+	public int getChildViewMargin() {
+		return childViewMargin;
+	}
+
+	public void setChildViewMargin(int childViewMargin) {
+		this.childViewMargin = childViewMargin;
+	}
+
 }

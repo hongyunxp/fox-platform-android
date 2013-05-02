@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 
 import com.foxchan.foxui.core.R;
+import com.foxchan.foxui.widget.lang.AutoChangeLineViewGroup;
 
 public class FoxTest extends Activity {
 	
@@ -12,6 +13,8 @@ public class FoxTest extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.auto_change_line);
+		AutoChangeLineViewGroup viewGroup = (AutoChangeLineViewGroup)findViewById(R.id.box_container);
+		viewGroup.setChildViewMargin(10);
 	}
 
 	@Override
