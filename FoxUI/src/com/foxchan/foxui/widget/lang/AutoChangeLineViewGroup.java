@@ -55,7 +55,19 @@ public class AutoChangeLineViewGroup extends ViewGroup {
 				row++;
 				lengthY = row * (height + childViewMargin) + (height + childViewMargin + t);
 			}
-			child.layout(lengthX - width, lengthY - height, lengthX, lengthY);
+			int pl = lengthX - width;
+			int pt = lengthY - height;
+			int pr = lengthX;
+			int pb = lengthY;
+			if(t != 0){
+				pt -= t;
+				pb -= t;
+			}
+			if(l != 0){
+				pl -= l;
+				pr -= l;
+			}
+			child.layout(pl, pt, pr, pb);
 		}
 	}
 
