@@ -1,7 +1,6 @@
 package com.foxchan.foxutils.tool;
 
 import java.io.File;
-import java.util.Locale;
 
 import com.foxchan.foxutils.data.StringUtils;
 
@@ -14,8 +13,17 @@ import com.foxchan.foxutils.data.StringUtils;
 public class FileUtils {
 	
 	/**
+	 * 构造文件保存的路径
+	 * @param filePaths	文件保存路径的层级文件名
+	 * @return			返回文件的层级路径地址
+	 */
+	public static String buildFilePath(String[] filePaths){
+		return buildFileName(filePaths, null);
+	}
+	
+	/**
 	 * 构造文件的文件路径
-	 * @param filePaths	文件保存轮径的层级文件名
+	 * @param filePaths	文件保存路径的层级文件名
 	 * @param fileName	文件名
 	 * @return			返回文件的层级路径地址
 	 */
