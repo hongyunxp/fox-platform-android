@@ -86,18 +86,35 @@ public class BitmapUtils {
 	
 	/**
 	 * 将图片保存到SD卡上
-	 * @param fileName	文件保存的路径
+	 * @param filePath	文件保存的路径
+	 * @param fileName	文件名
+	 * @param bitmap	保存的图片对象
+	 */
+	public static void persistImageToSdCard(final String filePath,
+			final String fileName, final Bitmap bitmap) {
+		persistImageToSdCard(filePath, fileName, bitmap, 100);
+	}
+	
+	/**
+	 * 将图片保存到SD卡上
+	 * @param filePath	文件保存的路径
+	 * @param fileName	文件名
 	 * @param bitmap	保存的图片对象
 	 * @param quality	图片的质量
 	 */
-	public static void persistImageToSdCard(final String fileName,
-			final Bitmap bitmap, final int quality) {
+	public static void persistImageToSdCard(final String filePath,
+			final String fileName, final Bitmap bitmap, final int quality) {
 		if(bitmap == null) return;
 		FileOutputStream fos = null;
 		BufferedOutputStream bos = null;
+		File path = null;
 		File target = null;
 		try {
-			target = new File(fileName);
+			path = new File(filePath);
+			if(!path.exists()){
+				path.mkdirs();
+			}
+			target = new File(filePath, fileName);
 			fos = new FileOutputStream(target);
 			bos = new BufferedOutputStream(fos);
 			bitmap.compress(CompressFormat.PNG, quality, bos);
