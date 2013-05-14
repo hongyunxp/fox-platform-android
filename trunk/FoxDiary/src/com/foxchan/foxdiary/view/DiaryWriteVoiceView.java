@@ -1,5 +1,6 @@
 package com.foxchan.foxdiary.view;
 
+import android.content.Intent;
 import android.view.View;
 
 import com.foxchan.foxdiary.core.R;
@@ -50,6 +51,12 @@ public class DiaryWriteVoiceView extends FakeActivity {
 
 	@Override
 	public void onDestroy() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		
 	}

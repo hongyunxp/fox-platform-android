@@ -1,5 +1,6 @@
 package com.foxchan.foxdiary.core.widgets;
 
+import android.content.Intent;
 import android.view.View;
 
 /**
@@ -40,5 +41,13 @@ public abstract class FakeActivity {
 	 * 该界面的销毁方法
 	 */
 	public abstract void onDestroy();
+	
+	/**
+	 * 启动一个返回结果的Activity的回调方法
+	 * @param requestCode
+	 * @param resultCode
+	 * @param data
+	 */
+	public abstract void onActivityResult(int requestCode, int resultCode, Intent data);
 
 }

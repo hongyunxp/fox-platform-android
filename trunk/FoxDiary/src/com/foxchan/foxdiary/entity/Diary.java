@@ -8,6 +8,8 @@ import cn.com.lezhixing.foxdb.annotation.GeneratedValue;
 import cn.com.lezhixing.foxdb.annotation.Id;
 import cn.com.lezhixing.foxdb.annotation.Table;
 
+import com.foxchan.foxutils.data.DateUtils;
+import com.foxchan.foxutils.data.StringUtils;
 import com.foxchan.foxutils.tool.BitmapUtils;
 
 import android.content.Context;
@@ -40,6 +42,7 @@ public class Diary {
 	@Column(nullable=false)
 	private Date createDate;
 	/** 时间线节点的样式类型 */
+	@Column(nullable=false)
 	private int timeLineNodeStyleId;
 
 	public String getId() {
@@ -51,6 +54,11 @@ public class Diary {
 	}
 
 	public String getTitle() {
+		if(StringUtils.isEmpty(title)){
+			title = StringUtils.concat(new Object[]{
+					"diary_", DateUtils.formatDate(createDate)
+			});
+		}
 		return title;
 	}
 
