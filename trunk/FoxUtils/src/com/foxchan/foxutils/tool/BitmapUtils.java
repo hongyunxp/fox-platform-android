@@ -1,5 +1,6 @@
 package com.foxchan.foxutils.tool;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -73,6 +74,34 @@ public class BitmapUtils {
 			byte[] bytes = bos.toByteArray();
 			fos.write(bytes);
 			fos.flush();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			Closer.close(bos);
+			Closer.close(fos);
+		}
+	}
+	
+	/**
+	 * 将图片保存到SD卡上
+	 * @param fileName	文件保存的路径
+	 * @param bitmap	保存的图片对象
+	 * @param quality	图片的质量
+	 */
+	public static void persistImageToSdCard(final String fileName,
+			final Bitmap bitmap, final int quality) {
+		if(bitmap == null) return;
+		FileOutputStream fos = null;
+		BufferedOutputStream bos = null;
+		File target = null;
+		try {
+			target = new File(fileName);
+			fos = new FileOutputStream(target);
+			bos = new BufferedOutputStream(fos);
+			bitmap.compress(CompressFormat.PNG, quality, bos);
+			bos.flush();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
