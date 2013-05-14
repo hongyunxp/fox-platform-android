@@ -16,4 +16,6 @@
 	<string name="diary_write_press_to_record">按下开始录音</string>
 	<string name="diary_write_recording">正在录音中...</string>
 	<string name="diary_write_words_hint">在这里输入日记的内容...</string>
+	<string name="diary_write_words_empty">请输入日记的正文。</string>
+	<string name="diary_write_save_success">日记保存成功。</string>
 </resources>

@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -13,11 +15,16 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.Toast;
+import android.widget.ViewSwitcher;
 import cn.com.lezhixing.foxdb.core.FoxDB;
 import cn.com.lezhixing.foxdb.core.Session;
 
@@ -33,8 +40,17 @@ import com.foxchan.foxdiary.utils.Constants;
  */
 public class DiaryWriteView extends Activity {
 	
+	/** Activity Code：从相册中选择图片 */
+	public static final int ACTIVITY_CODE_IMAGE_FROM_ALBUM = 1;
+	/** Activity Code：从相机中拍摄照片 */
+	public static final int ACTIVITY_CODE_IMAGE_FROM_CAMARA = 2;
+	/** Activity Code：裁减图片 */
+	public static final int ACTIVITY_CODE_IMAGE_CUT = 3;
+	
 	/** 数据库操作对象 */
 	private FoxDB db;
+	/** 软键盘管理对象 */
+	private InputMethodManager imm;
 	
 	/** 显示的界面列表集合 */
 	private List<View> pageViews;
@@ -50,8 +66,10 @@ public class DiaryWriteView extends Activity {
 	private View vVoice;
 	/** 用文字记录日记的封装对象 */
 	private DiaryWriteWordsView diaryWriteWordsView;
-	/** 用图片记录日记的封装对象 */
-	private DiaryWritePicView diaryWritePicView;
+	/** 用图片（从相册）记录日记的封装对象 */
+	private DiaryWritePicFromAlbumView diaryWritePicFromAlbumView;
+	/** 用图片（从相机）记录日记的封装对象 */
+	private DiaryWritePicFromCamaraView diaryWritePicFromCamaraView;
 	/** 用声音记录日记的封装对象 */
 	private DiaryWriteVoiceView diaryWriteVoiceView;
 	/** 底部的单选框组 */
@@ -60,6 +78,15 @@ public class DiaryWriteView extends Activity {
 	private LinearLayout llBack;
 	/** 保存按钮 */
 	private ImageView ivSave;
+	/** 刷新图标 */
+	private ImageView ivRefresh;
+	/** 保存&刷新状态转换器 */
+	private ViewSwitcher vsSaveAndRefresh;
+	/** 旋转动画播放器 */
+	private Animation animCircle;
+	
+	/** 图片保存的路径 */
+	private String imagePath;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,15 +103,19 @@ public class DiaryWriteView extends Activity {
 		FoxDB.DEBUG = Constants.DIARY_DEBUG;
 		db = FoxDB.create(this, Constants.DIARY_DB_NAME, Constants.DIARY_DB_VERSION);
 		
+		//初始化键盘管理对象
+		imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+		
 		//初始化界面元素
 		diaryWriteWordsView = new DiaryWriteWordsView(this);
-		diaryWritePicView = new DiaryWritePicView(this);
+		diaryWritePicFromAlbumView = new DiaryWritePicFromAlbumView(this);
+		diaryWritePicFromCamaraView = new DiaryWritePicFromCamaraView(this);
 		diaryWriteVoiceView = new DiaryWriteVoiceView(this);
 		
 		pageViews = new ArrayList<View>();
 		vWords = diaryWriteWordsView.layoutView();
-		vPicFromAlbum = diaryWritePicView.layoutView();
-		vPicFromCamara = diaryWritePicView.layoutView();
+		vPicFromAlbum = diaryWritePicFromAlbumView.layoutView();
+		vPicFromCamara = diaryWritePicFromCamaraView.layoutView();
 		vVoice = diaryWriteVoiceView.layoutView();
 		pageViews.add(0, vWords);
 		pageViews.add(1, vPicFromAlbum);
@@ -135,12 +166,15 @@ public class DiaryWriteView extends Activity {
 					break;
 				case R.id.diary_write_photo:
 					viewPager.setCurrentItem(1);
+					showOrHideImm(1);
 					break;
 				case R.id.diary_write_camera:
 					viewPager.setCurrentItem(2);
+					showOrHideImm(2);
 					break;
 				case R.id.diary_write_voice:
 					viewPager.setCurrentItem(3);
+					showOrHideImm(3);
 					break;
 				}
 			}
@@ -151,6 +185,7 @@ public class DiaryWriteView extends Activity {
 			@Override
 			public void onPageSelected(int position) {
 				((RadioButton)rgMenus.getChildAt(position)).setChecked(true);
+				showOrHideImm(position);
 			}
 			
 			@Override
@@ -163,6 +198,9 @@ public class DiaryWriteView extends Activity {
 		//绑定头部的按钮事件
 		llBack = (LinearLayout)findViewById(R.id.diary_write_back);
 		ivSave = (ImageView)findViewById(R.id.diary_write_save);
+		ivRefresh = (ImageView)findViewById(R.id.diary_write_refresh);
+		vsSaveAndRefresh = (ViewSwitcher)findViewById(R.id.diary_write_switcher);
+		animCircle = AnimationUtils.loadAnimation(this, R.anim.circle);
 		llBack.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -172,15 +210,44 @@ public class DiaryWriteView extends Activity {
 		ivSave.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Log.d(Constants.DIARY_TAG, "saving the diary...");
-				Diary diary = buildDiary();
-				Session session = db.openSession();
-				session.save(diary);
-				Log.d(Constants.DIARY_TAG, "diary has been saved.");
+				//切换状态
+				ivRefresh.startAnimation(animCircle);
+				vsSaveAndRefresh.showNext();
+				//隐藏输入键盘
+				imm.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+				
+				//保存日记
+				if(isDiaryReady()){
+					Diary diary = buildDiary();
+					Session session = db.openSession();
+					session.save(diary);
+					Toast.makeText(
+							DiaryWriteView.this,
+							v.getResources().getString(
+									R.string.diary_write_save_success),
+							Toast.LENGTH_SHORT).show();
+				}
+				
+				//切换状态
+				ivRefresh.clearAnimation();
+				vsSaveAndRefresh.showPrevious();
 			}
 		});
 		//初始化文字输入界面
 		diaryWriteWordsView.onCreate();
+		diaryWritePicFromAlbumView.onCreate();
+		diaryWritePicFromCamaraView.onCreate();
+		diaryWriteVoiceView.onCreate();
+	}
+	
+	/**
+	 * 判断日记是否可以进行保存
+	 * @return	如果日记的内容验证无误，则返回true，否则返回false
+	 */
+	private boolean isDiaryReady(){
+		boolean validation = true;
+		validation = diaryWriteWordsView.isDiaryWordsReady();
+		return validation;
 	}
 	
 	/**
@@ -191,8 +258,47 @@ public class DiaryWriteView extends Activity {
 		Diary diary = new Diary();
 		diary.setContent(diaryWriteWordsView.getContent());
 		diary.setCreateDate(new Date());
+		diary.setImagePath(imagePath);
 		diary.setTimeLineNodeStyleId(TimeLineNodeStyle.getRandomStyleId());
 		return diary;
+	}
+	
+	/**
+	 * 显示或者隐藏软键盘
+	 * @param viewIndex	当前界面的索引号
+	 */
+	private void showOrHideImm(int viewIndex){
+		if(viewIndex > 0){
+			imm.hideSoftInputFromWindow(diaryWriteWordsView.getEtContent()
+					.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+		}
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		switch(requestCode){
+		case ACTIVITY_CODE_IMAGE_FROM_ALBUM:
+			Uri uri = data.getData();
+			if(uri != null){
+				diaryWritePicFromAlbumView.startPicCut(data.getData());
+			}
+			break;
+		case ACTIVITY_CODE_IMAGE_FROM_CAMARA:
+//			diaryWritePicView
+			break;
+		case ACTIVITY_CODE_IMAGE_CUT:
+			diaryWritePicFromAlbumView.setPicToView(data);
+			break;
+		}
+	}
+
+	public String getImagePath() {
+		return imagePath;
+	}
+
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
 	}
 
 }
