@@ -2,6 +2,8 @@ package com.foxchan.foxutils.tool;
 
 import java.io.File;
 
+import com.foxchan.foxutils.data.StringUtils;
+
 import android.os.Environment;
 
 /**
@@ -31,6 +33,24 @@ public class SdCardUtils {
 			return Environment.getExternalStorageDirectory().toString() + File.separator;
 		}
 		return null;
+	}
+	
+	/**
+	 * 格式化SD卡中的路径
+	 * @param filePath	原来的文件路径名称
+	 * @return			返回标准的SD卡路径
+	 */
+	public static String foarmatSdCardPath(String filePath){
+		String rootPath = getSdCardPath();
+		String targetPath = "";
+		if(filePath.startsWith(rootPath)){
+			targetPath = filePath;
+		} else {
+			targetPath = StringUtils.concat(new Object[]{
+					rootPath, filePath
+			});
+		}
+		return targetPath;
 	}
 
 }
