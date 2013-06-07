@@ -89,10 +89,11 @@ public class BitmapUtils {
 	 * @param filePath	文件保存的路径
 	 * @param fileName	文件名
 	 * @param bitmap	保存的图片对象
+	 * @return			图片保存成功则返回true，否则返回false
 	 */
-	public static void persistImageToSdCard(final String filePath,
+	public static boolean persistImageToSdCard(final String filePath,
 			final String fileName, final Bitmap bitmap) {
-		persistImageToSdCard(filePath, fileName, bitmap, 100);
+		return persistImageToSdCard(filePath, fileName, bitmap, 100);
 	}
 	
 	/**
@@ -101,15 +102,17 @@ public class BitmapUtils {
 	 * @param fileName	文件名
 	 * @param bitmap	保存的图片对象
 	 * @param quality	图片的质量
+	 * @return			图片保存成功则返回true，否则返回false
 	 */
-	public static void persistImageToSdCard(final String filePath,
+	public static boolean persistImageToSdCard(String filePath,
 			final String fileName, final Bitmap bitmap, final int quality) {
-		if(bitmap == null) return;
+		if(bitmap == null) return false;
 		FileOutputStream fos = null;
 		BufferedOutputStream bos = null;
 		File path = null;
 		File target = null;
 		try {
+			filePath = SdCardUtils.foarmatSdCardPath(filePath);
 			path = new File(filePath);
 			if(!path.exists()){
 				path.mkdirs();
@@ -119,10 +122,13 @@ public class BitmapUtils {
 			bos = new BufferedOutputStream(fos);
 			bitmap.compress(CompressFormat.PNG, quality, bos);
 			bos.flush();
+			return true;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+			return false;
 		} catch (IOException e) {
 			e.printStackTrace();
+			return false;
 		} finally {
 			Closer.close(bos);
 			Closer.close(fos);
@@ -159,6 +165,7 @@ public class BitmapUtils {
 		FileInputStream fis = null;
 		Bitmap bitmap = null;
 		File file = null;
+		filePath = filePath.replaceAll("//", "/");
 		String rootPath = SdCardUtils.getSdCardPath();
 		if(filePath.startsWith(rootPath)){
 			file = new File(filePath);
