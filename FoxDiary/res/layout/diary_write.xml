@@ -91,12 +91,6 @@
                 android:drawableTop="@drawable/icon_pic_64" />
 
             <RadioButton
-                android:id="@+id/diary_write_camera"
-                style="@style/WriteDiaryCard"
-                android:background="@drawable/diary_camera_write_card_bg"
-                android:drawableTop="@drawable/icon_camera_64" />
-
-            <RadioButton
                 android:id="@+id/diary_write_voice"
                 style="@style/WriteDiaryCard"
                 android:background="@drawable/diary_voice_write_card_bg"

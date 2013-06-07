@@ -12,7 +12,7 @@
         android:background="@drawable/demo_pic2" />
 
     <ImageView
-        android:id="@+id/diary_write_pic_edit"
+        android:id="@+id/diary_write_pic_from_album"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/diary_write_pic_main"
@@ -22,8 +22,22 @@
         android:clickable="true"
         android:layout_marginRight="50dip"
         android:padding="2dip"
-        android:src="@drawable/icon_edit" />
-
+        android:src="@drawable/icon_image" />
+    
+    <ImageView
+        android:id="@+id/diary_write_pic_from_camara"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/diary_write_pic_main"
+        android:layout_alignRight="@id/diary_write_pic_main"
+        android:layout_centerVertical="true"
+        android:background="@drawable/blue_node"
+        android:clickable="true"
+        android:padding="2dip"
+        android:layout_marginBottom="24dip"
+        android:layout_marginRight="16dip"
+        android:src="@drawable/icon_camara" />
+    
     <ImageView
         android:id="@+id/diary_write_pic_delete"
         android:layout_width="wrap_content"
@@ -34,8 +48,8 @@
         android:background="@drawable/red_node"
         android:clickable="true"
         android:padding="2dip"
-        android:layout_marginBottom="24dip"
-        android:layout_marginRight="16dip"
+        android:layout_marginBottom="60dip"
+        android:layout_marginRight="-8dip"
         android:src="@drawable/icon_delete" />
 
 </RelativeLayout>

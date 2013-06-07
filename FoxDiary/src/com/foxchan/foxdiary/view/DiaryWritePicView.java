@@ -7,7 +7,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -18,7 +17,6 @@ import com.foxchan.foxdiary.utils.Constants;
 import com.foxchan.foxutils.data.StringUtils;
 import com.foxchan.foxutils.tool.BitmapUtils;
 import com.foxchan.foxutils.tool.FileUtils;
-import com.foxchan.foxutils.tool.SdCardUtils;
 
 /**
  * 图片（从相册）记录日记的界面
@@ -26,19 +24,21 @@ import com.foxchan.foxutils.tool.SdCardUtils;
  * @version 1.0.0
  * @create 2013-4-30
  */
-public class DiaryWritePicFromAlbumView extends FakeActivity {
+public class DiaryWritePicView extends FakeActivity {
 	
 	private DiaryWriteView diaryWriteView;
 	private View layoutView;
 	
 	/** 裁减后的图片 */
 	private ImageView ivPhoto;
-	/** 编辑按钮 */
-	private ImageView ivEdit;
+	/** 从相册中选择图片的按钮 */
+	private ImageView ivAlbum;
+	/** 从相机中拍摄照片的按钮 */
+	private ImageView ivCamara;
 	/** 删除按钮 */
 	private ImageView ivDelete;
 
-	public DiaryWritePicFromAlbumView(DiaryWriteView diaryWriteView) {
+	public DiaryWritePicView(DiaryWriteView diaryWriteView) {
 		this.diaryWriteView = diaryWriteView;
 	}
 
@@ -54,11 +54,12 @@ public class DiaryWritePicFromAlbumView extends FakeActivity {
 	public void onCreate() {
 		//初始化组件
 		ivDelete = (ImageView)layoutView.findViewById(R.id.diary_write_pic_delete);
-		ivEdit = (ImageView)layoutView.findViewById(R.id.diary_write_pic_edit);
+		ivCamara = (ImageView)layoutView.findViewById(R.id.diary_write_pic_from_camara);
+		ivAlbum = (ImageView)layoutView.findViewById(R.id.diary_write_pic_from_album);
 		ivPhoto = (ImageView)layoutView.findViewById(R.id.diary_write_pic_main);
 		
-		//绑定编辑按钮的事件
-		ivEdit.setOnClickListener(new OnClickListener() {
+		//绑定从相册中选择图片的按钮的事件
+		ivAlbum.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(Intent.ACTION_PICK,null);
@@ -132,16 +133,12 @@ public class DiaryWritePicFromAlbumView extends FakeActivity {
 					Constants.APP_RESOURCE, Constants.IMAGES
 			});
 			String imageName = StringUtils.getUUID();
-			String targetPath = StringUtils.concat(new Object[]{imagePath, imageName});
-			targetPath = targetPath.replaceAll("//", "/");
-			diaryWriteView.setImagePath(targetPath);
-			//保存图片
-			boolean flag = BitmapUtils.persistImageToSdCard(imagePath, imageName, picTemp);
+			diaryWriteView.setImagePath(imagePath);
+			diaryWriteView.setImage(picTemp);
+			diaryWriteView.setImageName(imageName);
 			//显示图片
-			if(flag == true){
-				Drawable drawable = new BitmapDrawable(diaryWriteView.getResources(), picTemp4Show);
-				ivPhoto.setBackgroundDrawable(drawable);
-			}
+			Drawable drawable = new BitmapDrawable(diaryWriteView.getResources(), picTemp4Show);
+			ivPhoto.setBackgroundDrawable(drawable);
 		}
 	}
 
