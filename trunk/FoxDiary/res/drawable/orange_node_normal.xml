@@ -3,11 +3,11 @@
     android:shape="oval" >
 
     <size
-        android:height="26dip"
-        android:width="26dip" />
+        android:height="@dimen/function_node_width"
+        android:width="@dimen/function_node_height" />
 
     <stroke
-        android:width="2dip"
+        android:width="@dimen/function_node_stroke_width"
         android:color="@color/white" />
 
     <solid android:color="@color/orange_normal" />

@@ -6,12 +6,12 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -32,6 +32,8 @@ import com.foxchan.foxdiary.core.R;
 import com.foxchan.foxdiary.entity.Diary;
 import com.foxchan.foxdiary.entity.TimeLineNodeStyle;
 import com.foxchan.foxdiary.utils.Constants;
+import com.foxchan.foxutils.data.StringUtils;
+import com.foxchan.foxutils.tool.BitmapUtils;
 
 /**
  * 写日记的界面
@@ -58,18 +60,14 @@ public class DiaryWriteView extends Activity {
 	private ViewPager viewPager;
 	/** 文字内容界面 */
 	private View vWords;
-	/** 从相册中选择图片的界面 */
-	private View vPicFromAlbum;
-	/** 从照相机中拍摄照片的界面 */
-	private View vPicFromCamara;
+	/** 选择图片的界面 */
+	private View vPic;
 	/** 录音的界面 */
 	private View vVoice;
 	/** 用文字记录日记的封装对象 */
 	private DiaryWriteWordsView diaryWriteWordsView;
 	/** 用图片（从相册）记录日记的封装对象 */
-	private DiaryWritePicFromAlbumView diaryWritePicFromAlbumView;
-	/** 用图片（从相机）记录日记的封装对象 */
-	private DiaryWritePicFromCamaraView diaryWritePicFromCamaraView;
+	private DiaryWritePicView diaryWritePicView;
 	/** 用声音记录日记的封装对象 */
 	private DiaryWriteVoiceView diaryWriteVoiceView;
 	/** 底部的单选框组 */
@@ -85,8 +83,12 @@ public class DiaryWriteView extends Activity {
 	/** 旋转动画播放器 */
 	private Animation animCircle;
 	
-	/** 图片保存的路径 */
+	/** 图片保存的文件夹路径 */
 	private String imagePath;
+	/** 图片的文件名 */
+	private String imageName;
+	/** 图片对象 */
+	private Bitmap image;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -108,19 +110,16 @@ public class DiaryWriteView extends Activity {
 		
 		//初始化界面元素
 		diaryWriteWordsView = new DiaryWriteWordsView(this);
-		diaryWritePicFromAlbumView = new DiaryWritePicFromAlbumView(this);
-		diaryWritePicFromCamaraView = new DiaryWritePicFromCamaraView(this);
+		diaryWritePicView = new DiaryWritePicView(this);
 		diaryWriteVoiceView = new DiaryWriteVoiceView(this);
 		
 		pageViews = new ArrayList<View>();
 		vWords = diaryWriteWordsView.layoutView();
-		vPicFromAlbum = diaryWritePicFromAlbumView.layoutView();
-		vPicFromCamara = diaryWritePicFromCamaraView.layoutView();
+		vPic = diaryWritePicView.layoutView();
 		vVoice = diaryWriteVoiceView.layoutView();
 		pageViews.add(0, vWords);
-		pageViews.add(1, vPicFromAlbum);
-		pageViews.add(2, vPicFromCamara);
-		pageViews.add(3, vVoice);
+		pageViews.add(1, vPic);
+		pageViews.add(2, vVoice);
 		
 		rgMenus = (RadioGroup)findViewById(R.id.diary_write_down_menu);
 		viewPager = (ViewPager)findViewById(R.id.diary_write_viewpager);
@@ -168,13 +167,9 @@ public class DiaryWriteView extends Activity {
 					viewPager.setCurrentItem(1);
 					showOrHideImm(1);
 					break;
-				case R.id.diary_write_camera:
+				case R.id.diary_write_voice:
 					viewPager.setCurrentItem(2);
 					showOrHideImm(2);
-					break;
-				case R.id.diary_write_voice:
-					viewPager.setCurrentItem(3);
-					showOrHideImm(3);
 					break;
 				}
 			}
@@ -238,8 +233,7 @@ public class DiaryWriteView extends Activity {
 		});
 		//初始化文字输入界面
 		diaryWriteWordsView.onCreate();
-		diaryWritePicFromAlbumView.onCreate();
-		diaryWritePicFromCamaraView.onCreate();
+		diaryWritePicView.onCreate();
 		diaryWriteVoiceView.onCreate();
 	}
 	
@@ -261,7 +255,9 @@ public class DiaryWriteView extends Activity {
 		Diary diary = new Diary();
 		diary.setContent(diaryWriteWordsView.getContent());
 		diary.setCreateDate(new Date());
-		diary.setImagePath(imagePath);
+		String targetPath = StringUtils.concat(new Object[]{imagePath, imageName});
+		targetPath = targetPath.replaceAll("//", "/");
+		diary.setImagePath(targetPath);
 		diary.setTimeLineNodeStyleId(TimeLineNodeStyle.getRandomStyleId());
 		return diary;
 	}
@@ -271,6 +267,8 @@ public class DiaryWriteView extends Activity {
 			Diary diary = buildDiary();
 			Session session = db.openSession();
 			session.save(diary);
+			//保存图片
+			BitmapUtils.persistImageToSdCard(imagePath, imageName, image);
 			return true;
 		}
 		return false;
@@ -294,14 +292,14 @@ public class DiaryWriteView extends Activity {
 		case ACTIVITY_CODE_IMAGE_FROM_ALBUM:
 			Uri uri = data.getData();
 			if(uri != null){
-				diaryWritePicFromAlbumView.startPicCut(data.getData());
+				diaryWritePicView.startPicCut(data.getData());
 			}
 			break;
 		case ACTIVITY_CODE_IMAGE_FROM_CAMARA:
 //			diaryWritePicView
 			break;
 		case ACTIVITY_CODE_IMAGE_CUT:
-			diaryWritePicFromAlbumView.setPicToView(data);
+			diaryWritePicView.setPicToView(data);
 			break;
 		}
 	}
@@ -312,6 +310,22 @@ public class DiaryWriteView extends Activity {
 
 	public void setImagePath(String imagePath) {
 		this.imagePath = imagePath;
+	}
+
+	public String getImageName() {
+		return imageName;
+	}
+
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
+	}
+
+	public Bitmap getImage() {
+		return image;
+	}
+
+	public void setImage(Bitmap image) {
+		this.image = image;
 	}
 
 }

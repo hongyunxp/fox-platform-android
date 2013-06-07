@@ -26,10 +26,10 @@
         android:layout_weight="1" >
 
         <ImageView
-            android:layout_width="4dip"
+            android:layout_width="5dip"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="56.5dip"
+            android:layout_marginLeft="59dip"
             android:background="@color/diary_line_color" />
 
         <LinearLayout
