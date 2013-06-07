@@ -1,7 +1,5 @@
 package com.foxchan.foxdiary.view;
 
-import java.io.File;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -20,6 +18,7 @@ import com.foxchan.foxdiary.utils.Constants;
 import com.foxchan.foxutils.data.StringUtils;
 import com.foxchan.foxutils.tool.BitmapUtils;
 import com.foxchan.foxutils.tool.FileUtils;
+import com.foxchan.foxutils.tool.SdCardUtils;
 
 /**
  * 图片（从相册）记录日记的界面
@@ -128,15 +127,21 @@ public class DiaryWritePicFromAlbumView extends FakeActivity {
 		Bundle bundle = picIntent.getExtras();
 		if(bundle != null){
 			Bitmap picTemp = bundle.getParcelable("data");
-			picTemp = BitmapUtils.getRoundedCornerBitmap(picTemp, 190.0f);
-			String imagePath = FileUtils.buildFileName(new String[]{
-					"images"
-			}, StringUtils.getUUID());
-			diaryWriteView.setImagePath(imagePath);
-			Drawable drawable = new BitmapDrawable(diaryWriteView.getResources(), picTemp);
-			ivPhoto.setBackgroundDrawable(drawable);
-			BitmapUtils.persistImageToSdCard(imagePath, picTemp);
-			Log.d(Constants.DIARY_TAG, "图片保存成功..");
+			Bitmap picTemp4Show = BitmapUtils.getRoundedCornerBitmap(picTemp, 190.0f);
+			String imagePath = FileUtils.buildFilePath(new String[]{
+					Constants.APP_RESOURCE, Constants.IMAGES
+			});
+			String imageName = StringUtils.getUUID();
+			String targetPath = StringUtils.concat(new Object[]{imagePath, imageName});
+			targetPath = targetPath.replaceAll("//", "/");
+			diaryWriteView.setImagePath(targetPath);
+			//保存图片
+			boolean flag = BitmapUtils.persistImageToSdCard(imagePath, imageName, picTemp);
+			//显示图片
+			if(flag == true){
+				Drawable drawable = new BitmapDrawable(diaryWriteView.getResources(), picTemp4Show);
+				ivPhoto.setBackgroundDrawable(drawable);
+			}
 		}
 	}
 

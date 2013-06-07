@@ -1,24 +1,27 @@
 package com.foxchan.foxdiary.view;
 
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
+import cn.com.lezhixing.foxdb.core.FoxDB;
+import cn.com.lezhixing.foxdb.core.Session;
 
 import com.foxchan.foxdiary.adapter.DiaryLineAdapter;
 import com.foxchan.foxdiary.adapter.DiaryLineAdapter.NodeListener;
 import com.foxchan.foxdiary.core.R;
 import com.foxchan.foxdiary.entity.Diary;
-import com.foxchan.foxdiary.entity.TimeLineNodeStyle;
-import com.foxchan.foxutils.data.DateUtils;
+import com.foxchan.foxdiary.utils.Constants;
 
 /**
  * 日记时间线界面
@@ -33,12 +36,19 @@ public class DiaryLineView extends Activity {
 	private ListView lvDiarys;
 	/** 日记列表的数据适配器 */
 	private DiaryLineAdapter diaryLineAdapter;
+	
+	private FoxDB db;
+	private TextView tvContent;
+	private ImageView ivPhoto;
+	private LinearLayout llBalloon;
+	private ImageView ivNode;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.diary_line);
 		//初始化组件和数据
+		db = FoxDB.create(this, Constants.DIARY_DB_NAME, Constants.DIARY_DB_VERSION);
 		initDatas();
 		initWidgets();
 	}
@@ -78,31 +88,38 @@ public class DiaryLineView extends Activity {
 			}
 		});
 		lvDiarys.setAdapter(diaryLineAdapter);
+		
+		//初始化添加日记的节点
+		tvContent = (TextView)findViewById(R.id.diary_line_content);
+		ivPhoto = (ImageView)findViewById(R.id.diary_line_photo);
+		llBalloon = (LinearLayout)findViewById(R.id.diary_line_balloon);
+		ivNode = (ImageView)findViewById(R.id.diary_line_node);
+		
+		ivPhoto.setVisibility(View.GONE);
+		tvContent.setText(getString(R.string.diary_line_add));
+		ivNode.setImageResource(R.drawable.icon_plus_small);
+		llBalloon.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				toDiaryWriteView();
+			}
+		});
+	}
+	
+	/**
+	 * 跳转到写日记的界面
+	 */
+	private void toDiaryWriteView() {
+		Intent intent = new Intent(this, DiaryWriteView.class);
+		startActivity(intent);
 	}
 
 	/**
 	 * 初始化数据
 	 */
 	private void initDatas() {
-		diaries = new ArrayList<Diary>();
-		for(int i = 0; i < 10; i++){
-			Date createDate = new Date();
-			try {
-				createDate = DateUtils.generateDateFrom("2013-4-17 " + (i + 8) + ":35:00");
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			int styleId = TimeLineNodeStyle.getRandomStyleId();
-			Diary diary = new Diary();
-			diary.setContent("正文内容" + i);
-			diary.setCreateDate(createDate);
-			diary.setEmotion(0);
-			diary.setId(i + "");
-			diary.setImagePath("demo_pic");
-			diary.setTitle("标题" + i);
-			diary.setTimeLineNodeStyleId(styleId);
-			diaries.add(diary);
-		}
+		Session session = db.openSession();
+		diaries = session.list(Diary.class);
 	}
 
 }
