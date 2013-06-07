@@ -8,6 +8,11 @@ package com.foxchan.foxdiary.utils;
  */
 public class Constants {
 	
+	/** 应用程序的资源文件夹名称 */
+	public static final String APP_RESOURCE = "FoxDiary";
+	/** 应用程序中存储图片的文件夹名 */
+	public static final String IMAGES = "images";
+	
 	/** 日记模块的TAG */
 	public static final String DIARY_TAG = "tag_diary";
 	/** 日记模块的数据库的名称 */
@@ -18,5 +23,7 @@ public class Constants {
 	public static final boolean DIARY_DEBUG = true;
 	/** 日记模块的文字输入上限 */
 	public static final int DIARY_WORDS_MAX = 140;
+	/** 日记模块的图片保存文件夹路径 */
+	public static final String DIARY_IMAGE_DOCUMENT = "diary";
 
 }

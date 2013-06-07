@@ -217,14 +217,17 @@ public class DiaryWriteView extends Activity {
 				imm.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 				
 				//保存日记
-				if(isDiaryReady()){
-					Diary diary = buildDiary();
-					Session session = db.openSession();
-					session.save(diary);
+				if(saveDiary()){
 					Toast.makeText(
 							DiaryWriteView.this,
 							v.getResources().getString(
 									R.string.diary_write_save_success),
+							Toast.LENGTH_SHORT).show();
+				} else {
+					Toast.makeText(
+							DiaryWriteView.this,
+							v.getResources().getString(
+									R.string.diary_write_save_fail),
 							Toast.LENGTH_SHORT).show();
 				}
 				
@@ -261,6 +264,16 @@ public class DiaryWriteView extends Activity {
 		diary.setImagePath(imagePath);
 		diary.setTimeLineNodeStyleId(TimeLineNodeStyle.getRandomStyleId());
 		return diary;
+	}
+	
+	private boolean saveDiary(){
+		if(isDiaryReady()){
+			Diary diary = buildDiary();
+			Session session = db.openSession();
+			session.save(diary);
+			return true;
+		}
+		return false;
 	}
 	
 	/**

@@ -2,18 +2,19 @@ package com.foxchan.foxdiary.entity;
 
 import java.util.Date;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.util.Log;
 import cn.com.lezhixing.foxdb.annotation.Column;
 import cn.com.lezhixing.foxdb.annotation.GeneratedType;
 import cn.com.lezhixing.foxdb.annotation.GeneratedValue;
 import cn.com.lezhixing.foxdb.annotation.Id;
 import cn.com.lezhixing.foxdb.annotation.Table;
 
+import com.foxchan.foxdiary.utils.Constants;
 import com.foxchan.foxutils.data.DateUtils;
 import com.foxchan.foxutils.data.StringUtils;
 import com.foxchan.foxutils.tool.BitmapUtils;
-
-import android.content.Context;
-import android.graphics.Bitmap;
 
 /**
  * 实体：日记
@@ -32,6 +33,9 @@ public class Diary {
 	/** 日记的一张图片的存储位置 */
 	@Column
 	private String imagePath;
+	/** 日记的语音信息的存储位置 */
+	@Column
+	private String voicePath;
 	/** 日记的正文，不可为空，最多140字 */
 	@Column(nullable=false)
 	private String content;
@@ -74,6 +78,14 @@ public class Diary {
 		this.imagePath = imagePath;
 	}
 
+	public String getVoicePath() {
+		return voicePath;
+	}
+
+	public void setVoicePath(String voicePath) {
+		this.voicePath = voicePath;
+	}
+
 	public String getContent() {
 		return content;
 	}
@@ -112,9 +124,11 @@ public class Diary {
 	 * @return			返回节点的图片
 	 */
 	public Bitmap photo(Context context){
+		Log.d(Constants.DIARY_TAG, "图片的路径是：" + imagePath);
 		Bitmap pic = BitmapUtils.loadBitmapFromSdCard(context, imagePath);
+		Log.d(Constants.DIARY_TAG, "图片是否为空：" + (pic == null));
 		if(pic != null){
-			pic = BitmapUtils.getRoundedCornerBitmap(pic, 57.5f);
+			pic = BitmapUtils.getRoundedCornerBitmap(pic, 190.0f);
 		}
 		return pic;
 	}
