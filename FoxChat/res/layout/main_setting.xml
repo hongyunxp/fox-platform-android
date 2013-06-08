@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="个性签名" >
+
+        <CheckBoxPreference
+            android:key="signState"
+            android:summary="个性签名将自动添加在用户的短信后面"
+            android:title="是否启用个性签名" />
+
+        <EditTextPreference
+            android:key="mySign"
+            android:summary="在这里输入您自己的个性签名"
+            android:title="请输入您的个性签名" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

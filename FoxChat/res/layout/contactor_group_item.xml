@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/contacter_group_item"
+    android:layout_width="match_parent"
+    android:layout_height="60dip"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="4dip" >
+
+    <ImageView
+        android:id="@+id/contacter_group_item_photo"
+        android:layout_width="53dip"
+        android:layout_height="53dip"
+        android:contentDescription="@string/sms_contactor_photo"
+        android:src="@drawable/default_photo" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="8dip"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/contacter_group_item_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/tip_loading"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_size_16" />
+
+        <TextView
+            android:id="@+id/contacter_group_item_member_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:text="(1人)"
+            android:textColor="@color/brief_color"
+            android:textSize="@dimen/text_size_12" />
+    </LinearLayout>
+
+</LinearLayout>

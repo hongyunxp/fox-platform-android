@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sms_contactor_list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/white" >
+
+    <include layout="@layout/sms_header" />
+
+    <ViewSwitcher 
+        android:id="@+id/sms_contactor_viewswitcher"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1" >
+        
+        <ImageView 
+           android:id="@+id/sms_contacter_loading"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:src="@drawable/loading1"
+           android:layout_gravity="center" />
+        
+        <ListView
+            android:id="@+id/sms_contactor_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/app_background"
+            android:dividerHeight="0.6dip"
+            android:scrollbars="vertical"
+            android:cacheColorHint="@android:color/white"
+            android:background="@android:color/white" >
+        </ListView>
+        
+    </ViewSwitcher>
+
+    <include layout="@layout/sms_footer" />
+
+</LinearLayout>

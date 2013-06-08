@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sms_detail"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical" >
+
+    <include layout="@layout/sms_header" />
+
+    <ViewSwitcher
+        android:id="@+id/sms_detail_view_switcher"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" >
+        
+        <ImageView 
+           android:id="@+id/sms_detail_loading"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:src="@drawable/loading1"
+           android:layout_gravity="center" />
+
+        <ListView
+            android:id="@+id/sms_detail_listview"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:cacheColorHint="@color/black_cant_see"
+            android:divider="@null"
+            android:dividerHeight="1dp"
+            android:listSelector="@color/black_cant_see"
+            android:scrollbars="vertical" />
+    </ViewSwitcher>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_background"
+        android:padding="5dip" >
+
+        <EditText
+            android:id="@+id/sms_detail_msg_content"
+            android:layout_width="217dip"
+            android:layout_height="wrap_content"
+            android:minHeight="31dip"
+            android:background="@android:color/white"
+            android:gravity="center_vertical"
+            android:hint="@string/sms_detail_msg_content_hint"
+            android:paddingLeft="2dip"
+            android:paddingRight="2dip"
+            android:textColor="@color/date_color"
+            android:textSize="@dimen/text_size_16" />
+
+        <Button
+            android:id="@+id/sms_detail_send"
+            android:layout_width="86dip"
+            android:layout_height="wrap_content"
+            android:minHeight="31dip"
+            android:layout_alignParentRight="true"
+            android:background="@android:color/white"
+            android:text="@string/sms_detail_msg_send"
+            android:textColor="@color/app_background"
+            android:textSize="@dimen/text_size_16"
+            android:padding="0dip" />
+    </RelativeLayout>
+
+</LinearLayout>

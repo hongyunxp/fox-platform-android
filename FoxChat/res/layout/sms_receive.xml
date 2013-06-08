@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sms_receive"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/half_transparent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingLeft="14dip"
+    android:paddingRight="14dip" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_background"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="47dip"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/sms_receive_contacter_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="4dip"
+                android:gravity="bottom"
+                android:text="@string/tip_loading"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_27" />
+
+            <ImageView
+                android:id="@+id/sms_receive_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:clickable="true"
+                android:contentDescription="@string/img_logo_alt"
+                android:src="@drawable/sms_close_btn" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/sms_receive_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dip"
+            android:background="@android:color/white"
+            android:minHeight="160dip"
+            android:text="@string/tip_loading"
+            android:textColor="@color/app_background"
+            android:textSize="@dimen/text_size_20" />
+
+        <ViewSwitcher
+            android:id="@+id/sms_receive_view_switcher"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dip"
+            android:layout_marginRight="4dip"
+            android:inAnimation="@anim/sms_receive_translate_in"
+            android:outAnimation="@anim/sms_receive_translate_out" >
+
+            <LinearLayout
+                android:id="@+id/sms_receive_read_response_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="4dip" >
+
+                <Button
+                    android:id="@+id/sms_receive_read"
+                    android:layout_width="match_parent"
+                    android:layout_height="31dip"
+                    android:layout_marginRight="5dip"
+                    android:layout_weight="1"
+                    android:background="@drawable/main_btn"
+                    android:gravity="center"
+                    android:padding="0dip"
+                    android:text="@string/sms_detail_msg_read"
+                    android:textColor="@color/sms_btn_send"
+                    android:textSize="@dimen/text_size_16" />
+
+                <Button
+                    android:id="@+id/sms_receive_response"
+                    android:layout_width="match_parent"
+                    android:layout_height="31dip"
+                    android:layout_weight="1"
+                    android:background="@drawable/main_btn"
+                    android:gravity="center"
+                    android:padding="0dip"
+                    android:text="@string/sms_detail_msg_repeat"
+                    android:textColor="@color/sms_btn_send"
+                    android:textSize="@dimen/text_size_16" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/sms_receive_response_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="4dip" >
+
+                <EditText
+                    android:id="@+id/sms_receive_repeat_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dip"
+                    android:layout_weight="1"
+                    android:background="@android:color/white"
+                    android:gravity="center_vertical"
+                    android:hint="@string/sms_detail_msg_content_hint"
+                    android:paddingBottom="4.5dip"
+                    android:paddingTop="4.5dip"
+                    android:textColor="@color/app_background"
+                    android:textSize="@dimen/text_size_16" />
+
+                <Button
+                    android:id="@+id/sms_receive_send"
+                    android:layout_width="67dip"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/main_btn"
+                    android:gravity="center"
+                    android:text="@string/sms_detail_msg_send"
+                    android:textColor="@color/sms_btn_send"
+                    android:textSize="@dimen/text_size_16" />
+            </LinearLayout>
+        </ViewSwitcher>
+    </LinearLayout>
+
+</LinearLayout>

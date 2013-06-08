@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sms_menu"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="222dip"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="vertical" >
+
+        <TextView
+            style="@style/menuTitle"
+            android:layout_width="match_parent"
+            android:text="@string/sms_detail_menu_tile" />
+
+        <Button
+            android:id="@+id/sms_menu_delete"
+            style="@style/menu"
+            android:text="@string/sms_detail_menu_delete" />
+
+        <ImageView style="@style/blueLine" />
+
+        <Button
+            android:id="@+id/sms_menu_transmit"
+            style="@style/menu"
+            android:text="@string/sms_detail_menu_transmit" />
+
+        <ImageView style="@style/blueLine" />
+
+        <Button
+            android:id="@+id/sms_menu_copy"
+            style="@style/menu"
+            android:text="@string/sms_detail_menu_copy" />
+
+        <ImageView
+            style="@style/blueLine"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/sms_menu_detail"
+            style="@style/menu"
+            android:text="@string/sms_detail_menu_detail"
+            android:visibility="gone" />
+    </LinearLayout>
+
+</LinearLayout>

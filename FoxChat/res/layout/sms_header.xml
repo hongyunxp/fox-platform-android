@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sms_header"
+    android:layout_width="match_parent"
+    android:layout_height="46dip"
+    android:background="@color/app_background"
+    android:orientation="horizontal"
+    android:paddingLeft="6dip" >
+
+    <TextView
+        android:id="@+id/sms_header_title"
+        android:layout_width="250dip"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="@string/title_activity_app"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size_27" />
+
+    <ImageView
+        android:id="@+id/sms_header_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:clickable="true"
+        android:contentDescription="@string/img_logo_alt"
+        android:src="@drawable/sms_header_icon" />
+
+</RelativeLayout>
