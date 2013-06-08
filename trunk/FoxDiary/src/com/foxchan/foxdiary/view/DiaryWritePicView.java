@@ -1,5 +1,7 @@
 package com.foxchan.foxdiary.view;
 
+import java.io.File;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -7,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -17,6 +20,7 @@ import com.foxchan.foxdiary.utils.Constants;
 import com.foxchan.foxutils.data.StringUtils;
 import com.foxchan.foxutils.tool.BitmapUtils;
 import com.foxchan.foxutils.tool.FileUtils;
+import com.foxchan.foxutils.tool.SdCardUtils;
 
 /**
  * 图片（从相册）记录日记的界面
@@ -65,6 +69,39 @@ public class DiaryWritePicView extends FakeActivity {
 				Intent intent = new Intent(Intent.ACTION_PICK,null);
 				intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
 				diaryWriteView.startActivityForResult(intent, DiaryWriteView.ACTIVITY_CODE_IMAGE_FROM_ALBUM);
+			}
+		});
+		
+		//绑定从相机中拍摄照片的按钮的事件
+		ivCamara.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				//设置临时的照片文件
+				String tempPhotoPath = Constants.buildDiaryTempImagePath();
+				File tempPhoto = new File(tempPhotoPath);
+				Uri uri = Uri.fromFile(tempPhoto);
+				Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+				intent.putExtra(MediaStore.Images.Media.ORIENTATION, false);
+				intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+				diaryWriteView.startActivityForResult(intent, DiaryWriteView.ACTIVITY_CODE_IMAGE_FROM_CAMARA);
+			}
+		});
+		
+		//绑定删除当前图片的按钮的事件
+		ivDelete.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(diaryWriteView.getImage() != null){
+					diaryWriteView.setImage(null);
+					//将预览图片设置为默认样式
+					ivPhoto.setImageResource(R.drawable.demo_pic2);
+				}
+				if(!StringUtils.isEmpty(diaryWriteView.getImageName())){
+					diaryWriteView.setImageName(null);
+				}
+				if(!StringUtils.isEmpty(diaryWriteView.getImagePath())){
+					diaryWriteView.setImagePath(null);
+				}
 			}
 		});
 	}
