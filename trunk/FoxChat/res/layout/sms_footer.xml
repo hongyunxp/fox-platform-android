@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sms_footer"
+    android:layout_width="match_parent"
+    android:layout_height="46dip"
+    android:orientation="horizontal" >
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/sms_footer_sms_list"
+            style="@style/footbar"
+            android:checked="true"
+            android:drawableTop="@drawable/icon_list"
+            android:text="@string/sms_list" />
+        
+        <RadioButton
+            android:id="@+id/sms_footer_write_sms"
+            style="@style/footbar"
+            android:checked="false"
+            android:drawableTop="@drawable/icon_write"
+            android:text="@string/sms_write_sms" />
+    </RadioGroup>
+
+</LinearLayout>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black_cant_see">#00000000</color>
+    <color name="half_transparent">#aa000000</color>
+    
+    <color name="app_background">#1aa1e1</color>
+    <color name="sms_radio_button_hover">#48b4e7</color>
+    <color name="date_color">#999999</color>
+    <color name="brief_color">#cccccc</color>
+    <color name="search_box_bg">#eeeeee</color>
+    <color name="dark_brown">#252525</color>
+    <color name="light_orange">#fbe7d0</color>
+    <color name="dark_blue">#107db0</color>
+</resources>

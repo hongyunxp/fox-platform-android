@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sms_write_select_sender"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical" >
+
+    <include layout="@layout/sms_header" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="5dip" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:background="@color/search_box_bg"
+                android:src="@drawable/icon_search" />
+
+            <MultiAutoCompleteTextView
+                android:id="@+id/sms_write_select_sender_search_box"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/search_box_bg"
+                android:gravity="center_vertical"
+                android:hint="@string/sms_write_select_sender_search_hint"
+                android:paddingLeft="5dip"
+                android:paddingRight="5dip"
+                android:textColor="@color/app_background"
+                android:textSize="@dimen/text_size_16" />
+        </LinearLayout>
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dip"
+            android:background="@android:color/white"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/sms_write_select_sender_contacter"
+                style="@style/cardItem"
+                android:checked="true"
+                android:enabled="false"
+                android:text="@string/sms_write_select_contacter" />
+
+            <RadioButton
+                android:id="@+id/sms_write_select_sender_record_history"
+                style="@style/cardItem"
+                android:checked="false"
+                android:enabled="false"
+                android:text="@string/sms_write_select_record_history" />
+
+            <RadioButton
+                android:id="@+id/sms_write_select_sender_group"
+                style="@style/cardItem"
+                android:checked="false"
+                android:enabled="false"
+                android:text="@string/sms_write_select_group"
+                android:visibility="gone" />
+        </RadioGroup>
+
+        <ImageView
+            style="@style/blueLine"
+            android:layout_width="match_parent"
+            android:layout_height="1.2dip" />
+
+        <ViewSwitcher
+            android:id="@+id/sms_write_select_sender_view_switcher"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <ImageView
+                android:id="@+id/loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/loading1" />
+
+            <ListView
+                android:id="@+id/sms_write_select_sender_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@android:color/white"
+                android:cacheColorHint="@android:color/white"
+                android:divider="@color/app_background"
+                android:dividerHeight="0.6dip"
+                android:scrollbars="vertical" />
+        </ViewSwitcher>
+    </LinearLayout>
+
+</LinearLayout>

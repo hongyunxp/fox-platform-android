@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sms_write"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_background"
+    android:orientation="vertical" >
+
+    <include layout="@layout/sms_header" />
+
+    <ViewSwitcher
+        android:id="@+id/sms_write_view_switcher"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="6dip" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sms_write_receiver_name"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_12" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <EditText
+                    android:id="@+id/sms_write_receiver"
+                    android:layout_width="277dip"
+                    android:layout_height="31dip"
+                    android:background="@android:color/white"
+                    android:hint="@string/sms_write_receiver_hint"
+                    android:paddingLeft="5dip"
+                    android:paddingRight="5dip"
+                    android:singleLine="true"
+                    android:textColor="@color/app_background"
+                    android:textSize="@dimen/text_size_16"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true" />
+
+                <ImageView
+                    android:id="@+id/sms_write_add_receiver"
+                    android:layout_width="31dip"
+                    android:layout_height="31dip"
+                    android:layout_gravity="center_vertical"
+                    android:background="@android:color/white"
+                    android:clickable="true"
+                    android:src="@drawable/icon_plus" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:text="@string/sms_write_content"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_12" />
+
+            <EditText
+                android:id="@+id/sms_write_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@android:color/white"
+                android:gravity="top"
+                android:hint="@string/sms_write_content_hint"
+                android:padding="5dip"
+                android:textColor="@color/app_background"
+                android:textSize="@dimen/text_size_16" />
+
+            <Button
+                android:id="@+id/sms_write_send"
+                android:layout_width="match_parent"
+                android:layout_height="31dip"
+                android:layout_marginTop="10dip"
+                android:background="@drawable/sms_btn_send"
+                android:gravity="center"
+                android:padding="0dip"
+                android:text="@string/sms_detail_msg_send"
+                android:textColor="@color/sms_btn_send"
+                android:textSize="@dimen/text_size_16" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/sms_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/loading2" />
+    </ViewSwitcher>
+
+</LinearLayout>
