@@ -41,6 +41,7 @@ public class FileUtils {
 					filePath, fileName
 			});
 		}
+		filePath = filePath.replaceAll("//", "/");
 		return filePath;
 	}
 	
