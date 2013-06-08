@@ -1,5 +1,8 @@
 package com.foxchan.foxdiary.utils;
 
+import com.foxchan.foxutils.tool.FileUtils;
+import com.foxchan.foxutils.tool.SdCardUtils;
+
 /**
  * 该类维护项目中涉及到的常量
  * @author foxchan@live.cn
@@ -25,5 +28,17 @@ public class Constants {
 	public static final int DIARY_WORDS_MAX = 140;
 	/** 日记模块的图片保存文件夹路径 */
 	public static final String DIARY_IMAGE_DOCUMENT = "diary";
+	/** 日记模块的临时图片的保存名称 */
+	public static final String DIARY_TEMP_IMAGE = "temp_photo.png";
+	
+	/**
+	 * 构造日记模块的临时图片的文件路径
+	 * @return	返回日记模块的临时图片的文件路径
+	 */
+	public static final String buildDiaryTempImagePath(){
+		return FileUtils.buildFileName(new String[]{
+				SdCardUtils.getSdCardPath(), APP_RESOURCE, IMAGES
+		}, Constants.DIARY_TEMP_IMAGE);
+	}
 
 }

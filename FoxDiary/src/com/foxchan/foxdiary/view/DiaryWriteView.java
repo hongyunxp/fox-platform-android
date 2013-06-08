@@ -1,5 +1,6 @@
 package com.foxchan.foxdiary.view;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -269,6 +271,11 @@ public class DiaryWriteView extends Activity {
 			session.save(diary);
 			//保存图片
 			BitmapUtils.persistImageToSdCard(imagePath, imageName, image);
+			//删除临时的照片
+			File tempImage = new File(Constants.buildDiaryTempImagePath());
+			if(tempImage != null && tempImage.exists()){
+				tempImage.delete();
+			}
 			return true;
 		}
 		return false;
@@ -288,19 +295,27 @@ public class DiaryWriteView extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		switch(requestCode){
-		case ACTIVITY_CODE_IMAGE_FROM_ALBUM:
-			Uri uri = data.getData();
-			if(uri != null){
-				diaryWritePicView.startPicCut(data.getData());
+		if(resultCode == RESULT_OK){
+			Uri uri = null;
+			switch(requestCode){
+			case ACTIVITY_CODE_IMAGE_FROM_ALBUM:
+				uri = data.getData();
+				if(uri != null){
+					diaryWritePicView.startPicCut(data.getData());
+				}
+				break;
+			case ACTIVITY_CODE_IMAGE_FROM_CAMARA:
+					File tempImage = new File(Constants.buildDiaryTempImagePath());
+					uri = Uri.fromFile(tempImage);
+					Log.d(Constants.DIARY_TAG, "uri == null?" + (uri == null));
+					if(uri != null){
+						diaryWritePicView.startPicCut(uri);
+					}
+				break;
+			case ACTIVITY_CODE_IMAGE_CUT:
+				diaryWritePicView.setPicToView(data);
+				break;
 			}
-			break;
-		case ACTIVITY_CODE_IMAGE_FROM_CAMARA:
-//			diaryWritePicView
-			break;
-		case ACTIVITY_CODE_IMAGE_CUT:
-			diaryWritePicView.setPicToView(data);
-			break;
 		}
 	}
 
