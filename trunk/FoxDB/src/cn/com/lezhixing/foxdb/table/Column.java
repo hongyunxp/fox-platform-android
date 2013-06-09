@@ -18,6 +18,11 @@ import com.foxchan.foxutils.data.StringUtils;
  */
 public class Column {
 	
+	/** 标记：升序 */
+	public static final String ASC = "asc";
+	/** 标记：降序 */
+	public static final String DESC = "desc";
+	
 	/** 属性的名称 */
 	private String fieldName;
 	/** 列对应的属性的数据类型 */
