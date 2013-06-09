@@ -180,4 +180,12 @@ public interface Session {
 	 */
 	<T> T findObjectFrom(Object parent, String attributeName, Class<?> targetClass);
 	
+	/**
+	 * 通过执行自定义的SQL语句查询数据
+	 * @param sql			自定义的sql语句
+	 * @param targetClass	目标对象的类
+	 * @return				返回找到的目标列表
+	 */
+	<T> List<T> querySQL(String sql, Class<?> targetClass);
+	
 }
