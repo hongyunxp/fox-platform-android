@@ -5,8 +5,9 @@
     android:layout_height="match_parent" >
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/diary_write_voice_circle"
+        android:layout_width="@dimen/diary_write_big_circle_radius"
+        android:layout_height="@dimen/diary_write_big_circle_radius"
         android:layout_centerInParent="true"
         android:background="@drawable/voice_round_bg"
         android:clickable="true"
@@ -16,15 +17,60 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/icon_white_mic_64_normal" />
+            android:background="@drawable/icon_white_mic_229_normal" />
 
         <TextView
             android:id="@+id/diary_write_voice_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="28dip"
             android:text="@string/diary_write_press_to_record"
             android:textColor="@color/white"
-            android:textSize="@dimen/h5" />
+            android:textSize="@dimen/h4" />
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/diary_write_voice_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/diary_write_voice_circle"
+        android:layout_alignRight="@id/diary_write_voice_circle"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="50dip"
+        android:background="@drawable/blue_node"
+        android:clickable="true"
+        android:padding="2dip"
+        android:src="@drawable/icon_play"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/diary_write_voice_stop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/diary_write_voice_circle"
+        android:layout_alignRight="@id/diary_write_voice_circle"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="24dip"
+        android:layout_marginRight="16dip"
+        android:background="@drawable/brown_node"
+        android:clickable="true"
+        android:padding="2dip"
+        android:src="@drawable/icon_stop"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/diary_write_voice_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/diary_write_voice_circle"
+        android:layout_alignRight="@id/diary_write_voice_circle"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="60dip"
+        android:layout_marginRight="-7dip"
+        android:background="@drawable/red_node"
+        android:clickable="true"
+        android:padding="2dip"
+        android:src="@drawable/icon_delete"
+        android:visibility="invisible" />
 
 </RelativeLayout>
