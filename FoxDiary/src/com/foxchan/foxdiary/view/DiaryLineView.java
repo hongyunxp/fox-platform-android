@@ -3,14 +3,11 @@ package com.foxchan.foxdiary.view;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -22,7 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import cn.com.lezhixing.foxdb.core.FoxDB;
 import cn.com.lezhixing.foxdb.core.Session;
-import cn.com.lezhixing.foxdb.table.Column;
 
 import com.foxchan.foxdiary.adapter.DiaryLineAdapter;
 import com.foxchan.foxdiary.adapter.DiaryLineAdapter.NodeListener;
