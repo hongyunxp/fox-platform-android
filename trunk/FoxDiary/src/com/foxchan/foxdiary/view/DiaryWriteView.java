@@ -343,4 +343,12 @@ public class DiaryWriteView extends Activity {
 		this.image = image;
 	}
 
+	@Override
+	protected void onDestroy() {
+		diaryWriteWordsView.onDestroy();
+		diaryWritePicView.onDestroy();
+		diaryWriteVoiceView.onDestroy();
+		super.onDestroy();
+	}
+
 }

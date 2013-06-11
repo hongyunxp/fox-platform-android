@@ -15,6 +15,8 @@ public class Constants {
 	public static final String APP_RESOURCE = "FoxDiary";
 	/** 应用程序中存储图片的文件夹名 */
 	public static final String IMAGES = "images";
+	/** 应用程序中存储音频的文件夹名 */
+	public static final String AUDIOS = "audios";
 	
 	/** 日记模块的TAG */
 	public static final String DIARY_TAG = "tag_diary";
@@ -39,6 +41,16 @@ public class Constants {
 		return FileUtils.buildFileName(new String[]{
 				SdCardUtils.getSdCardPath(), APP_RESOURCE, IMAGES
 		}, Constants.DIARY_TEMP_IMAGE);
+	}
+	
+	/**
+	 * 构造写日记模块中的录音文件的文件夹路径
+	 * @return	返回写日记模块中的录音文件的文件夹路径
+	 */
+	public static final String buildDiaryAudioPath(){
+		return FileUtils.buildFilePath(new String[]{
+				SdCardUtils.getSdCardPath(), APP_RESOURCE, AUDIOS
+		});
 	}
 
 }
