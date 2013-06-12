@@ -118,6 +118,7 @@ public class DiaryWriteVoiceView extends FakeActivity implements OnTouchListener
 		}
 		audioPath = FileUtils.buildFileName(new String[]{Constants.buildDiaryAudioPath()}, 
 				StringUtils.getUUID() + ".amr");
+		diaryWriteView.setVoicePath(audioPath);
 		initMediaPlayer();
 		
 		llRecord.setOnTouchListener(this);
@@ -191,8 +192,14 @@ public class DiaryWriteVoiceView extends FakeActivity implements OnTouchListener
 
 	@Override
 	public void onDestroy() {
-		mediaRecorder.release();
-		mediaPlayer.release();
+		if(mediaRecorder != null){
+			mediaRecorder.release();
+			mediaRecorder = null;
+		}
+		if(mediaPlayer == null){
+			mediaPlayer.release();
+			mediaPlayer = null;
+		}
 	}
 
 	@Override
