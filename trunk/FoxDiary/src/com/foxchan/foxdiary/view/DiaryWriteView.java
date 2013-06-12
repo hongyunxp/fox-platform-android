@@ -91,6 +91,8 @@ public class DiaryWriteView extends Activity {
 	private String imageName;
 	/** 图片对象 */
 	private Bitmap image;
+	/** 录音保存的文件夹路径 */
+	private String voicePath;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -231,6 +233,7 @@ public class DiaryWriteView extends Activity {
 				//切换状态
 				ivRefresh.clearAnimation();
 				vsSaveAndRefresh.showPrevious();
+				finish();
 			}
 		});
 		//初始化文字输入界面
@@ -260,6 +263,7 @@ public class DiaryWriteView extends Activity {
 		String targetPath = StringUtils.concat(new Object[]{imagePath, imageName});
 		targetPath = targetPath.replaceAll("//", "/");
 		diary.setImagePath(targetPath);
+		diary.setVoicePath(voicePath);
 		diary.setTimeLineNodeStyleId(TimeLineNodeStyle.getRandomStyleId());
 		return diary;
 	}
@@ -341,6 +345,14 @@ public class DiaryWriteView extends Activity {
 
 	public void setImage(Bitmap image) {
 		this.image = image;
+	}
+
+	public String getVoicePath() {
+		return voicePath;
+	}
+
+	public void setVoicePath(String voicePath) {
+		this.voicePath = voicePath;
 	}
 
 	@Override
