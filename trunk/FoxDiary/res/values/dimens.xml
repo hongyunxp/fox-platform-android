@@ -1,24 +1,29 @@
 <resources>
     <!-- 提示性文字的大小 -->
-    <dimen name="h1">36dp</dimen>
-    <dimen name="h2">30dp</dimen>
-    <dimen name="h3">24dp</dimen>
-    <dimen name="h4">18dp</dimen>
-    <dimen name="h5">12dp</dimen>
+    <dimen name="h1">36sp</dimen>
+    <dimen name="h2">30sp</dimen>
+    <dimen name="h3">24sp</dimen>
+    <dimen name="h4">18sp</dimen>
+    <dimen name="h5">12sp</dimen>
     <!-- 头部布局 -->
-    <dimen name="header_title_font">18dp</dimen>
+    <dimen name="header_title_font">18sp</dimen>
 	<!-- 日记的时间线控件 -->
 	<dimen name="border_padding">6dip</dimen>
 	<dimen name="diary_line_width">4dip</dimen>
-	<dimen name="diary_line_time_font_size">16dp</dimen>
-	<dimen name="diary_line_content_font_size">16dp</dimen>
+	<dimen name="diary_line_time_font_size">16sp</dimen>
+	<dimen name="diary_line_content_font_size">16sp</dimen>
 	<!-- 添加日记控件 -->
 	<dimen name="diary_write_big_circle_radius">253dip</dimen>
 	
 	<!-- 功能按钮相关数据 -->
 	<dimen name="function_node_width">38dip</dimen>
-	<dimen name="function_node_height">38dp</dimen>
+	<dimen name="function_node_height">38dip</dimen>
 	<dimen name="function_node_stroke_width">2dip</dimen>
 	<dimen name="function_circle_width">38dip</dimen>
-	<dimen name="function_circle_height">38dp</dimen>
+	<dimen name="function_circle_height">38dip</dimen>
+	<dimen name="function_shadow_width">1dip</dimen>
+	<dimen name="function_shadow_height">1dip</dimen>
+	
+	<!-- 组件相关的数据 -->
+	<dimen name="widget_padding">10dip</dimen>
 </resources>

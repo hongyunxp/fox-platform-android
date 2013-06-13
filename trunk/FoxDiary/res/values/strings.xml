@@ -18,6 +18,6 @@
 	<string name="diary_write_words_hint">在这里输入日记的内容...</string>
 	<string name="diary_write_words_empty">请输入日记的正文。</string>
 	<string name="diary_write_save_success">日记保存成功。</string>
-	<string name="diary_write_save_fail">非常抱歉，日记保存失败，请稍后重新进行保存。</string>
+	<string name="diary_write_save_fail">非常抱歉，日记保存失败，原因如下：%1$s</string>
 	<string name="diary_write_add_diary">写点什么吧...</string>
 </resources>
