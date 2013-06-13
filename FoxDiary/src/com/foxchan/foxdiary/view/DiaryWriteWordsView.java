@@ -4,16 +4,15 @@ import android.content.Intent;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.foxchan.foxdiary.core.R;
 import com.foxchan.foxdiary.core.widgets.FakeActivity;
+import com.foxchan.foxdiary.exception.DiaryWordsException;
 import com.foxchan.foxdiary.utils.Constants;
 import com.foxchan.foxutils.data.StringUtils;
 
@@ -123,14 +122,9 @@ public class DiaryWriteWordsView extends FakeActivity {
 	 * 判断日记的文字部分的数据是否正确
 	 * @return	如果日记的文字部分的数据正确无误则返回true，否则返回false
 	 */
-	public boolean isDiaryWordsReady(){
+	public boolean isDiaryWordsReady() throws DiaryWordsException{
 		if(StringUtils.isEmpty(content)){
-			Toast.makeText(
-					diaryWriteView,
-					diaryWriteView.getResources().getString(
-							R.string.diary_write_words_empty),
-					Toast.LENGTH_SHORT).show();
-			return false;
+			throw new DiaryWordsException(diaryWriteView, R.string.diary_write_words_empty);
 		}
 		return true;
 	}

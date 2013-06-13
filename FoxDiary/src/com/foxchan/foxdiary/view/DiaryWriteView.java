@@ -29,10 +29,13 @@ import android.widget.Toast;
 import android.widget.ViewSwitcher;
 import cn.com.lezhixing.foxdb.core.FoxDB;
 import cn.com.lezhixing.foxdb.core.Session;
+import cn.com.lezhixing.foxdb.exception.FoxDbException;
 
 import com.foxchan.foxdiary.core.R;
+import com.foxchan.foxdiary.core.widgets.FoxToast;
 import com.foxchan.foxdiary.entity.Diary;
 import com.foxchan.foxdiary.entity.TimeLineNodeStyle;
+import com.foxchan.foxdiary.exception.DiaryWordsException;
 import com.foxchan.foxdiary.utils.Constants;
 import com.foxchan.foxutils.data.StringUtils;
 import com.foxchan.foxutils.tool.BitmapUtils;
@@ -216,24 +219,26 @@ public class DiaryWriteView extends Activity {
 				imm.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 				
 				//保存日记
-				if(saveDiary()){
-					Toast.makeText(
+				boolean isDiaryReady = false;
+				try {
+					isDiaryReady = saveDiary();
+				} catch (DiaryWordsException e) {
+					String errMsg = String.format(getString(R.string.diary_write_save_fail), e.getMessage());
+					FoxToast.showToast(v.getContext(), errMsg, Toast.LENGTH_SHORT);
+					e.printStackTrace();
+				}
+				if(isDiaryReady){
+					FoxToast.showToast(
 							DiaryWriteView.this,
 							v.getResources().getString(
 									R.string.diary_write_save_success),
-							Toast.LENGTH_SHORT).show();
-				} else {
-					Toast.makeText(
-							DiaryWriteView.this,
-							v.getResources().getString(
-									R.string.diary_write_save_fail),
-							Toast.LENGTH_SHORT).show();
+							Toast.LENGTH_SHORT);
+					finish();
 				}
 				
 				//切换状态
 				ivRefresh.clearAnimation();
 				vsSaveAndRefresh.showPrevious();
-				finish();
 			}
 		});
 		//初始化文字输入界面
@@ -246,7 +251,7 @@ public class DiaryWriteView extends Activity {
 	 * 判断日记是否可以进行保存
 	 * @return	如果日记的内容验证无误，则返回true，否则返回false
 	 */
-	private boolean isDiaryReady(){
+	private boolean isDiaryReady() throws DiaryWordsException{
 		boolean validation = true;
 		validation = diaryWriteWordsView.isDiaryWordsReady();
 		return validation;
@@ -268,7 +273,7 @@ public class DiaryWriteView extends Activity {
 		return diary;
 	}
 	
-	private boolean saveDiary(){
+	private boolean saveDiary() throws DiaryWordsException{
 		if(isDiaryReady()){
 			Diary diary = buildDiary();
 			Session session = db.openSession();
