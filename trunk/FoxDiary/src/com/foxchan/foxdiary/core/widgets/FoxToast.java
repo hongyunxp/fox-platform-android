@@ -1,13 +1,13 @@
 package com.foxchan.foxdiary.core.widgets;
 
-import com.foxchan.foxdiary.core.R;
-
 import android.content.Context;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.foxchan.foxdiary.core.R;
 
 /**
  * 自定义的消息提示框，使用方法与Android的Toast提示框相同
@@ -56,7 +56,7 @@ public class FoxToast {
 		Toast toast = new Toast(context);
 		toast.setDuration(duration);
 		toast.setView(foxToast.view);
-		toast.setGravity(Gravity.BOTTOM, 0, 0);
+		toast.setGravity(Gravity.BOTTOM|Gravity.FILL_HORIZONTAL, 0, 0);
 		toast.show();
 	}
 	

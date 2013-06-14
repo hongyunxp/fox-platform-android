@@ -20,4 +20,10 @@
 	<string name="diary_write_save_success">日记保存成功。</string>
 	<string name="diary_write_save_fail">非常抱歉，日记保存失败，原因如下：%1$s</string>
 	<string name="diary_write_add_diary">写点什么吧...</string>
+	<string name="diary_write_back_confirm">您的日记还没有保存，您确定要放弃这篇日记的内容吗？</string>
+	
+	<!-- 组件相关 -->
+	<string name="widget_dialog_positive">确定</string>
+	<string name="widget_dialog_negative">取消</string>
+	<string name="widget_confirm_dialog_title">警告</string>
 </resources>

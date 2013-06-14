@@ -64,6 +64,7 @@ public class DiaryWriteWordsView extends FakeActivity {
 				int leftWordsCount = Constants.DIARY_WORDS_MAX - s.length();
 				tvLeftWords.setText(String.format(diaryWriteView.getResources()
 						.getString(R.string.diary_write_left_words), leftWordsCount));
+				diaryWriteView.setWordsContent(content);
 			}
 			
 			@Override
