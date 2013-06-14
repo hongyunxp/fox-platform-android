@@ -3,8 +3,8 @@
     android:shape="rectangle" >
 
     <stroke
-        android:width="@dimen/function_shadow_width"
-        android:color="@color/half_black" />
+        android:width="@dimen/widget_button_border_size"
+        android:color="@color/white" />
 
     <solid android:color="@color/red_normal" />
 

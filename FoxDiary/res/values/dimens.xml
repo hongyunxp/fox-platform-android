@@ -26,4 +26,7 @@
 	
 	<!-- 组件相关的数据 -->
 	<dimen name="widget_padding">10dip</dimen>
+	<dimen name="widget_button_width">142dip</dimen>
+	<dimen name="widget_button_height">34dip</dimen>
+	<dimen name="widget_button_border_size">2dip</dimen>
 </resources>

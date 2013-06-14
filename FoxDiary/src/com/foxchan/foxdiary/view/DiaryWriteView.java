@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -29,9 +30,9 @@ import android.widget.Toast;
 import android.widget.ViewSwitcher;
 import cn.com.lezhixing.foxdb.core.FoxDB;
 import cn.com.lezhixing.foxdb.core.Session;
-import cn.com.lezhixing.foxdb.exception.FoxDbException;
 
 import com.foxchan.foxdiary.core.R;
+import com.foxchan.foxdiary.core.widgets.FoxConfirmDialog;
 import com.foxchan.foxdiary.core.widgets.FoxToast;
 import com.foxchan.foxdiary.entity.Diary;
 import com.foxchan.foxdiary.entity.TimeLineNodeStyle;
@@ -79,6 +80,8 @@ public class DiaryWriteView extends Activity {
 	private RadioGroup rgMenus;
 	/** 返回按钮 */
 	private LinearLayout llBack;
+	/** 返回的确认框 */
+	private FoxConfirmDialog cdBack;
 	/** 保存按钮 */
 	private ImageView ivSave;
 	/** 刷新图标 */
@@ -88,6 +91,8 @@ public class DiaryWriteView extends Activity {
 	/** 旋转动画播放器 */
 	private Animation animCircle;
 	
+	/** 日记的正文 */
+	private String wordsContent;
 	/** 图片保存的文件夹路径 */
 	private String imagePath;
 	/** 图片的文件名 */
@@ -206,7 +211,13 @@ public class DiaryWriteView extends Activity {
 		llBack.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				finish();
+				if(!StringUtils.isEmpty(wordsContent) ||
+						!StringUtils.isEmpty(imagePath) ||
+						!StringUtils.isEmpty(voicePath)){
+					cdBack.show();
+				} else {
+					finish();
+				}
 			}
 		});
 		ivSave.setOnClickListener(new OnClickListener() {
@@ -245,6 +256,21 @@ public class DiaryWriteView extends Activity {
 		diaryWriteWordsView.onCreate();
 		diaryWritePicView.onCreate();
 		diaryWriteVoiceView.onCreate();
+		
+		//初始化返回的确认框
+		cdBack = new FoxConfirmDialog(this, getString(R.string.diary_write_back_confirm));
+		cdBack.setOnNegativeButtonClickListener(new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				FoxToast.showToast(DiaryWriteView.this, "返回", Toast.LENGTH_SHORT);
+			}
+		});
+		cdBack.setOnPositiveButtonClickListener(new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				finish();
+			}
+		});
 	}
 	
 	/**
@@ -263,7 +289,7 @@ public class DiaryWriteView extends Activity {
 	 */
 	private Diary buildDiary(){
 		Diary diary = new Diary();
-		diary.setContent(diaryWriteWordsView.getContent());
+		diary.setContent(wordsContent);
 		diary.setCreateDate(new Date());
 		String targetPath = StringUtils.concat(new Object[]{imagePath, imageName});
 		targetPath = targetPath.replaceAll("//", "/");
@@ -358,6 +384,14 @@ public class DiaryWriteView extends Activity {
 
 	public void setVoicePath(String voicePath) {
 		this.voicePath = voicePath;
+	}
+
+	public String getWordsContent() {
+		return wordsContent;
+	}
+
+	public void setWordsContent(String wordsContent) {
+		this.wordsContent = wordsContent;
 	}
 
 	@Override
