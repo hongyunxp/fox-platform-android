@@ -3,10 +3,10 @@ package com.foxchan.foxdiary.view;
 import java.io.File;
 import java.io.IOException;
 
-import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaRecorder;
+import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -67,7 +67,7 @@ public class DiaryWriteVoiceView extends FakeActivity implements OnTouchListener
 	}
 
 	@Override
-	public void onCreate() {
+	public void onCreate(Bundle savedInstanceState) {
 		//初始化相关的部件
 		ivDelete = (ImageView)layoutView.findViewById(R.id.diary_write_voice_delete);
 		ivPlay = (ImageView)layoutView.findViewById(R.id.diary_write_voice_play);
@@ -88,7 +88,7 @@ public class DiaryWriteVoiceView extends FakeActivity implements OnTouchListener
 		ivPlay.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if(isAudioFileExist){
+				if(isAudioFileExist && mediaPlayer != null){
 					initMediaPlayer();
 					try {
 						mediaPlayer.prepare();
@@ -105,7 +105,7 @@ public class DiaryWriteVoiceView extends FakeActivity implements OnTouchListener
 		ivStop.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if(isAudioFileExist){
+				if(isAudioFileExist && mediaPlayer != null){
 					mediaPlayer.stop();
 				}
 			}
@@ -131,10 +131,12 @@ public class DiaryWriteVoiceView extends FakeActivity implements OnTouchListener
 		mediaRecorder = new MediaRecorder();
 		//设置音频的来源
 		mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+		//设置声音的品质
+		mediaRecorder.setAudioSamplingRate(Constants.THREE_GPP_AUDIO_QUENTITY_HIGH);
 		//设置音频的输出格式
-		mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+		mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
 		//设置音频的编码方式
-		mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
+		mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
 		//设置音频输出文件
 		mediaRecorder.setOutputFile(audioPath);
 		try {
@@ -142,9 +144,19 @@ public class DiaryWriteVoiceView extends FakeActivity implements OnTouchListener
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
+			mediaRecorder.reset();
+			mediaRecorder.release();
+			mediaRecorder = null;
 			e.printStackTrace();
 		}
-		mediaRecorder.start();
+		try {
+			mediaRecorder.start();
+		} catch (RuntimeException e) {
+			mediaRecorder.reset();
+			mediaRecorder.release();
+			mediaRecorder = null;
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -173,24 +185,6 @@ public class DiaryWriteVoiceView extends FakeActivity implements OnTouchListener
 	}
 
 	@Override
-	public void onRestart() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onStop() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void onDestroy() {
 		if(mediaRecorder != null){
 			mediaRecorder.release();
@@ -200,12 +194,6 @@ public class DiaryWriteVoiceView extends FakeActivity implements OnTouchListener
 			mediaPlayer.release();
 			mediaPlayer = null;
 		}
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -261,6 +249,10 @@ public class DiaryWriteVoiceView extends FakeActivity implements OnTouchListener
 		ivDelete.setVisibility(View.INVISIBLE);
 		ivPlay.setVisibility(View.INVISIBLE);
 		ivStop.setVisibility(View.INVISIBLE);
+	}
+
+	public boolean isAudioFileExist() {
+		return isAudioFileExist;
 	}
 
 }

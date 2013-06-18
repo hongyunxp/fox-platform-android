@@ -1,11 +1,15 @@
 package com.foxchan.foxdiary.adapter;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.foxchan.foxdiary.core.R;
+import com.foxchan.foxdiary.core.widgets.FoxToast;
 import com.foxchan.foxdiary.entity.Diary;
 import com.foxchan.foxdiary.entity.TimeLineNodeStyle;
 import com.foxchan.foxutils.data.DateUtils;
+import com.foxchan.foxutils.data.StringUtils;
+import com.foxchan.foxutils.tool.PhoneUtils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -17,6 +21,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 /**
@@ -100,6 +105,8 @@ public class DiaryLineAdapter extends BaseAdapter {
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		NodeItem nodeItem = null;
+		final Diary diary = diaries.get(position);
+		final boolean isExistVoice = !StringUtils.isEmpty(diary.getVoicePath());
 		if(convertView == null){
 			convertView = inflater.inflate(diaryItemResource, null);
 			nodeItem = new NodeItem();
@@ -145,11 +152,34 @@ public class DiaryLineAdapter extends BaseAdapter {
 					nodeListener.share(position);
 				}
 			});
+			nodeItem.ivNode.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if(isExistVoice){
+						try {
+							PhoneUtils.playAudio(diary.getVoicePath());
+						} catch (IllegalArgumentException e) {
+							FoxToast.showToast(v.getContext(), "播放错误：" + e.getMessage(), Toast.LENGTH_SHORT);
+							e.printStackTrace();
+						} catch (SecurityException e) {
+							FoxToast.showToast(v.getContext(), "播放错误：" + e.getMessage(), Toast.LENGTH_SHORT);
+							e.printStackTrace();
+						} catch (IllegalStateException e) {
+							FoxToast.showToast(v.getContext(), "播放错误：" + e.getMessage(), Toast.LENGTH_SHORT);
+							e.printStackTrace();
+						} catch (IOException e) {
+							FoxToast.showToast(v.getContext(), "播放错误：" + e.getMessage(), Toast.LENGTH_SHORT);
+							e.printStackTrace();
+						}
+					} else {
+						FoxToast.showToast(v.getContext(), "没有音乐可以播放", Toast.LENGTH_SHORT);
+					}
+				}
+			});
 			convertView.setTag(nodeItem);
 		} else {
 			nodeItem = (NodeItem)convertView.getTag();
 		}
-		Diary diary = diaries.get(position);
 		TimeLineNodeStyle style = diary.getStyle();
 		//设置节点的样式
 		nodeItem.tvCreateDate.setTextColor(context.getResources().getColor(style.getTimeColor()));
@@ -161,6 +191,9 @@ public class DiaryLineAdapter extends BaseAdapter {
 		Bitmap pic = diary.photo(context);
 		if(pic != null){
 			nodeItem.ivPhoto.setImageBitmap(pic);
+		}
+		if(isExistVoice){
+			nodeItem.ivNode.setImageResource(R.drawable.icon_white_voice_64_normal);
 		}
 		return convertView;
 	}
