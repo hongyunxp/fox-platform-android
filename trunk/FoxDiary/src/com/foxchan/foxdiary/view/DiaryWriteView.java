@@ -106,13 +106,13 @@ public class DiaryWriteView extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.diary_write);
-		init();
+		init(savedInstanceState);
 	}
 
 	/**
 	 * 初始化该界面
 	 */
-	private void init() {
+	private void init(Bundle savedInstanceState) {
 		//初始化数据库连接对象
 		FoxDB.DEBUG = Constants.DIARY_DEBUG;
 		db = FoxDB.create(this, Constants.DIARY_DB_NAME, Constants.DIARY_DB_VERSION);
@@ -213,7 +213,7 @@ public class DiaryWriteView extends Activity {
 			public void onClick(View v) {
 				if(!StringUtils.isEmpty(wordsContent) ||
 						!StringUtils.isEmpty(imagePath) ||
-						!StringUtils.isEmpty(voicePath)){
+						diaryWriteVoiceView.isAudioFileExist()){
 					cdBack.show();
 				} else {
 					finish();
@@ -253,16 +253,15 @@ public class DiaryWriteView extends Activity {
 			}
 		});
 		//初始化文字输入界面
-		diaryWriteWordsView.onCreate();
-		diaryWritePicView.onCreate();
-		diaryWriteVoiceView.onCreate();
+		diaryWriteWordsView.onCreate(savedInstanceState);
+		diaryWritePicView.onCreate(savedInstanceState);
+		diaryWriteVoiceView.onCreate(savedInstanceState);
 		
 		//初始化返回的确认框
 		cdBack = new FoxConfirmDialog(this, getString(R.string.diary_write_back_confirm));
 		cdBack.setOnNegativeButtonClickListener(new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				FoxToast.showToast(DiaryWriteView.this, "返回", Toast.LENGTH_SHORT);
 			}
 		});
 		cdBack.setOnPositiveButtonClickListener(new DialogInterface.OnClickListener() {
@@ -294,7 +293,11 @@ public class DiaryWriteView extends Activity {
 		String targetPath = StringUtils.concat(new Object[]{imagePath, imageName});
 		targetPath = targetPath.replaceAll("//", "/");
 		diary.setImagePath(targetPath);
-		diary.setVoicePath(voicePath);
+		if(diaryWriteVoiceView.isAudioFileExist()){
+			diary.setVoicePath(voicePath);
+		} else {
+			diary.setVoicePath(null);
+		}
 		diary.setTimeLineNodeStyleId(TimeLineNodeStyle.getRandomStyleId());
 		return diary;
 	}
@@ -342,7 +345,6 @@ public class DiaryWriteView extends Activity {
 			case ACTIVITY_CODE_IMAGE_FROM_CAMARA:
 					File tempImage = new File(Constants.buildDiaryTempImagePath());
 					uri = Uri.fromFile(tempImage);
-					Log.d(Constants.DIARY_TAG, "uri == null?" + (uri == null));
 					if(uri != null){
 						diaryWritePicView.startPicCut(uri);
 					}
@@ -400,6 +402,13 @@ public class DiaryWriteView extends Activity {
 		diaryWritePicView.onDestroy();
 		diaryWriteVoiceView.onDestroy();
 		super.onDestroy();
+	}
+
+	@Override
+	protected void onResume() {
+		Log.d(Constants.DIARY_TAG, "输入框中的文字(parent)：" + wordsContent);
+		diaryWriteWordsView.onResume();
+		super.onResume();
 	}
 
 }

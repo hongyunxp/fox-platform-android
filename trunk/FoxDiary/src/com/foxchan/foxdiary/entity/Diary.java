@@ -4,14 +4,12 @@ import java.util.Date;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.Log;
 import cn.com.lezhixing.foxdb.annotation.Column;
 import cn.com.lezhixing.foxdb.annotation.GeneratedType;
 import cn.com.lezhixing.foxdb.annotation.GeneratedValue;
 import cn.com.lezhixing.foxdb.annotation.Id;
 import cn.com.lezhixing.foxdb.annotation.Table;
 
-import com.foxchan.foxdiary.utils.Constants;
 import com.foxchan.foxutils.data.DateUtils;
 import com.foxchan.foxutils.data.StringUtils;
 import com.foxchan.foxutils.tool.BitmapUtils;
@@ -124,9 +122,7 @@ public class Diary {
 	 * @return			返回节点的图片
 	 */
 	public Bitmap photo(Context context){
-		Log.d(Constants.DIARY_TAG, "图片的路径是：" + imagePath);
 		Bitmap pic = BitmapUtils.loadBitmapFromSdCard(context, imagePath);
-		Log.d(Constants.DIARY_TAG, "图片是否为空：" + (pic == null));
 		if(pic != null){
 			pic = BitmapUtils.getRoundedCornerBitmap(pic, 190.0f);
 		}

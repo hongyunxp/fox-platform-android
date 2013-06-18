@@ -1,15 +1,17 @@
 package com.foxchan.foxdiary.view;
 
-import android.content.Intent;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.foxchan.foxdiary.core.AppConfig;
 import com.foxchan.foxdiary.core.R;
 import com.foxchan.foxdiary.core.widgets.FakeActivity;
 import com.foxchan.foxdiary.exception.DiaryWordsException;
@@ -25,6 +27,7 @@ import com.foxchan.foxutils.data.StringUtils;
 public class DiaryWriteWordsView extends FakeActivity {
 	
 	private DiaryWriteView diaryWriteView;
+	private AppConfig config;
 	private View layoutView;
 	/** 正文输入框 */
 	private EditText etContent;
@@ -46,12 +49,13 @@ public class DiaryWriteWordsView extends FakeActivity {
 	}
 
 	@Override
-	public void onCreate() {
+	public void onCreate(Bundle savedInstanceState) {
 		//初始化相关组件
 		etContent = (EditText)layoutView.findViewById(R.id.diary_write_content_box);
 		llClearContent = (LinearLayout)layoutView.findViewById(R.id.diary_write_text_clear);
 		tvLeftWords = (TextView)layoutView.findViewById(R.id.diary_write_content_left_words);
 		//初始化用户输入的字符和剩余字符数量
+		etContent.setText("");
 		content = etContent.getText().toString();
 		int leftWordsNumber = Constants.DIARY_WORDS_MAX - content.length();
 		tvLeftWords.setText(String.format(diaryWriteView.getResources()
@@ -64,7 +68,7 @@ public class DiaryWriteWordsView extends FakeActivity {
 				int leftWordsCount = Constants.DIARY_WORDS_MAX - s.length();
 				tvLeftWords.setText(String.format(diaryWriteView.getResources()
 						.getString(R.string.diary_write_left_words), leftWordsCount));
-				diaryWriteView.setWordsContent(content);
+				config.setProperty(Constants.DIARY_TEMP_WORDS, content);
 			}
 			
 			@Override
@@ -85,30 +89,19 @@ public class DiaryWriteWordsView extends FakeActivity {
 				etContent.setText("");
 			}
 		});
+		config = AppConfig.getInstance(diaryWriteView);
 	}
 
 	@Override
-	public void onRestart() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onStop() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onDestroy() {
-		// TODO Auto-generated method stub
-		
+	public void onResume() {
+		String wordsContent = config.getProperty(Constants.DIARY_TEMP_WORDS);
+		if(!StringUtils.isEmpty(wordsContent)){
+			etContent.setText(wordsContent);
+			etContent.setSelection(wordsContent.length());
+			diaryWriteView.setWordsContent(wordsContent);
+			config.removeProperties(Constants.DIARY_TEMP_WORDS);
+		}
+		super.onResume();
 	}
 
 	public String getContent() {
@@ -129,11 +122,5 @@ public class DiaryWriteWordsView extends FakeActivity {
 		}
 		return true;
 	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
 }

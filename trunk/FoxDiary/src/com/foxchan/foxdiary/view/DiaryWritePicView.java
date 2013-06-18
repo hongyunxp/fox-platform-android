@@ -9,7 +9,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -20,7 +19,6 @@ import com.foxchan.foxdiary.utils.Constants;
 import com.foxchan.foxutils.data.StringUtils;
 import com.foxchan.foxutils.tool.BitmapUtils;
 import com.foxchan.foxutils.tool.FileUtils;
-import com.foxchan.foxutils.tool.SdCardUtils;
 
 /**
  * 图片（从相册）记录日记的界面
@@ -55,7 +53,7 @@ public class DiaryWritePicView extends FakeActivity {
 	}
 
 	@Override
-	public void onCreate() {
+	public void onCreate(Bundle savedInstanceState) {
 		//初始化组件
 		ivDelete = (ImageView)layoutView.findViewById(R.id.diary_write_pic_delete);
 		ivCamara = (ImageView)layoutView.findViewById(R.id.diary_write_pic_from_camara);
@@ -106,35 +104,6 @@ public class DiaryWritePicView extends FakeActivity {
 		});
 	}
 
-	@Override
-	public void onRestart() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onStop() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onDestroy() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		
-	}
-	
 	/**
 	 * 裁剪图片的方法
 	 * @param uri
