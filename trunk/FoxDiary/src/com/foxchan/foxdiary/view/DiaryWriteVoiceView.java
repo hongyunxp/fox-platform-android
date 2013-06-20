@@ -14,9 +14,11 @@ import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.foxchan.foxdiary.core.R;
 import com.foxchan.foxdiary.core.widgets.FakeActivity;
+import com.foxchan.foxdiary.core.widgets.FoxToast;
 import com.foxchan.foxdiary.utils.Constants;
 import com.foxchan.foxutils.data.StringUtils;
 import com.foxchan.foxutils.tool.FileUtils;
@@ -155,6 +157,7 @@ public class DiaryWriteVoiceView extends FakeActivity implements OnTouchListener
 			mediaRecorder.reset();
 			mediaRecorder.release();
 			mediaRecorder = null;
+			FoxToast.showException(diaryWriteView, R.string.ex_writing_recorder, Toast.LENGTH_SHORT);
 			e.printStackTrace();
 		}
 	}
@@ -225,18 +228,22 @@ public class DiaryWriteVoiceView extends FakeActivity implements OnTouchListener
 	 * 完成录音
 	 */
 	private void onRecorded(){
-		tvRecordStatus.setText(R.string.diary_write_press_to_record);
-		tvRecordStatus.setVisibility(View.GONE);
-		ivMic.setImageResource(R.drawable.icon_voice_wave_229_normal);
-		ivDelete.setVisibility(View.VISIBLE);
-		ivPlay.setVisibility(View.VISIBLE);
-		ivStop.setVisibility(View.VISIBLE);
+		if(mediaRecorder != null){
+			tvRecordStatus.setText(R.string.diary_write_press_to_record);
+			tvRecordStatus.setVisibility(View.GONE);
+			ivMic.setImageResource(R.drawable.icon_voice_wave_229_normal);
+			ivDelete.setVisibility(View.VISIBLE);
+			ivPlay.setVisibility(View.VISIBLE);
+			ivStop.setVisibility(View.VISIBLE);
 		
-		//停止并保存录音
-		mediaRecorder.stop();
-		mediaRecorder.release();
-		mediaRecorder = null;
-		isAudioFileExist = true;
+			//停止并保存录音
+			mediaRecorder.stop();
+			mediaRecorder.release();
+			mediaRecorder = null;
+			isAudioFileExist = true;
+		} else {
+			tvRecordStatus.setText(R.string.diary_write_press_to_record);
+		}
 	}
 	
 	/**

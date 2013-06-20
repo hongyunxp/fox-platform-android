@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +22,8 @@ public class FoxToast {
 	private View view;
 	/** 显示正文的文本框 */
 	private TextView tvContent;
+	/** 消息框的背景框 */
+	private LinearLayout llBox;
 	
 	private static FoxToast foxToast;
 	
@@ -34,6 +37,7 @@ public class FoxToast {
 			view = inflater.inflate(R.layout.widget_toast, null);
 		}
 		if(tvContent == null){
+			llBox = (LinearLayout)view.findViewById(R.id.widget_toast);
 			tvContent = (TextView)view.findViewById(R.id.widget_toast_content);
 		}
 	}
@@ -69,6 +73,30 @@ public class FoxToast {
 	public static void showToast(Context context, int resource, int duration){
 		String text = context.getString(resource);
 		showToast(context, text, duration);
+	}
+	
+	/**
+	 * 显示软件中的错误的消息
+	 * @param context
+	 * @param text		显示的内容
+	 * @param duration	显示的时间长短，与Toast的取值相同
+	 */
+	public static void showException(Context context, CharSequence text, int duration){
+		getInstance(context);
+		foxToast.llBox.setBackgroundColor(context.getResources().getColor(R.color.red_normal));
+		showToast(context, text, duration);
+	}
+	
+	/**
+	 * 显示软件中的错误的消息
+	 * @param context
+	 * @param resource	显示的内容的资源ID
+	 * @param duration	显示的时间长短，与Toast的取值相同
+	 */
+	public static void showException(Context context, int resource, int duration){
+		getInstance(context);
+		foxToast.llBox.setBackgroundColor(context.getResources().getColor(R.color.red_normal));
+		showToast(context, resource, duration);
 	}
 
 }

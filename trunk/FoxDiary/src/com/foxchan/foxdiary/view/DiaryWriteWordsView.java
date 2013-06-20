@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -98,10 +97,15 @@ public class DiaryWriteWordsView extends FakeActivity {
 		if(!StringUtils.isEmpty(wordsContent)){
 			etContent.setText(wordsContent);
 			etContent.setSelection(wordsContent.length());
-			diaryWriteView.setWordsContent(wordsContent);
 			config.removeProperties(Constants.DIARY_TEMP_WORDS);
 		}
 		super.onResume();
+	}
+
+	@Override
+	public void onDestroy() {
+		config.removeProperties(Constants.DIARY_TEMP_WORDS);
+		super.onDestroy();
 	}
 
 	public String getContent() {

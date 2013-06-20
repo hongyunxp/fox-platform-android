@@ -1,6 +1,7 @@
 package com.foxchan.foxdiary.view;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,10 +12,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ import android.widget.ViewSwitcher;
 import cn.com.lezhixing.foxdb.core.FoxDB;
 import cn.com.lezhixing.foxdb.core.Session;
 
+import com.foxchan.foxdiary.core.AppContext;
 import com.foxchan.foxdiary.core.R;
 import com.foxchan.foxdiary.core.widgets.FoxConfirmDialog;
 import com.foxchan.foxdiary.core.widgets.FoxToast;
@@ -54,6 +56,11 @@ public class DiaryWriteView extends Activity {
 	public static final int ACTIVITY_CODE_IMAGE_FROM_CAMARA = 2;
 	/** Activity Code：裁减图片 */
 	public static final int ACTIVITY_CODE_IMAGE_CUT = 3;
+	
+	/** 状态：正在保存日记 */
+	private static final int STATE_DIARY_SAVING = 0;
+	/** 状态：日记保存成功 */
+	private static final int STATE_DIARY_SAVED = 1;
 	
 	/** 数据库操作对象 */
 	private FoxDB db;
@@ -91,8 +98,6 @@ public class DiaryWriteView extends Activity {
 	/** 旋转动画播放器 */
 	private Animation animCircle;
 	
-	/** 日记的正文 */
-	private String wordsContent;
 	/** 图片保存的文件夹路径 */
 	private String imagePath;
 	/** 图片的文件名 */
@@ -101,6 +106,30 @@ public class DiaryWriteView extends Activity {
 	private Bitmap image;
 	/** 录音保存的文件夹路径 */
 	private String voicePath;
+	/** 日记保存的结果，成功或者失败 */
+	private boolean isDiarySaveSuccess = false;
+	
+	private MyHandler handler = new MyHandler(this);
+	static class MyHandler extends Handler{
+		WeakReference<DiaryWriteView> reference;
+		
+		public MyHandler(DiaryWriteView activity){
+			this.reference = new WeakReference<DiaryWriteView>(activity);
+		}
+		
+		@Override
+		public void handleMessage(android.os.Message msg) {
+			DiaryWriteView activity = reference.get();
+			switch (msg.what) {
+			case STATE_DIARY_SAVING:
+				activity.diarySaving();
+				break;
+			case STATE_DIARY_SAVED:
+				activity.diarySaved();
+				break;
+			}
+		}
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -211,7 +240,7 @@ public class DiaryWriteView extends Activity {
 		llBack.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if(!StringUtils.isEmpty(wordsContent) ||
+				if(!StringUtils.isEmpty(diaryWriteWordsView.getContent()) ||
 						!StringUtils.isEmpty(imagePath) ||
 						diaryWriteVoiceView.isAudioFileExist()){
 					cdBack.show();
@@ -223,33 +252,7 @@ public class DiaryWriteView extends Activity {
 		ivSave.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				//切换状态
-				ivRefresh.startAnimation(animCircle);
-				vsSaveAndRefresh.showNext();
-				//隐藏输入键盘
-				imm.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-				
-				//保存日记
-				boolean isDiaryReady = false;
-				try {
-					isDiaryReady = saveDiary();
-				} catch (DiaryWordsException e) {
-					String errMsg = String.format(getString(R.string.diary_write_save_fail), e.getMessage());
-					FoxToast.showToast(v.getContext(), errMsg, Toast.LENGTH_SHORT);
-					e.printStackTrace();
-				}
-				if(isDiaryReady){
-					FoxToast.showToast(
-							DiaryWriteView.this,
-							v.getResources().getString(
-									R.string.diary_write_save_success),
-							Toast.LENGTH_SHORT);
-					finish();
-				}
-				
-				//切换状态
-				ivRefresh.clearAnimation();
-				vsSaveAndRefresh.showPrevious();
+				handler.sendEmptyMessage(STATE_DIARY_SAVING);
 			}
 		});
 		//初始化文字输入界面
@@ -273,6 +276,45 @@ public class DiaryWriteView extends Activity {
 	}
 	
 	/**
+	 * 正在保存日记
+	 */
+	public void diarySaving(){
+		//切换状态
+		ivRefresh.startAnimation(animCircle);
+		vsSaveAndRefresh.showNext();
+		//隐藏输入键盘
+		imm.hideSoftInputFromWindow(ivSave.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+		
+		//保存日记
+		try {
+			isDiarySaveSuccess = saveDiary();
+			handler.sendEmptyMessage(STATE_DIARY_SAVED);
+		} catch (DiaryWordsException e) {
+			String errMsg = String.format(getString(R.string.diary_write_save_fail), e.getMessage());
+			FoxToast.showToast(this, errMsg, Toast.LENGTH_SHORT);
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 日记保存完毕
+	 */
+	public void diarySaved(){
+		if(isDiarySaveSuccess){
+			FoxToast.showToast(
+					DiaryWriteView.this,
+					getResources().getString(
+							R.string.diary_write_save_success),
+					Toast.LENGTH_SHORT);
+			finish();
+		}
+		
+		//切换状态
+		ivRefresh.clearAnimation();
+		vsSaveAndRefresh.showPrevious();
+	}
+	
+	/**
 	 * 判断日记是否可以进行保存
 	 * @return	如果日记的内容验证无误，则返回true，否则返回false
 	 */
@@ -288,7 +330,7 @@ public class DiaryWriteView extends Activity {
 	 */
 	private Diary buildDiary(){
 		Diary diary = new Diary();
-		diary.setContent(wordsContent);
+		diary.setContent(diaryWriteWordsView.getContent());
 		diary.setCreateDate(new Date());
 		String targetPath = StringUtils.concat(new Object[]{imagePath, imageName});
 		targetPath = targetPath.replaceAll("//", "/");
@@ -314,6 +356,8 @@ public class DiaryWriteView extends Activity {
 			if(tempImage != null && tempImage.exists()){
 				tempImage.delete();
 			}
+			//将添加的日记添加到公共容器中
+			AppContext.diariesOnDiaryLineView.add(diary);
 			return true;
 		}
 		return false;
@@ -388,14 +432,6 @@ public class DiaryWriteView extends Activity {
 		this.voicePath = voicePath;
 	}
 
-	public String getWordsContent() {
-		return wordsContent;
-	}
-
-	public void setWordsContent(String wordsContent) {
-		this.wordsContent = wordsContent;
-	}
-
 	@Override
 	protected void onDestroy() {
 		diaryWriteWordsView.onDestroy();
@@ -406,7 +442,6 @@ public class DiaryWriteView extends Activity {
 
 	@Override
 	protected void onResume() {
-		Log.d(Constants.DIARY_TAG, "输入框中的文字(parent)：" + wordsContent);
 		diaryWriteWordsView.onResume();
 		super.onResume();
 	}

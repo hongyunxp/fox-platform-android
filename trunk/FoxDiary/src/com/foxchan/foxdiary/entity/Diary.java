@@ -122,6 +122,7 @@ public class Diary {
 	 * @return			返回节点的图片
 	 */
 	public Bitmap photo(Context context){
+		if(StringUtils.isEmpty(imagePath)) return null;
 		Bitmap pic = BitmapUtils.loadBitmapFromSdCard(context, imagePath);
 		if(pic != null){
 			pic = BitmapUtils.getRoundedCornerBitmap(pic, 190.0f);
