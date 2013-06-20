@@ -237,16 +237,27 @@ public class SessionImpl implements Session {
 	}
 
 	@Override
-	public <T> List<T> querySQL(String sql, Class<?> targetClass) {
+	public <T> List<T> executeQuery(String sql, Class<?> targetClass) {
 		List<T> list = new ArrayList<T>();
-		Cursor c = db.rawQuery(sql, null);
-		if(c != null){
-			while(c.moveToNext()){
-				T entity = (T) CursorUtils.getEntity(c, targetClass);
-				list.add(entity);
+		Cursor c;
+		try {
+			c = db.rawQuery(sql, null);
+			if(c != null){
+				while(c.moveToNext()){
+					T entity = (T) CursorUtils.getEntity(c, targetClass);
+					list.add(entity);
+				}
 			}
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			return list;
 		}
 		return list;
+	}
+
+	@Override
+	public void executeUpdate(String sql) {
+		db.execSQL(sql);
 	}
 
 }
