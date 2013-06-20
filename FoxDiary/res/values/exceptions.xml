@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 写日记模块的异常 -->
+    <string name="ex_writing_recorder">启动录音设备失败。</string>
+</resources>

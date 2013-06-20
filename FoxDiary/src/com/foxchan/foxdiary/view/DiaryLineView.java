@@ -8,6 +8,7 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -22,6 +23,7 @@ import cn.com.lezhixing.foxdb.core.Session;
 
 import com.foxchan.foxdiary.adapter.DiaryLineAdapter;
 import com.foxchan.foxdiary.adapter.DiaryLineAdapter.NodeListener;
+import com.foxchan.foxdiary.core.AppContext;
 import com.foxchan.foxdiary.core.R;
 import com.foxchan.foxdiary.entity.Diary;
 import com.foxchan.foxdiary.utils.Constants;
@@ -142,7 +144,7 @@ public class DiaryLineView extends Activity {
 		Session session = db.openSession();
 		//初始化日记的日期列表
 		String sql = "SELECT * FROM tb_core_diary WHERE 1=1 GROUP BY substr(createDate,1,11) ORDER BY createDate asc";
-		List<Diary> tempDiaries = session.querySQL(sql, Diary.class);
+		List<Diary> tempDiaries = session.executeQuery(sql, Diary.class);
 		if(!CollectionUtils.isEmpty(tempDiaries)){
 			diaryDates = new ArrayList<Date>();
 			for(Diary d : tempDiaries){
@@ -160,6 +162,18 @@ public class DiaryLineView extends Activity {
 				DateUtils.formatDate(gc.getTime(), "yyyy-MM-dd")
 		};
 		diaries = session.list(where, params, Diary.class);
+		AppContext.diariesOnDiaryLineView = diaries;
 	}
 
+	@Override
+	protected void onResume() {
+		Log.d(Constants.DIARY_TAG, "AppContext.diariesOnDiaryLineView.size(): " + AppContext.diariesOnDiaryLineView.size());
+		Log.d(Constants.DIARY_TAG, "diaries.size(): " + diaries.size());
+		if(AppContext.diariesOnDiaryLineView.size() != diaries.size()){
+			diaryLineAdapter.notifyDataSetChanged();
+			diaries = AppContext.diariesOnDiaryLineView;
+		}
+		super.onResume();
+	}
+	
 }
