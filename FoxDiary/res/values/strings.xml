@@ -7,6 +7,10 @@
 	<string name="date_temp">2013年4月20日</string>
 	<string name="time_temp">20:06</string>
 	
+	<!-- 安全相关的信息 -->
+	<string name="secure_create_password">创建密码</string>
+	<string name="secure_modify_password">修改密码</string>
+	
 	<!-- 日记时间线 -->
 	<string name="diary_line_add">写点什么</string>
 	
