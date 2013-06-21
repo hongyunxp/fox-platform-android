@@ -409,4 +409,29 @@ public class BitmapUtils {
         return (b[0] == 0x42) && (b[1] == 0x4d);
     }
     
+    /**
+	 * 缩放图片
+	 * @param bitmap	需要进行缩放的图片
+	 * @param zf		缩放的比例
+	 * @return			返回缩放后的图片对象
+	 */
+	public static Bitmap zoom(Bitmap bitmap, float zf) {
+		Matrix matrix = new Matrix();
+		matrix.postScale(zf, zf);
+		return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+	}
+	
+	/**
+	 * 缩放图片
+	 * @param bitmap	需要进行缩放的图片
+	 * @param wf		在宽度上缩放的比例
+	 * @param hf		在高度上缩放的比例
+	 * @return			返回缩放后的图片对象
+	 */
+	public static Bitmap zoom(Bitmap bitmap, float wf, float hf) {
+		Matrix matrix = new Matrix();
+		matrix.postScale(wf, hf);
+		return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+	}
+    
 }
