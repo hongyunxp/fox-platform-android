@@ -54,6 +54,16 @@ public class Constants {
 	}
 	
 	/**
+	 * 构造写日记模块中的图片文件的文件夹路径
+	 * @return	返回写日记模块中的图片文件的文件夹路径
+	 */
+	public static final String buildDiaryImagePath(){
+		return FileUtils.buildFilePath(new String[]{
+				SdCardUtils.getSdCardPath(), APP_RESOURCE, IMAGES
+		});
+	}
+	
+	/**
 	 * 构造写日记模块中的录音文件的文件夹路径
 	 * @return	返回写日记模块中的录音文件的文件夹路径
 	 */

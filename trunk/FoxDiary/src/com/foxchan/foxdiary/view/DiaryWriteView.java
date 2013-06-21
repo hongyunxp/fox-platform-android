@@ -357,7 +357,7 @@ public class DiaryWriteView extends Activity {
 				tempImage.delete();
 			}
 			//将添加的日记添加到公共容器中
-			AppContext.diariesOnDiaryLineView.add(diary);
+			AppContext.addDiaryToDiaryLineView(diary);
 			return true;
 		}
 		return false;

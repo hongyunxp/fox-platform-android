@@ -2,6 +2,7 @@ package com.foxchan.foxdiary.adapter;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.WeakHashMap;
 
 import com.foxchan.foxdiary.core.R;
 import com.foxchan.foxdiary.core.widgets.FoxToast;
@@ -35,6 +36,7 @@ public class DiaryLineAdapter extends BaseAdapter {
 	private LayoutInflater inflater;
 	private int diaryItemResource;
 	private NodeListener nodeListener;
+	private WeakHashMap<Integer, View> viewMap = new WeakHashMap<Integer, View>();
 	
 	/** 日记列表 */
 	private List<Diary> diaries;
@@ -104,9 +106,10 @@ public class DiaryLineAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
+		convertView = viewMap.get(position);
+		final int index = position;
 		NodeItem nodeItem = null;
-		final Diary diary = diaries.get(position);
-		final boolean isExistVoice = !StringUtils.isEmpty(diary.getVoicePath());
+		final Diary diary = diaries.get(index);
 		if(convertView == null){
 			convertView = inflater.inflate(diaryItemResource, null);
 			nodeItem = new NodeItem();
@@ -120,66 +123,68 @@ public class DiaryLineAdapter extends BaseAdapter {
 			nodeItem.ivEdit = (ImageView)convertView.findViewById(R.id.diary_line_tool_edit);
 			nodeItem.ivShare = (ImageView)convertView.findViewById(R.id.diary_line_tool_share);
 			nodeItem.switcher = (ViewSwitcher)convertView.findViewById(R.id.diary_line_view_switcher);
-			//绑定事件
-			final ViewSwitcher switcher = nodeItem.switcher;
-			nodeItem.llBalloon.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					switcher.showNext();
-				}
-			});
-			nodeItem.ivBack.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					switcher.showPrevious();
-				}
-			});
-			nodeItem.ivDelete.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					nodeListener.delete(position);
-				}
-			});
-			nodeItem.ivEdit.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					nodeListener.edit(position);
-				}
-			});
-			nodeItem.ivShare.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					nodeListener.share(position);
-				}
-			});
-			nodeItem.ivNode.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if(isExistVoice){
-						try {
-							PhoneUtils.playAudio(diary.getVoicePath());
-						} catch (IllegalArgumentException e) {
-							FoxToast.showToast(v.getContext(), "播放错误：" + e.getMessage(), Toast.LENGTH_SHORT);
-							e.printStackTrace();
-						} catch (SecurityException e) {
-							FoxToast.showToast(v.getContext(), "播放错误：" + e.getMessage(), Toast.LENGTH_SHORT);
-							e.printStackTrace();
-						} catch (IllegalStateException e) {
-							FoxToast.showToast(v.getContext(), "播放错误：" + e.getMessage(), Toast.LENGTH_SHORT);
-							e.printStackTrace();
-						} catch (IOException e) {
-							FoxToast.showToast(v.getContext(), "播放错误：" + e.getMessage(), Toast.LENGTH_SHORT);
-							e.printStackTrace();
-						}
-					} else {
-						FoxToast.showToast(v.getContext(), "没有音乐可以播放", Toast.LENGTH_SHORT);
-					}
-				}
-			});
 			convertView.setTag(nodeItem);
 		} else {
 			nodeItem = (NodeItem)convertView.getTag();
 		}
+		
+		//绑定事件
+		final ViewSwitcher switcher = nodeItem.switcher;
+		nodeItem.llBalloon.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				switcher.showNext();
+			}
+		});
+		nodeItem.ivBack.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				switcher.showPrevious();
+			}
+		});
+		nodeItem.ivDelete.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				nodeListener.delete(position);
+			}
+		});
+		nodeItem.ivEdit.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				nodeListener.edit(position);
+			}
+		});
+		nodeItem.ivShare.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				nodeListener.share(position);
+			}
+		});
+		nodeItem.ivNode.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(!StringUtils.isEmpty(diary.getVoicePath())){
+					try {
+						PhoneUtils.playAudio(diary.getVoicePath());
+					} catch (IllegalArgumentException e) {
+						FoxToast.showToast(v.getContext(), "播放错误：" + e.getMessage(), Toast.LENGTH_SHORT);
+						e.printStackTrace();
+					} catch (SecurityException e) {
+						FoxToast.showToast(v.getContext(), "播放错误：" + e.getMessage(), Toast.LENGTH_SHORT);
+						e.printStackTrace();
+					} catch (IllegalStateException e) {
+						FoxToast.showToast(v.getContext(), "播放错误：" + e.getMessage(), Toast.LENGTH_SHORT);
+						e.printStackTrace();
+					} catch (IOException e) {
+						FoxToast.showToast(v.getContext(), "播放错误：" + e.getMessage(), Toast.LENGTH_SHORT);
+						e.printStackTrace();
+					}
+				} else {
+					FoxToast.showToast(v.getContext(), "没有音乐可以播放", Toast.LENGTH_SHORT);
+				}
+			}
+		});
+		
 		TimeLineNodeStyle style = diary.getStyle();
 		//设置节点的样式
 		nodeItem.tvCreateDate.setTextColor(context.getResources().getColor(style.getTimeColor()));
@@ -191,10 +196,13 @@ public class DiaryLineAdapter extends BaseAdapter {
 		Bitmap pic = diary.photo(context);
 		if(pic != null){
 			nodeItem.ivPhoto.setImageBitmap(pic);
+		} else {
+			nodeItem.ivPhoto.setVisibility(View.GONE);
 		}
-		if(isExistVoice){
+		if(!StringUtils.isEmpty(diary.getVoicePath())){
 			nodeItem.ivNode.setImageResource(R.drawable.icon_white_voice_64_normal);
 		}
+		viewMap.put(position, convertView);
 		return convertView;
 	}
 	

@@ -18,7 +18,6 @@ import com.foxchan.foxdiary.core.widgets.FakeActivity;
 import com.foxchan.foxdiary.utils.Constants;
 import com.foxchan.foxutils.data.StringUtils;
 import com.foxchan.foxutils.tool.BitmapUtils;
-import com.foxchan.foxutils.tool.FileUtils;
 
 /**
  * 图片（从相册）记录日记的界面
@@ -135,9 +134,7 @@ public class DiaryWritePicView extends FakeActivity {
 		if(bundle != null){
 			Bitmap picTemp = bundle.getParcelable("data");
 			Bitmap picTemp4Show = BitmapUtils.getRoundedCornerBitmap(picTemp, 190.0f);
-			String imagePath = FileUtils.buildFilePath(new String[]{
-					Constants.APP_RESOURCE, Constants.IMAGES
-			});
+			String imagePath = Constants.buildDiaryImagePath();
 			String imageName = StringUtils.getUUID();
 			diaryWriteView.setImagePath(imagePath);
 			diaryWriteView.setImage(picTemp);
