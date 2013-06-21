@@ -25,6 +25,7 @@ import com.foxchan.foxdiary.adapter.DiaryLineAdapter;
 import com.foxchan.foxdiary.adapter.DiaryLineAdapter.NodeListener;
 import com.foxchan.foxdiary.core.AppContext;
 import com.foxchan.foxdiary.core.R;
+import com.foxchan.foxdiary.core.widgets.FoxToast;
 import com.foxchan.foxdiary.entity.Diary;
 import com.foxchan.foxdiary.utils.Constants;
 import com.foxchan.foxutils.data.CollectionUtils;
@@ -89,19 +90,19 @@ public class DiaryLineView extends Activity {
 			@Override
 			public void share(int position) {
 				Diary diary = diaries.get(position);
-				Toast.makeText(DiaryLineView.this, "分享的日记的标题是：" + diary.getTitle(), Toast.LENGTH_SHORT).show();
+				FoxToast.showToast(DiaryLineView.this, "分享的日记的标题是：" + diary.getTitle(), Toast.LENGTH_SHORT);
 			}
 			
 			@Override
 			public void edit(int position) {
 				Diary diary = diaries.get(position);
-				Toast.makeText(DiaryLineView.this, "编辑的日记的标题是：" + diary.getTitle(), Toast.LENGTH_SHORT).show();
+				FoxToast.showToast(DiaryLineView.this, "编辑的日记的标题是：" + diary.getTitle(), Toast.LENGTH_SHORT);
 			}
 			
 			@Override
 			public void delete(int position) {
 				Diary diary = diaries.get(position);
-				Toast.makeText(DiaryLineView.this, "删除的日记的标题是：" + diary.getTitle(), Toast.LENGTH_SHORT).show();
+				FoxToast.showToast(DiaryLineView.this, "删除的日记的标题是：" + diary.getTitle(), Toast.LENGTH_SHORT);
 			}
 		});
 		lvDiarys.setAdapter(diaryLineAdapter);

@@ -1,8 +1,10 @@
 package com.foxchan.foxdiary.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.foxchan.foxdiary.entity.Diary;
+import com.foxchan.foxutils.data.CollectionUtils;
 
 /**
  * 应用程序的上下文信息
@@ -16,5 +18,16 @@ public class AppContext {
 	
 	/** 显示在日记时间轴的日记列表 */
 	public static List<Diary> diariesOnDiaryLineView;
+	
+	/**
+	 * 添加日记到日记时间轴的日记集合中
+	 * @param diary	添加的日记
+	 */
+	public static void addDiaryToDiaryLineView(Diary diary){
+		if(CollectionUtils.isEmpty(diariesOnDiaryLineView)){
+			diariesOnDiaryLineView = new ArrayList<Diary>();
+		}
+		diariesOnDiaryLineView.add(diary);
+	}
 
 }
