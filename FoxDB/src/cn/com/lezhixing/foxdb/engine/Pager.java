@@ -200,7 +200,7 @@ public class Pager<T> {
 	 * @return	如果下一页还有内容则返回true，否则返回false
 	 */
 	public boolean hasNextPage(){
-		if(currentPage > totalPage){
+		if(currentPage >= totalPage){
 			return false;
 		}
 		return true;
@@ -211,7 +211,7 @@ public class Pager<T> {
 	 * @return	如果还有上一页，则返回true，否则返回false
 	 */
 	public boolean hasPrevPage(){
-		if(currentPage < 1){
+		if(currentPage <= 1){
 			return false;
 		}
 		return true;
