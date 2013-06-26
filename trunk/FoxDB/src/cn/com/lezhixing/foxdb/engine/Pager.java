@@ -165,7 +165,7 @@ public class Pager<T> {
 	 * 获取上一页的页码
 	 * @return
 	 */
-	public int prePage(){
+	public int getPrevPage(){
 		return currentPage - 1;
 	}
 	
@@ -173,8 +173,48 @@ public class Pager<T> {
 	 * 获取下一页的页码
 	 * @return
 	 */
-	public int nextPage(){
+	public int getNextPage(){
 		return currentPage + 1;
+	}
+	
+	/**
+	 * 跳转到上一页
+	 */
+	public void prevPage(){
+		if(hasPrevPage()){
+			currentPage--;
+		}
+	}
+	
+	/**
+	 * 跳转到下一页
+	 */
+	public void nextPage(){
+		if(hasNextPage()){
+			currentPage++;
+		}
+	}
+	
+	/**
+	 * 判断当前的分页对象是否还有下一页
+	 * @return	如果下一页还有内容则返回true，否则返回false
+	 */
+	public boolean hasNextPage(){
+		if(currentPage > totalPage){
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * 判断当前的分页对象是否还有上一页
+	 * @return	如果还有上一页，则返回true，否则返回false
+	 */
+	public boolean hasPrevPage(){
+		if(currentPage < 1){
+			return false;
+		}
+		return true;
 	}
 	
 }
