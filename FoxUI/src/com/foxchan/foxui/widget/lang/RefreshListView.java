@@ -61,6 +61,13 @@ public class RefreshListView extends ListView implements OnScrollListener {
 	private int headerContentOriginalHeight;
 	private TextView tvState;
 	
+	/** 脚部的布局 */
+	private View footerView;
+	/** 列表当前是否滚动到底部的标志 */
+	private boolean isScrollToEnd = false;
+	/** 是否还有更多数据的标志 */
+	private boolean isExistMoreData = true;
+	
 	public RefreshListView(Context context) {
 		super(context);
 		init(context);
@@ -91,7 +98,8 @@ public class RefreshListView extends ListView implements OnScrollListener {
 		headerView.setPadding(0, -1 * headerContentHeight, 0, 0);
 		headerView.invalidate();
 		
-		Log.v("size", "height:" + headerContentHeight);
+		footerView = inflater.inflate(R.layout.refresh_footer_view, null);
+		addFooterView(footerView);
 		
 		addHeaderView(headerView, null, false);
 		setOnScrollListener(this);
@@ -138,6 +146,17 @@ public class RefreshListView extends ListView implements OnScrollListener {
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
 		currentScrollState = scrollState;
+		//判断是否滚动到了底部
+		try {
+			if(view.getPositionForView(footerView) == view.getLastVisiblePosition()){
+				isScrollToEnd = true;
+			}
+		} catch (Exception e) {
+			isScrollToEnd = false;
+		}
+		if(isScrollToEnd){
+			loadMoreData();
+		}
 	}
 	
 	@Override
@@ -160,7 +179,7 @@ public class RefreshListView extends ListView implements OnScrollListener {
 				} else if(state == IN_POSITION){
 					state = TASK_DOING;
 					changeHeaderViewByState();
-					doTask();
+					refreshingData();
 				}
 			}
 			isBack = false;
@@ -181,13 +200,6 @@ public class RefreshListView extends ListView implements OnScrollListener {
 					} else if(tempY - startY <= 0){//一推到顶
 						state = TASK_DONE;
 						changeHeaderViewByState();
-					} else {//当下拉的超过了头部的高度时
-						changeHeaderViewByState();
-						headerView.setPadding(headerView.getPaddingLeft(),
-								headerContentHeight - 20,
-								headerView.getPaddingRight(),
-								headerView.getPaddingBottom());
-						headerView.invalidate();
 					}
 				} else if(state == CONTINU_TO_PULL){
 					//下拉到可以进入执行任务的高度
@@ -208,17 +220,13 @@ public class RefreshListView extends ListView implements OnScrollListener {
 				}
 				//更新headerView的大小
 				if(state == CONTINU_TO_PULL){
-					int topPadding = (int)(-1 * headerContentHeight + tempY - startY);
-					headerView.setPadding(headerView.getPaddingLeft(),
-							topPadding, headerView.getPaddingRight(),
-							headerView.getPaddingBottom());
-					headerView.invalidate();
-				}
-				if(state == IN_POSITION){
 					int topPadding = (int)(tempY - startY - headerContentHeight);
-					headerView.setPadding(headerView.getPaddingLeft(),
-							topPadding, headerView.getPaddingRight(),
-							headerView.getPaddingBottom());
+					headerView.setPadding(0, topPadding, 0, 0);
+					headerView.invalidate();
+				} else if(state == IN_POSITION){
+					int topPadding = (int)(tempY - startY - headerContentOriginalHeight);
+					topPadding /= 10;
+					headerView.setPadding(0, topPadding, 0, 0);
 					headerView.invalidate();
 				}
 			}
@@ -268,12 +276,46 @@ public class RefreshListView extends ListView implements OnScrollListener {
 	}
 
 	/**
-	 * 触发事件，执行任务
+	 * 刷新列表的数据
 	 */
-	private void doTask(){
+	private void refreshingData(){
 		if(onTaskDoingListener != null){
-			onTaskDoingListener.doTask();
+			onTaskDoingListener.refreshingData(this);
 		}
+	}
+	
+	/**
+	 * 刷新数据完成
+	 */
+	public void refreshingDataComplete(){
+		state = TASK_DONE;
+		changeHeaderViewByState();
+	}
+	
+	/**
+	 * 加载更多的数据
+	 */
+	private void loadMoreData(){
+		if(isExistMoreData && onTaskDoingListener != null){
+			onTaskDoingListener.loadMoreData(this);
+		}
+	}
+	
+	/**
+	 * 加载更多数据完成
+	 */
+	public void loadMoreDataComplete(){
+		isExistMoreData = false;
+		removeFooterView(footerView);
+		invalidate();
+	}
+
+	public void setOnTaskDoingListener(OnTaskDoingListener onTaskDoingListener) {
+		this.onTaskDoingListener = onTaskDoingListener;
+	}
+
+	public void setExistMoreData(boolean isExistMoreData) {
+		this.isExistMoreData = isExistMoreData;
 	}
 
 	/**
@@ -285,9 +327,14 @@ public class RefreshListView extends ListView implements OnScrollListener {
 	public interface OnTaskDoingListener{
 		
 		/**
-		 * 执行任务
+		 * 刷新列表的数据
 		 */
-		void doTask();
+		void refreshingData(RefreshListView view);
+		
+		/**
+		 * 加载更多的数据
+		 */
+		void loadMoreData(RefreshListView view);
 		
 	}
 
