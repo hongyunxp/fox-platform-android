@@ -11,6 +11,13 @@
 	<string name="secure_create_password">创建密码</string>
 	<string name="secure_modify_password">修改密码</string>
 	
+	<!-- 下拉刷新相关的信息 -->
+	<string name="pull_to_refresh_state_pull">下拉刷新</string>
+	<string name="pull_to_refresh_state_release">松开刷新</string>
+	<string name="pull_to_refresh_state_refreshing">正在刷新...</string>
+	<string name="pull_to_refresh_state_last_update_date">上一次刷新的时间是：%1$s</string>
+	<string name="pull_to_refresh_state_loading_more">正在加载更多内容</string>
+	
 	<!-- 日记时间线 -->
 	<string name="diary_line_add">写点什么</string>
 	

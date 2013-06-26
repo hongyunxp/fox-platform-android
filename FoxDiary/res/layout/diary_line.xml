@@ -22,7 +22,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dip"
         android:layout_weight="1" >
 
         <ImageView
@@ -32,24 +32,15 @@
             android:layout_marginLeft="63.5dip"
             android:background="@color/diary_line_color" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <com.foxchan.foxdiary.core.widgets.RefreshListView
+            android:id="@+id/diary_line_listview"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical" >
-
-            <ListView
-                android:id="@+id/diary_line_listview"
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="0dip"
-                android:cacheColorHint="@android:color/transparent"
-                android:divider="@null"
-                android:dividerHeight="0dip"
-                android:listSelector="@android:color/transparent"
-                android:scrollbars="vertical" />
-
-            <include layout="@layout/diary_line_item" />
-        </LinearLayout>
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@null"
+            android:dividerHeight="0dip"
+            android:listSelector="@android:color/transparent"
+            android:scrollbars="vertical" />
     </RelativeLayout>
 
 </LinearLayout>

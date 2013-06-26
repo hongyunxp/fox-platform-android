@@ -2,7 +2,6 @@ package com.foxchan.foxdiary.view;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import android.app.Activity;
@@ -10,22 +9,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import cn.com.lezhixing.foxdb.core.FoxDB;
 import cn.com.lezhixing.foxdb.core.Session;
+import cn.com.lezhixing.foxdb.engine.Pager;
 
 import com.foxchan.foxdiary.adapter.DiaryLineAdapter;
 import com.foxchan.foxdiary.adapter.DiaryLineAdapter.NodeListener;
 import com.foxchan.foxdiary.core.AppContext;
 import com.foxchan.foxdiary.core.R;
 import com.foxchan.foxdiary.core.widgets.FoxToast;
+import com.foxchan.foxdiary.core.widgets.RefreshListView;
 import com.foxchan.foxdiary.entity.Diary;
 import com.foxchan.foxdiary.utils.Constants;
 import com.foxchan.foxutils.data.CollectionUtils;
@@ -39,9 +36,9 @@ import com.foxchan.foxutils.data.DateUtils;
 public class DiaryLineView extends Activity {
 	
 	/** 日记的数据集 */
-	private List<Diary> diaries;
+	private List<Diary> diaries = new ArrayList<Diary>();
 	/** 日记的列表 */
-	private ListView lvDiarys;
+	private RefreshListView lvDiarys;
 	/** 日记列表的数据适配器 */
 	private DiaryLineAdapter diaryLineAdapter;
 	/** 日期控件 */
@@ -50,23 +47,20 @@ public class DiaryLineView extends Activity {
 	private Date showDate;
 	/** 用户所有的日记的日期列表 */
 	private static List<Date> diaryDates;
+	/** 日记的分页对象 */
+	private Pager<Diary> pager;
 	
 	private FoxDB db;
+	private Session session;
 	
-	//添加日记的相关部件
-	private TextView tvContent;
-	private ImageView ivPhoto;
-	private LinearLayout llBalloon;
-	private ImageView ivNode;
-	private TextView tvDateTime;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.diary_line);
-		FoxDB.DEBUG = true;
+//		FoxDB.DEBUG = true;
 		//初始化组件和数据
 		db = FoxDB.create(this, Constants.DIARY_DB_NAME, Constants.DIARY_DB_VERSION);
+		session = db.openSession();
 		initDatas();
 		initWidgets();
 	}
@@ -75,7 +69,7 @@ public class DiaryLineView extends Activity {
 	 * 初始化组件
 	 */
 	private void initWidgets() {
-		lvDiarys = (ListView)findViewById(R.id.diary_line_listview);
+		lvDiarys = (RefreshListView)findViewById(R.id.diary_line_listview);
 		lvDiarys.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -84,6 +78,28 @@ public class DiaryLineView extends Activity {
 				
 			}
 		});
+		lvDiarys.setOnTaskDoingListener(new RefreshListView.OnTaskDoingListener() {
+			
+			@Override
+			public void refreshingData(RefreshListView view) {
+				view.setExistMoreData(true);
+				pager = new Pager<Diary>(4, 1);
+				diaries.clear();
+				loadDiaries();
+				view.refreshingDataComplete();
+			}
+			
+			@Override
+			public void loadMoreData(RefreshListView view) {
+				if(pager.hasNextPage()){
+					pager.nextPage();
+					loadDiaries();
+				} else {
+					view.loadMoreDataComplete();
+				}
+			}
+		});
+		
 		diaryLineAdapter = new DiaryLineAdapter(this, diaries);
 		diaryLineAdapter.setNodeListener(new NodeListener() {
 			
@@ -91,6 +107,8 @@ public class DiaryLineView extends Activity {
 			public void share(int position) {
 				Diary diary = diaries.get(position);
 				FoxToast.showToast(DiaryLineView.this, "分享的日记的标题是：" + diary.getTitle(), Toast.LENGTH_SHORT);
+				Log.d(Constants.DIARY_TAG, "分享日记");
+				diaryLineAdapter.notifyAll();
 			}
 			
 			@Override
@@ -107,24 +125,8 @@ public class DiaryLineView extends Activity {
 		});
 		lvDiarys.setAdapter(diaryLineAdapter);
 		
-		//初始化添加日记的节点
-		tvContent = (TextView)findViewById(R.id.diary_line_content);
-		ivPhoto = (ImageView)findViewById(R.id.diary_line_photo);
-		llBalloon = (LinearLayout)findViewById(R.id.diary_line_balloon);
-		ivNode = (ImageView)findViewById(R.id.diary_line_node);
-		tvDateTime = (TextView)findViewById(R.id.diary_line_item_time);
 		tvShowDate = (TextView)findViewById(R.id.diary_line_header_title);
 		
-		ivPhoto.setVisibility(View.GONE);
-		tvDateTime.setVisibility(View.INVISIBLE);
-		tvContent.setText(getString(R.string.diary_line_add));
-		ivNode.setImageResource(R.drawable.icon_plus_small);
-		llBalloon.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				toDiaryWriteView();
-			}
-		});
 		//设置显示的日期为当前的日期
 		String showDateStr = DateUtils.formatDate(showDate, "yyyy年MM月dd日");
 		tvShowDate.setText(showDateStr);
@@ -142,7 +144,6 @@ public class DiaryLineView extends Activity {
 	 * 初始化数据
 	 */
 	private void initDatas() {
-		Session session = db.openSession();
 		//初始化日记的日期列表
 		String sql = "SELECT * FROM tb_core_diary WHERE 1=1 GROUP BY substr(createDate,1,11) ORDER BY createDate asc";
 		List<Diary> tempDiaries = session.executeQuery(sql, Diary.class);
@@ -153,23 +154,23 @@ public class DiaryLineView extends Activity {
 			}
 		}
 		//初始化默认显示的日记
-		showDate = new Date();
-		GregorianCalendar gc = new GregorianCalendar();
-		gc.setTime(showDate);
-		gc.add(GregorianCalendar.DAY_OF_MONTH, 1);
-		String where = "createDate BETWEEN ? and ?";
-		String[] params = new String[]{
-				DateUtils.formatDate(showDate, "yyyy-MM-dd"),
-				DateUtils.formatDate(gc.getTime(), "yyyy-MM-dd")
-		};
-		diaries = session.list(where, params, Diary.class);
+		pager = new Pager<Diary>(10, 1);
+		loadDiaries();
+	}
+	
+	/**
+	 * 加载日记
+	 */
+	private void loadDiaries(){
+		session.query(pager, null, null, null, Diary.class);
+		diaries.addAll(pager.getContent());
 		AppContext.diariesOnDiaryLineView = diaries;
+		Log.d(Constants.DIARY_TAG, "总共找到" + pager.getTotalRecordsNumber() + "篇日记，当前是第" + pager.getCurrentPage() + "页，总共"  + pager.getTotalPage() + "页");
+		Log.d(Constants.DIARY_TAG, "当前页有" + diaries.size() + "篇日记。");
 	}
 
 	@Override
 	protected void onResume() {
-		Log.d(Constants.DIARY_TAG, "AppContext.diariesOnDiaryLineView.size(): " + AppContext.diariesOnDiaryLineView.size());
-		Log.d(Constants.DIARY_TAG, "diaries.size(): " + diaries.size());
 		if(AppContext.diariesOnDiaryLineView.size() != diaries.size()){
 			diaryLineAdapter.notifyDataSetChanged();
 			diaries = AppContext.diariesOnDiaryLineView;

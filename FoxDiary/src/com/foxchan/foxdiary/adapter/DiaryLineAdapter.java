@@ -14,6 +14,7 @@ import com.foxchan.foxutils.tool.PhoneUtils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -37,6 +38,7 @@ public class DiaryLineAdapter extends BaseAdapter {
 	private int diaryItemResource;
 	private NodeListener nodeListener;
 	private WeakHashMap<Integer, View> viewMap = new WeakHashMap<Integer, View>();
+	private SparseBooleanArray isShowTools;
 	
 	/** 日记列表 */
 	private List<Diary> diaries;
@@ -79,6 +81,11 @@ public class DiaryLineAdapter extends BaseAdapter {
 		this.diaries = diaries;
 		this.inflater = LayoutInflater.from(this.context);
 		this.diaryItemResource = R.layout.diary_line_item;
+		
+		isShowTools = new SparseBooleanArray();
+		for(int i = 0; i < diaries.size(); i++){
+			isShowTools.put(i, false);
+		}
 	}
 
 	public NodeListener getNodeListener() {
@@ -106,7 +113,6 @@ public class DiaryLineAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		convertView = viewMap.get(position);
 		final int index = position;
 		NodeItem nodeItem = null;
 		final Diary diary = diaries.get(index);
@@ -128,18 +134,25 @@ public class DiaryLineAdapter extends BaseAdapter {
 			nodeItem = (NodeItem)convertView.getTag();
 		}
 		
-		//绑定事件
 		final ViewSwitcher switcher = nodeItem.switcher;
+		final boolean viewState = isShowTools.get(position);
+		if(true == viewState){
+			switcher.showNext();
+		}
+		//绑定事件
 		nodeItem.llBalloon.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				switcher.showNext();
+				//switcher.showNext();
+				isShowTools.put(position, !viewState);
+				notifyDataSetInvalidated();
 			}
 		});
 		nodeItem.ivBack.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				switcher.showPrevious();
+				isShowTools.put(position, true);
+				notifyDataSetInvalidated();
 			}
 		});
 		nodeItem.ivDelete.setOnClickListener(new OnClickListener() {
@@ -202,7 +215,6 @@ public class DiaryLineAdapter extends BaseAdapter {
 		if(!StringUtils.isEmpty(diary.getVoicePath())){
 			nodeItem.ivNode.setImageResource(R.drawable.icon_white_voice_64_normal);
 		}
-		viewMap.put(position, convertView);
 		return convertView;
 	}
 	

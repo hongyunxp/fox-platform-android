@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pull_to_refresh_header_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/dark_brown" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="15dip" >
+
+        <ImageView
+            android:id="@+id/pull_to_refresh_arraw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dip"
+            android:src="@drawable/arraw_blue" />
+
+        <LinearLayout
+            android:id="@+id/pull_to_refresh_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/pull_to_refresh_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pull_to_refresh_state_pull"
+                android:textColor="@color/blue_normal"
+                android:textSize="@dimen/h4" />
+
+            <TextView
+                android:id="@+id/pull_to_refresh_last_update_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pull_to_refresh_state_last_update_date"
+                android:textColor="@color/blue_normal"
+                android:textSize="@dimen/h5" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/pull_to_refresh_animation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@anim/fox_loading"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+</LinearLayout>
