@@ -124,8 +124,11 @@ public class SessionImpl implements Session {
 	public <T> PagerTemplate<T> query(Pager<T> pager, String where,
 			Object[] params, LinkedHashMap<String, String> orderBy,
 			Class<?> clazz) {
-		return query(pager.getStartIndex(), pager.getRecordsNumber(), where,
+		PagerTemplate<T> pt = query(pager.getStartIndex(), pager.getRecordsNumber(), where,
 				params, orderBy, clazz);
+		pager.setContent(pt.getPageData());
+		pager.setTotalRecordsNumber((int)pt.getTotalRecordsCount());
+		return pt;
 	}
 
 	@Override
