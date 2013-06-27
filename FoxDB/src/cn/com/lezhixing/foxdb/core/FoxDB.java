@@ -18,7 +18,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class FoxDB {
 	
-	private static final String TAG = "FoxDB";
+	public static final String TAG = "FoxDB SQL";
 	/** 是否是调试模式，如果是调试模式，将在后台打印SQL文件信息 */
 	public static boolean DEBUG = false;
 	
@@ -131,6 +131,17 @@ public class FoxDB {
 	 */
 	public Session openSession(){
 		return new SessionImpl(db, sqlEngine);
+	}
+	
+	/**
+	 * 获得当前可以使用的数据库会话
+	 * @return	返回当前可以使用的数据库会话
+	 */
+	public Session getCurrentSession(){
+		if(this.session == null){
+			this.session = openSession();
+		}
+		return this.session;
 	}
 	
 	/**

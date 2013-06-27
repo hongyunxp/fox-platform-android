@@ -3,6 +3,7 @@ package cn.com.lezhixing.foxdb.core;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import android.database.sqlite.SQLiteDatabase;
 import cn.com.lezhixing.foxdb.engine.Pager;
 import cn.com.lezhixing.foxdb.engine.PagerTemplate;
 import cn.com.lezhixing.foxdb.exception.FoxDbException;
@@ -13,6 +14,23 @@ import cn.com.lezhixing.foxdb.exception.FoxDbException;
  * @create 2013-3-13
  */
 public interface Session {
+	
+	/**
+	 * 开启事务
+	 * @return	返回开启的事务对象
+	 */
+	Transaction beginTransaction();
+	
+	/**
+	 * 结束事务
+	 */
+	void endTransaction();
+	
+	/**
+	 * 获得当前会话中使用的数据库连接
+	 * @return	返回当前会话中使用的数据库连接
+	 */
+	SQLiteDatabase getDB();
 	
 	/**
 	 * 保存对象

@@ -14,6 +14,7 @@ import cn.com.lezhixing.foxdb.annotation.CascadeType;
 import cn.com.lezhixing.foxdb.annotation.GeneratedType;
 import cn.com.lezhixing.foxdb.core.SQLEngine;
 import cn.com.lezhixing.foxdb.core.Session;
+import cn.com.lezhixing.foxdb.core.Transaction;
 import cn.com.lezhixing.foxdb.exception.FoxDbException;
 import cn.com.lezhixing.foxdb.table.Id;
 import cn.com.lezhixing.foxdb.table.OneToMany;
@@ -33,6 +34,7 @@ public class SessionImpl implements Session {
 	
 	private SQLiteDatabase db;
 	private SQLEngine sqlEngine;
+	private boolean isBeginTransaction;
 	
 	public SessionImpl(SQLiteDatabase db, SQLEngine sqlEngine){
 		this.db = db;
@@ -261,6 +263,23 @@ public class SessionImpl implements Session {
 	@Override
 	public void executeUpdate(String sql) {
 		db.execSQL(sql);
+	}
+
+	@Override
+	public Transaction beginTransaction() {
+		isBeginTransaction = true;
+		db.beginTransaction();
+		return new TransactionImpl(this);
+	}
+
+	@Override
+	public void endTransaction() {
+		isBeginTransaction = false;
+	}
+
+	@Override
+	public SQLiteDatabase getDB() {
+		return this.db;
 	}
 
 }
