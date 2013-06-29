@@ -128,6 +128,11 @@ public class DiaryLineView extends Activity {
 		tvShowDate = (TextView)findViewById(R.id.diary_line_header_title);
 		
 		//设置显示的日期为当前的日期
+		if(CollectionUtils.isEmpty(diaries)){
+			showDate = new Date();
+		} else {
+			showDate = diaries.get(0).getCreateDate();
+		}
 		String showDateStr = DateUtils.formatDate(showDate, "yyyy年MM月dd日");
 		tvShowDate.setText(showDateStr);
 	}
