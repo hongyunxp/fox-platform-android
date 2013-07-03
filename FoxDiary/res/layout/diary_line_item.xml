@@ -28,28 +28,47 @@
         android:background="@drawable/white_balloon_normal"
         android:clickable="true"
         android:orientation="vertical"
-        android:paddingBottom="@dimen/diary_line_item_other_padding"
+        android:paddingBottom="2dip"
         android:paddingTop="@dimen/diary_line_item_other_padding" >
 
         <LinearLayout
             android:id="@+id/diary_line_item_words"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="right"
             android:orientation="horizontal" >
 
             <TextView
-                android:id="@+id/diary_line_content"
+                android:id="@+id/diary_line_item_voice_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/diary_line_item_left_padding"
+                android:layout_marginRight="@dimen/diary_line_item_other_padding"
+                android:layout_weight="1"
+                android:background="@color/blue_normal"
+                android:drawableRight="@drawable/icon_wave"
+                android:gravity="center"
+                android:padding="@dimen/diary_line_item_other_padding"
+                android:text="2分30秒"
+                android:textColor="@color/white"
+                android:textSize="@dimen/h5"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/diary_line_item_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginBottom="@dimen/diary_line_item_other_padding"
                 android:layout_marginLeft="@dimen/diary_line_item_left_padding"
+                android:layout_marginTop="3dip"
                 android:layout_weight="1"
                 android:background="@drawable/quotation"
                 android:padding="10dip"
                 android:text="在这里显示日记的正文，在这里呢用户最多可以写140字的日记，或者说的更准确一点，应该叫做记事吧。其实这里还可以写的更长，不知道你知道不知道啊，呵呵。"
                 android:textColor="@color/diary_font_color"
-                android:textSize="@dimen/diary_line_content_font_size" />
+                android:textSize="@dimen/diary_line_content_font_size"
+                android:visibility="visible" />
 
             <ImageView
                 android:id="@+id/diary_line_item_wheather"
@@ -65,7 +84,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/diary_line_item_pic_padding"
             android:layout_marginRight="1dip"
-            android:background="@drawable/demo_pic3" />
+            android:layout_marginTop="3dip"
+            android:background="@drawable/demo_pic3"
+            android:visibility="visible" />
 
         <RelativeLayout
             android:id="@+id/diary_line_item_attaches"
@@ -93,12 +114,43 @@
                 android:textSize="@dimen/h5" />
         </RelativeLayout>
 
-        <ImageView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="2dip"
-            android:layout_marginLeft="@dimen/diary_line_item_left_padding"
-            android:layout_marginRight="@dimen/diary_line_item_other_padding"
-            android:background="@color/blue_normal" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/diary_line_item_other_padding" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="2dip"
+                android:layout_marginLeft="@dimen/diary_line_item_other_padding"
+                android:layout_marginRight="@dimen/diary_line_item_other_padding"
+                android:background="@color/blue_normal" />
+
+            <ImageButton
+                android:id="@+id/diary_line_item_delete"
+                style="@style/IconButton"
+                android:src="@drawable/icon_delete_blue" />
+
+            <ImageButton
+                android:id="@+id/diary_line_item_edit"
+                style="@style/IconButton"
+                android:layout_toRightOf="@id/diary_line_item_delete"
+                android:src="@drawable/icon_edit_blue" />
+
+            <ImageButton
+                android:id="@+id/diary_line_item_share"
+                style="@style/IconButton"
+                android:layout_toRightOf="@id/diary_line_item_edit"
+                android:src="@drawable/icon_share_blue" />
+
+            <ImageButton
+                android:id="@+id/diary_line_item_voice"
+                style="@style/IconButton"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="0.5dip"
+                android:background="@color/blue_normal"
+                android:src="@drawable/icon_voice" />
+        </RelativeLayout>
     </LinearLayout>
 
 </RelativeLayout>

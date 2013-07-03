@@ -59,4 +59,10 @@
         <item name="android:windowBackground">@android:color/transparent</item><!-- 背景 -->
         <item name="android:backgroundDimEnabled">false</item><!-- 背景模糊 -->
     </style>
+    
+	<style name="IconButton">
+	    <item name="android:layout_width">32dip</item>
+	    <item name="android:layout_height">32dip</item>
+	    <item name="android:background">@drawable/icon_button_bg</item>
+	</style>
 </resources>
