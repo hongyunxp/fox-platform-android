@@ -24,6 +24,7 @@
 	<color name="beige">#f3e9dd</color>
 	<color name="dark_brown">#464646</color>
 	
+	<color name="diary_font_color">#464646</color>
 	<!-- 日记时间线的界面 -->
 	<!-- <color name="diary_line_color">#5e607a</color> -->
 	<color name="diary_line_color">#ffffffff</color>

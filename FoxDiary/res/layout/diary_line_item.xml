@@ -6,45 +6,35 @@
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:paddingBottom="3dip"
-    android:paddingLeft="@dimen/border_padding"
-    android:paddingRight="@dimen/border_padding"
+    android:paddingLeft="@dimen/diary_line_item_other_padding"
+    android:paddingRight="@dimen/diary_line_item_other_padding"
     android:paddingTop="3dip" >
 
-    <TextView
-        android:id="@+id/diary_line_item_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:text="@string/time_temp"
-        android:textColor="@color/cyan"
-        android:textSize="@dimen/diary_line_time_font_size" />
-
     <ImageView
-        android:id="@+id/diary_line_node"
-        android:layout_width="32dip"
-        android:layout_height="32dip"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="4dip"
-        android:layout_toRightOf="@id/diary_line_item_time"
+        android:id="@+id/diary_line_item_emotion"
+        android:layout_width="24dip"
+        android:layout_height="24dip"
+        android:layout_marginTop="5dip"
         android:background="@drawable/red_node"
         android:clickable="true"
-        android:padding="2dip"
-        android:src="@null" />
+        android:src="@drawable/emotion01" />
 
-    <ViewSwitcher
-        android:id="@+id/diary_line_view_switcher"
+    <LinearLayout
+        android:id="@+id/diary_line_item_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="6dip"
-        android:layout_toRightOf="@id/diary_line_node" >
+        android:layout_marginLeft="3dip"
+        android:layout_toRightOf="@id/diary_line_item_emotion"
+        android:background="@drawable/white_balloon_normal"
+        android:clickable="true"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/diary_line_item_other_padding"
+        android:paddingTop="@dimen/diary_line_item_other_padding" >
 
         <LinearLayout
-            android:id="@+id/diary_line_balloon"
+            android:id="@+id/diary_line_item_words"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/red_balloon"
-            android:clickable="true"
+            android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
             <TextView
@@ -52,73 +42,63 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginBottom="6dip"
-                android:layout_marginLeft="6dip"
-                android:layout_marginRight="2dip"
-                android:layout_marginTop="6dip"
+                android:layout_marginBottom="@dimen/diary_line_item_other_padding"
+                android:layout_marginLeft="@dimen/diary_line_item_left_padding"
                 android:layout_weight="1"
+                android:background="@drawable/quotation"
+                android:padding="10dip"
                 android:text="在这里显示日记的正文，在这里呢用户最多可以写140字的日记，或者说的更准确一点，应该叫做记事吧。其实这里还可以写的更长，不知道你知道不知道啊，呵呵。"
-                android:textColor="@color/white"
+                android:textColor="@color/diary_font_color"
                 android:textSize="@dimen/diary_line_content_font_size" />
 
             <ImageView
-                android:id="@+id/diary_line_photo"
-                android:layout_width="85dip"
-                android:layout_height="85dip"
-                android:layout_gravity="center_vertical"
-                android:layout_marginBottom="7dip"
-                android:layout_marginLeft="2dip"
-                android:layout_marginRight="6dip"
-                android:layout_marginTop="6dip"
-                android:background="@drawable/white_round_bg"
-                android:clickable="true"
-                android:padding="4dip" />
+                android:id="@+id/diary_line_item_wheather"
+                android:layout_width="45dip"
+                android:layout_height="45dip"
+                android:layout_marginRight="@dimen/diary_line_item_other_padding"
+                android:background="@drawable/weather01" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/diary_line_tools"
-            android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/diary_line_item_photo"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="7dip"
-            android:orientation="horizontal" >
+            android:layout_marginLeft="@dimen/diary_line_item_pic_padding"
+            android:layout_marginRight="1dip"
+            android:background="@drawable/demo_pic3" />
 
-            <ImageView
-                android:id="@+id/diary_line_tool_delete"
+        <RelativeLayout
+            android:id="@+id/diary_line_item_attaches"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/diary_line_item_other_padding" >
+
+            <TextView
+                android:id="@+id/diary_line_item_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="6dip"
-                android:background="@drawable/red_circle"
-                android:clickable="true"
-                android:src="@drawable/icon_delete" />
+                android:layout_marginLeft="@dimen/diary_line_item_other_padding"
+                android:drawableLeft="@drawable/icon_location"
+                android:text="@string/loading"
+                android:textColor="@color/diary_font_color"
+                android:textSize="@dimen/h5" />
 
-            <ImageView
-                android:id="@+id/diary_line_tool_edit"
+            <TextView
+                android:id="@+id/diary_line_item_datetime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="6dip"
-                android:background="@drawable/purple_circle"
-                android:clickable="true"
-                android:src="@drawable/icon_edit" />
+                android:layout_alignParentRight="true"
+                android:text="7月3日 12:26"
+                android:textColor="@color/diary_font_color"
+                android:textSize="@dimen/h5" />
+        </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/diary_line_tool_share"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="6dip"
-                android:background="@drawable/cyan_circle"
-                android:clickable="true"
-                android:src="@drawable/icon_share" />
-
-            <ImageView
-                android:id="@+id/diary_line_tool_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="6dip"
-                android:background="@drawable/green_circle"
-                android:clickable="true"
-                android:src="@drawable/icon_undo" />
-        </LinearLayout>
-    </ViewSwitcher>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:layout_marginLeft="@dimen/diary_line_item_left_padding"
+            android:layout_marginRight="@dimen/diary_line_item_other_padding"
+            android:background="@color/blue_normal" />
+    </LinearLayout>
 
 </RelativeLayout>
