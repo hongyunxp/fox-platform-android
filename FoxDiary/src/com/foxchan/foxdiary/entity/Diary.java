@@ -163,4 +163,34 @@ public class Diary {
 		return new TimeLineNodeStyle(timeLineNodeStyleId);
 	}
 	
+	/**
+	 * 判断日记是否有文字内容
+	 * @return	如果日记有文字内容则返回true，否则返回false
+	 */
+	public boolean hasWords(){
+		boolean flag = false;
+		flag = (StringUtils.isEmpty(content) ? false : true);
+		return flag;
+	}
+	
+	/**
+	 * 判断日记是否有照片内容
+	 * @return	如果日记有照片内容则返回true，否则返回false
+	 */
+	public boolean hasPhoto(){
+		boolean flag = false;
+		flag = (StringUtils.isEmpty(imagePath) ? false : true);
+		return flag;
+	}
+	
+	/**
+	 * 判断日记是否有录音内容
+	 * @return	如果日记有录音内容则返回true，否则返回false
+	 */
+	public boolean hasVoice(){
+		boolean flag = false;
+		flag = (StringUtils.isEmpty(voicePath) ? false : true);
+		return flag;
+	}
+	
 }

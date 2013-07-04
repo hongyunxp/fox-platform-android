@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import cn.com.lezhixing.foxdb.core.FoxDB;
@@ -49,6 +50,8 @@ public class DiaryLineView extends Activity {
 	private static List<Date> diaryDates;
 	/** 日记的分页对象 */
 	private Pager<Diary> pager;
+	/** 添加日记的按钮 */
+	private ImageButton ibAddDiary;
 	
 	private FoxDB db;
 	private Session session;
@@ -83,7 +86,7 @@ public class DiaryLineView extends Activity {
 			@Override
 			public void refreshingData(RefreshListView view) {
 				view.setExistMoreData(true);
-				pager = new Pager<Diary>(4, 1);
+				pager = new Pager<Diary>(2, 1);
 				diaries.clear();
 				loadDiaries();
 				view.refreshingDataComplete();
@@ -135,6 +138,15 @@ public class DiaryLineView extends Activity {
 		}
 		String showDateStr = DateUtils.formatDate(showDate, "yyyy年MM月dd日");
 		tvShowDate.setText(showDateStr);
+		
+		ibAddDiary = (ImageButton)findViewById(R.id.diary_line_add);
+		ibAddDiary.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				toDiaryWriteView();
+			}
+		});
 	}
 	
 	/**
@@ -159,7 +171,7 @@ public class DiaryLineView extends Activity {
 			}
 		}
 		//初始化默认显示的日记
-		pager = new Pager<Diary>(10, 1);
+		pager = new Pager<Diary>(2, 1);
 		loadDiaries();
 	}
 	
@@ -170,8 +182,6 @@ public class DiaryLineView extends Activity {
 		session.query(pager, null, null, null, Diary.class);
 		diaries.addAll(pager.getContent());
 		AppContext.diariesOnDiaryLineView = diaries;
-		Log.d(Constants.DIARY_TAG, "总共找到" + pager.getTotalRecordsNumber() + "篇日记，当前是第" + pager.getCurrentPage() + "页，总共"  + pager.getTotalPage() + "页");
-		Log.d(Constants.DIARY_TAG, "当前页有" + diaries.size() + "篇日记。");
 	}
 
 	@Override

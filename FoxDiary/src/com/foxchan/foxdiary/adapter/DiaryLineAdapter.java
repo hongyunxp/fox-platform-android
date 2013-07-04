@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -37,38 +38,38 @@ public class DiaryLineAdapter extends BaseAdapter {
 	private LayoutInflater inflater;
 	private int diaryItemResource;
 	private NodeListener nodeListener;
-	private WeakHashMap<Integer, View> viewMap = new WeakHashMap<Integer, View>();
-	private SparseBooleanArray isShowTools;
 	
 	/** 日记列表 */
 	private List<Diary> diaries;
 	
 	/**
-	 * 节点
+	 * 日记信息
 	 * @author foxchan@live.cn
 	 * @create 2013-4-28
 	 */
 	public static class NodeItem{
-		/** 日记的记录时间 */
-		public TextView tvCreateDate;
-		/** 节点图片 */
-		public ImageView ivNode;
-		/** 内容的气泡框 */
-		public LinearLayout llBalloon;
-		/** 日记的正文 */
-		public TextView tvContent;
-		/** 日记的图片 */
+		/** 表情图标 */
+		public ImageView ivEmotion;
+		/** 文字内容 */
+		public TextView tvWords;
+		/** 声音内容 */
+		public TextView tvVoice;
+		/** 照片内容 */
 		public ImageView ivPhoto;
-		/** 界面转换器 */
-		public ViewSwitcher switcher;
+		/** 天气图标 */
+		public ImageView ivWeather;
+		/** 地点 */
+		public TextView tvLocation;
+		/** 发布时间 */
+		public TextView tvDatetime;
 		/** 删除按钮 */
-		public ImageView ivDelete;
+		public ImageButton ibDelete;
 		/** 编辑按钮 */
-		public ImageView ivEdit;
+		public ImageButton ibEdit;
 		/** 分享按钮 */
-		public ImageView ivShare;
-		/** 返回按钮 */
-		public ImageView ivBack;
+		public ImageButton ibShare;
+		/** 播放声音的按钮 */
+		public ImageButton ibVoice;
 	}
 	
 	/**
@@ -81,11 +82,6 @@ public class DiaryLineAdapter extends BaseAdapter {
 		this.diaries = diaries;
 		this.inflater = LayoutInflater.from(this.context);
 		this.diaryItemResource = R.layout.diary_line_item;
-		
-		isShowTools = new SparseBooleanArray();
-		for(int i = 0; i < diaries.size(); i++){
-			isShowTools.put(i, false);
-		}
 	}
 
 	public NodeListener getNodeListener() {
@@ -119,101 +115,35 @@ public class DiaryLineAdapter extends BaseAdapter {
 		if(convertView == null){
 			convertView = inflater.inflate(diaryItemResource, null);
 			nodeItem = new NodeItem();
-			nodeItem.ivNode = (ImageView)convertView.findViewById(R.id.diary_line_node);
-			nodeItem.ivPhoto = (ImageView)convertView.findViewById(R.id.diary_line_photo);
-			nodeItem.llBalloon = (LinearLayout)convertView.findViewById(R.id.diary_line_balloon);
-			nodeItem.tvContent = (TextView)convertView.findViewById(R.id.diary_line_content);
-			nodeItem.tvCreateDate = (TextView)convertView.findViewById(R.id.diary_line_item_time);
-			nodeItem.ivBack = (ImageView)convertView.findViewById(R.id.diary_line_tool_back);
-			nodeItem.ivDelete = (ImageView)convertView.findViewById(R.id.diary_line_tool_delete);
-			nodeItem.ivEdit = (ImageView)convertView.findViewById(R.id.diary_line_tool_edit);
-			nodeItem.ivShare = (ImageView)convertView.findViewById(R.id.diary_line_tool_share);
-			nodeItem.switcher = (ViewSwitcher)convertView.findViewById(R.id.diary_line_view_switcher);
+			nodeItem.ibDelete = (ImageButton)convertView.findViewById(R.id.diary_line_item_delete);
+			nodeItem.ibEdit = (ImageButton)convertView.findViewById(R.id.diary_line_item_edit);
+			nodeItem.ibShare = (ImageButton)convertView.findViewById(R.id.diary_line_item_share);
+			nodeItem.ibVoice = (ImageButton)convertView.findViewById(R.id.diary_line_item_voice);
+			nodeItem.ivEmotion = (ImageView)convertView.findViewById(R.id.diary_line_item_emotion);
+			nodeItem.ivPhoto = (ImageView)convertView.findViewById(R.id.diary_line_item_photo);
+			nodeItem.ivWeather = (ImageView)convertView.findViewById(R.id.diary_line_item_weather);
+			nodeItem.tvDatetime = (TextView)convertView.findViewById(R.id.diary_line_item_datetime);
+			nodeItem.tvLocation = (TextView)convertView.findViewById(R.id.diary_line_item_location);
+			nodeItem.tvVoice = (TextView)convertView.findViewById(R.id.diary_line_item_voice_content);
+			nodeItem.tvWords = (TextView)convertView.findViewById(R.id.diary_line_item_words);
 			convertView.setTag(nodeItem);
 		} else {
 			nodeItem = (NodeItem)convertView.getTag();
 		}
 		
-		final ViewSwitcher switcher = nodeItem.switcher;
-		final boolean viewState = isShowTools.get(position);
-		if(true == viewState){
-			switcher.showNext();
-		}
-		//绑定事件
-		nodeItem.llBalloon.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				//switcher.showNext();
-				isShowTools.put(position, !viewState);
-				notifyDataSetInvalidated();
-			}
-		});
-		nodeItem.ivBack.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				isShowTools.put(position, true);
-				notifyDataSetInvalidated();
-			}
-		});
-		nodeItem.ivDelete.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				nodeListener.delete(position);
-			}
-		});
-		nodeItem.ivEdit.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				nodeListener.edit(position);
-			}
-		});
-		nodeItem.ivShare.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				nodeListener.share(position);
-			}
-		});
-		nodeItem.ivNode.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if(!StringUtils.isEmpty(diary.getVoicePath())){
-					try {
-						PhoneUtils.playAudio(diary.getVoicePath());
-					} catch (IllegalArgumentException e) {
-						FoxToast.showToast(v.getContext(), "播放错误：" + e.getMessage(), Toast.LENGTH_SHORT);
-						e.printStackTrace();
-					} catch (SecurityException e) {
-						FoxToast.showToast(v.getContext(), "播放错误：" + e.getMessage(), Toast.LENGTH_SHORT);
-						e.printStackTrace();
-					} catch (IllegalStateException e) {
-						FoxToast.showToast(v.getContext(), "播放错误：" + e.getMessage(), Toast.LENGTH_SHORT);
-						e.printStackTrace();
-					} catch (IOException e) {
-						FoxToast.showToast(v.getContext(), "播放错误：" + e.getMessage(), Toast.LENGTH_SHORT);
-						e.printStackTrace();
-					}
-				} else {
-					FoxToast.showToast(v.getContext(), "没有音乐可以播放", Toast.LENGTH_SHORT);
-				}
-			}
-		});
-		
-		TimeLineNodeStyle style = diary.getStyle();
-		//设置节点的样式
-		nodeItem.tvCreateDate.setTextColor(context.getResources().getColor(style.getTimeColor()));
-		nodeItem.ivNode.setBackgroundResource(style.getNodeBg());
-		nodeItem.llBalloon.setBackgroundResource(style.getBalloonBg());
 		//绑定数据
-		nodeItem.tvCreateDate.setText(DateUtils.formatDate(diary.getCreateDate(), "HH:mm"));
-		nodeItem.tvContent.setText(diary.getContent());
-		Bitmap pic = diary.photo(context);
-		if(pic != null){
-			nodeItem.ivPhoto.setImageBitmap(pic);
-		} else {
-			nodeItem.ivPhoto.setVisibility(View.GONE);
+		if(diary.hasWords()){
+			nodeItem.tvWords.setText(diary.getContent());
+			nodeItem.tvWords.setVisibility(View.VISIBLE);
+			nodeItem.tvVoice.setVisibility(View.GONE);
+		} else if(diary.hasVoice()){
+			nodeItem.tvVoice.setVisibility(View.VISIBLE);
+			nodeItem.tvWords.setVisibility(View.GONE);
 		}
-		if(!StringUtils.isEmpty(diary.getVoicePath())){
-			nodeItem.ivNode.setImageResource(R.drawable.icon_white_voice_64_normal);
+		if(diary.hasVoice()){
+			nodeItem.ibVoice.setVisibility(View.VISIBLE);
+		} else {
+			nodeItem.ibVoice.setVisibility(View.GONE);
 		}
 		return convertView;
 	}
