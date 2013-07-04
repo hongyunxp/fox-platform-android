@@ -36,7 +36,14 @@ public class Pager<T> {
 	public Pager(int recordsNumber, int currentPage) {
 		this.recordsNumber = recordsNumber;
 		this.currentPage = currentPage;
-		startIndex = (currentPage - 1) * recordsNumber;
+		caculateStartIndex();
+	}
+	
+	/**
+	 * 计算当前的起始查询索引
+	 */
+	private void caculateStartIndex(){
+		this.startIndex = (currentPage - 1) * recordsNumber;
 	}
 
 	/**
@@ -183,6 +190,7 @@ public class Pager<T> {
 	public void prevPage(){
 		if(hasPrevPage()){
 			currentPage--;
+			caculateStartIndex();
 		}
 	}
 	
@@ -192,6 +200,7 @@ public class Pager<T> {
 	public void nextPage(){
 		if(hasNextPage()){
 			currentPage++;
+			caculateStartIndex();
 		}
 	}
 	
