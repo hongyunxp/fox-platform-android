@@ -1,31 +1,18 @@
 package com.foxchan.foxdiary.adapter;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.WeakHashMap;
 
 import com.foxchan.foxdiary.core.R;
-import com.foxchan.foxdiary.core.widgets.FoxToast;
 import com.foxchan.foxdiary.entity.Diary;
-import com.foxchan.foxdiary.entity.TimeLineNodeStyle;
-import com.foxchan.foxutils.data.DateUtils;
-import com.foxchan.foxutils.data.StringUtils;
-import com.foxchan.foxutils.tool.PhoneUtils;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ViewSwitcher;
 
 /**
  * 日记时间线的数据适配器
@@ -145,6 +132,12 @@ public class DiaryLineAdapter extends BaseAdapter {
 		} else {
 			nodeItem.ibVoice.setVisibility(View.GONE);
 		}
+		if(diary.hasPhoto()){
+			nodeItem.ivPhoto.setVisibility(View.VISIBLE);
+			nodeItem.ivPhoto.setImageBitmap(diary.photo(context));
+		} else {
+			nodeItem.ivPhoto.setVisibility(View.GONE);
+		}
 		return convertView;
 	}
 	
@@ -174,5 +167,5 @@ public class DiaryLineAdapter extends BaseAdapter {
 		void share(int position);
 		
 	}
-	
+
 }

@@ -1,5 +1,7 @@
 package com.foxchan.foxdiary.utils;
 
+import java.util.HashMap;
+
 import com.foxchan.foxutils.tool.FileUtils;
 import com.foxchan.foxutils.tool.SdCardUtils;
 
@@ -23,7 +25,7 @@ public class Constants {
 	/** 日记模块的数据库的名称 */
 	public static final String DIARY_DB_NAME = "db_diary.db";
 	/** 日记模块的数据库的版本号 */
-	public static final int DIARY_DB_VERSION = 1;
+	public static final int DIARY_DB_VERSION = 2;
 	/** 日记模块的数据库是否打印调试信息的标志 */
 	public static final boolean DIARY_DEBUG = true;
 	/** 日记模块的文字输入上限 */
@@ -34,6 +36,8 @@ public class Constants {
 	public static final String DIARY_TEMP_IMAGE = "temp_photo.png";
 	/** 日记模块的临时正文的文件保存名称 */
 	public static final String DIARY_TEMP_WORDS = "temp_words.temp";
+	/** 日记的每一页显示的记录数 */
+	public static final int DIARY_RECORD_NUMBER = 15;
 	/** 3GP格式的录音的高品质数据 */
 	public static final int THREE_GPP_AUDIO_QUENTITY_HIGH = 44100;
 	/** 3GP格式的录音的低品质数据 */
@@ -72,5 +76,12 @@ public class Constants {
 				SdCardUtils.getSdCardPath(), APP_RESOURCE, AUDIOS
 		});
 	}
+	
+	/**
+	 * 天气的信息Map
+	 */
+	public static final HashMap<Integer, String> weatherMap = new HashMap<Integer, String>(){{
+		put(1, "");//晴
+	}};
 
 }

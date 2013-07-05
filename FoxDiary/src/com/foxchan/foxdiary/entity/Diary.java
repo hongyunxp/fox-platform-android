@@ -5,6 +5,7 @@ import java.util.Date;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import cn.com.lezhixing.foxdb.annotation.Column;
 import cn.com.lezhixing.foxdb.annotation.GeneratedType;
 import cn.com.lezhixing.foxdb.annotation.GeneratedValue;
@@ -12,6 +13,7 @@ import cn.com.lezhixing.foxdb.annotation.Id;
 import cn.com.lezhixing.foxdb.annotation.Table;
 import cn.com.lezhixing.foxdb.annotation.Transient;
 
+import com.foxchan.foxdiary.core.R;
 import com.foxchan.foxutils.data.DateUtils;
 import com.foxchan.foxutils.data.StringUtils;
 import com.foxchan.foxutils.tool.BitmapUtils;
@@ -54,6 +56,9 @@ public class Diary {
 	/** 时间线节点的样式类型 */
 	@Column(nullable=false)
 	private int timeLineNodeStyleId;
+	/** 天气情况 */
+	@Column(nullable=false)
+	private int weatherId;
 
 	public String getId() {
 		return id;
@@ -140,17 +145,25 @@ public class Diary {
 		this.voice = voice;
 	}
 
+	public int getWeatherId() {
+		return weatherId;
+	}
+
+	public void setWeatherId(int weatherId) {
+		this.weatherId = weatherId;
+	}
+
 	/**
 	 * 获得节点的图片
 	 * @param context
 	 * @return			返回节点的图片
 	 */
 	public Bitmap photo(Context context){
-		if(StringUtils.isEmpty(imagePath)) return null;
 		if(image != null) return image;
-		image = BitmapUtils.loadBitmapFromSdCard(context, imagePath);
-		if(image != null){
-			image = BitmapUtils.getRoundedCornerBitmap(image, 190.0f);
+		if(StringUtils.isEmpty(imagePath)) {
+			image = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_not_found_image);
+		} else {
+			image = BitmapUtils.loadBitmapFromSdCard(context, imagePath);
 		}
 		return image;
 	}

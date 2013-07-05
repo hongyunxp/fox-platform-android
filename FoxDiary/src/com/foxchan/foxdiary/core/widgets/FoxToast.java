@@ -54,7 +54,7 @@ public class FoxToast {
 	 * @param text		显示的内容
 	 * @param duration	显示的时间长短，与Toast的取值相同
 	 */
-	public static void showToast(Context context, CharSequence text, int duration){
+	private static void toast(Context context, CharSequence text, int duration){
 		getInstance(context);
 		foxToast.tvContent.setText(text);
 		Toast toast = new Toast(context);
@@ -70,9 +70,34 @@ public class FoxToast {
 	 * @param resource	显示的内容的资源ID
 	 * @param duration	显示的时间长短，与Toast的取值相同
 	 */
-	public static void showToast(Context context, int resource, int duration){
+	private static void toast(Context context, int resource, int duration){
 		String text = context.getString(resource);
-		showToast(context, text, duration);
+		toast(context, text, duration);
+	}
+	
+	/**
+	 * 显示消息
+	 * @param context
+	 * @param text		显示的内容
+	 * @param duration	显示的时间长短，与Toast的取值相同
+	 */
+	public static void showToast(Context context, CharSequence text, int duration){
+		getInstance(context);
+		foxToast.llBox.setBackgroundColor(context.getResources().getColor(R.color.blue_normal));
+		toast(context, text, duration);
+	}
+	
+	/**
+	 * 显示消息
+	 * @param context
+	 * @param resource	显示的内容的资源ID
+	 * @param duration	显示的时间长短，与Toast的取值相同
+	 */
+	public static void showToast(Context context, int resource, int duration){
+		getInstance(context);
+		String text = context.getString(resource);
+		foxToast.llBox.setBackgroundColor(context.getResources().getColor(R.color.blue_normal));
+		toast(context, text, duration);
 	}
 	
 	/**
@@ -84,7 +109,7 @@ public class FoxToast {
 	public static void showException(Context context, CharSequence text, int duration){
 		getInstance(context);
 		foxToast.llBox.setBackgroundColor(context.getResources().getColor(R.color.red_normal));
-		showToast(context, text, duration);
+		toast(context, text, duration);
 	}
 	
 	/**
@@ -96,7 +121,7 @@ public class FoxToast {
 	public static void showException(Context context, int resource, int duration){
 		getInstance(context);
 		foxToast.llBox.setBackgroundColor(context.getResources().getColor(R.color.red_normal));
-		showToast(context, resource, duration);
+		toast(context, resource, duration);
 	}
 
 }

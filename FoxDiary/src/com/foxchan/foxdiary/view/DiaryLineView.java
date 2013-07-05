@@ -60,7 +60,6 @@ public class DiaryLineView extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.diary_line);
-//		FoxDB.DEBUG = true;
 		//初始化组件和数据
 		db = FoxDB.create(this, Constants.DIARY_DB_NAME, Constants.DIARY_DB_VERSION);
 		session = db.openSession();
@@ -85,10 +84,29 @@ public class DiaryLineView extends Activity {
 			
 			@Override
 			public void refreshingData(RefreshListView view) {
-				view.setExistMoreData(true);
-				pager = new Pager<Diary>(2, 1);
-				diaries.clear();
-				loadDiaries();
+				pager = new Pager<Diary>(Constants.DIARY_RECORD_NUMBER, 1);
+				List<Diary> nDiaries = pager.getContent();
+				int newDiaryCount = 0;
+				if(!CollectionUtils.isEmpty(nDiaries)){
+					for(Diary d : nDiaries){
+						boolean b = false;
+						for(Diary diary : diaries){
+							if(d.getId().equals(diary.getId())){
+								b = true;
+								break;
+							}
+						}
+						if(b == false){
+							diaries.add(0, d);
+							newDiaryCount++;
+						}
+					}
+				}
+				FoxToast.showToast(view.getContext(),
+						String.format(
+								getResources().getString(
+										R.string.pull_to_refresh_result),
+								newDiaryCount), Toast.LENGTH_SHORT);
 				view.refreshingDataComplete();
 			}
 			
@@ -147,6 +165,11 @@ public class DiaryLineView extends Activity {
 				toDiaryWriteView();
 			}
 		});
+		
+		Log.d(Constants.DIARY_TAG, "总页数是：" + pager.getTotalPage());
+		if(pager.getTotalPage() <= 1){
+			lvDiarys.loadMoreDataComplete();
+		}
 	}
 	
 	/**
@@ -171,7 +194,7 @@ public class DiaryLineView extends Activity {
 			}
 		}
 		//初始化默认显示的日记
-		pager = new Pager<Diary>(2, 1);
+		pager = new Pager<Diary>(Constants.DIARY_RECORD_NUMBER, 1);
 		loadDiaries();
 	}
 	
