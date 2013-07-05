@@ -2,9 +2,6 @@ package com.foxchan.foxdiary.core.widgets;
 
 import java.util.Date;
 
-import com.foxchan.foxdiary.core.R;
-import com.foxchan.foxutils.data.DateUtils;
-
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.util.AttributeSet;
@@ -23,6 +20,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.foxchan.foxdiary.core.R;
+import com.foxchan.foxutils.data.DateUtils;
 
 /**
  * 支持下拉事件和上划事件的列表控件

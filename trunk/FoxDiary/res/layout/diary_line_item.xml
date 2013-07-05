@@ -126,26 +126,26 @@
             <ImageButton
                 android:id="@+id/diary_line_item_delete"
                 style="@style/IconButton"
-                android:src="@drawable/icon_delete_blue" />
+                android:src="@drawable/button_diary_delete" />
 
             <ImageButton
                 android:id="@+id/diary_line_item_edit"
                 style="@style/IconButton"
                 android:layout_toRightOf="@id/diary_line_item_delete"
-                android:src="@drawable/icon_edit_blue" />
+                android:src="@drawable/button_diary_edit" />
 
             <ImageButton
                 android:id="@+id/diary_line_item_share"
                 style="@style/IconButton"
                 android:layout_toRightOf="@id/diary_line_item_edit"
-                android:src="@drawable/icon_share_blue" />
+                android:src="@drawable/button_diary_share" />
 
             <ImageButton
                 android:id="@+id/diary_line_item_voice"
                 style="@style/IconButton"
                 android:layout_alignParentRight="true"
-                android:background="@color/blue_normal"
-                android:src="@drawable/icon_voice" />
+                android:background="@drawable/icon_button_bg_reverse"
+                android:src="@drawable/button_diary_voice" />
         </RelativeLayout>
     </LinearLayout>
 

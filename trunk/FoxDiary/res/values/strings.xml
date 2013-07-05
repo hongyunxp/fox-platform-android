@@ -17,6 +17,7 @@
 	<string name="pull_to_refresh_state_refreshing">正在刷新...</string>
 	<string name="pull_to_refresh_state_last_update_date">上一次刷新的时间是：%1$s</string>
 	<string name="pull_to_refresh_state_loading_more">正在加载更多内容</string>
+	<string name="pull_to_refresh_result">本次刷新总共添加%1$s条数据</string>
 	
 	<!-- 日记时间线 -->
 	<string name="diary_line_add">写点什么</string>
