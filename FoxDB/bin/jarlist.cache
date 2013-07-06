@@ -1,5 +1,3 @@
-# cache for current jar dependecy. DO NOT EDIT.
+# cache for current jar dependency. DO NOT EDIT.
 # format is <lastModified> <length> <SHA-1> <path>
 # Encoding is UTF-8
-1372815944000 393153 61797b27e59a89da9196822239325afcb090f9b2 /Users/foxchan/Development/Android/workspace/FoxDB/libs/android-support-v4.jar
-1372816461000 393153 61797b27e59a89da9196822239325afcb090f9b2 /Users/foxchan/Development/Android/workspace/FoxUtils/libs/android-support-v4.jar
