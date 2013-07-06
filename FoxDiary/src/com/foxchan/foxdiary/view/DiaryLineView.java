@@ -14,10 +14,10 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-import cn.com.lezhixing.foxdb.core.FoxDB;
-import cn.com.lezhixing.foxdb.core.Session;
-import cn.com.lezhixing.foxdb.engine.Pager;
 
+import com.foxchan.foxdb.core.FoxDB;
+import com.foxchan.foxdb.core.Session;
+import com.foxchan.foxdb.engine.Pager;
 import com.foxchan.foxdiary.adapter.DiaryLineAdapter;
 import com.foxchan.foxdiary.adapter.DiaryLineAdapter.NodeListener;
 import com.foxchan.foxdiary.core.AppContext;
