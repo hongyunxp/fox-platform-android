@@ -29,9 +29,9 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
-import cn.com.lezhixing.foxdb.core.FoxDB;
-import cn.com.lezhixing.foxdb.core.Session;
 
+import com.foxchan.foxdb.core.FoxDB;
+import com.foxchan.foxdb.core.Session;
 import com.foxchan.foxdiary.core.AppContext;
 import com.foxchan.foxdiary.core.R;
 import com.foxchan.foxdiary.core.widgets.FoxConfirmDialog;
