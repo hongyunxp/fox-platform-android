@@ -431,5 +431,50 @@ public class BitmapUtils {
 		matrix.postScale(wf, hf);
 		return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 	}
+	
+	/**
+	 * 缩放图片
+	 * @param bitmap	需要进行缩放的图片
+	 * @param newWidth	新图片的宽度，如果只按照高度进行缩放，请传入-1
+	 * @param newHeight	新图片的高度，如果只按照宽度进行缩放，请传入-1
+	 * @return			返回缩放后的图片对象
+	 */
+	public static Bitmap zoom(Bitmap bitmap, int newWidth, int newHeight){
+		float wf = 1.0f;
+		float hf = 1.0f;
+		int width = bitmap.getWidth();
+		int height = bitmap.getHeight();
+		if(newWidth <= 0){//按照高度进行缩放
+			hf = ((float)newHeight) / height;
+			wf = hf;
+		} else if(newHeight <= 0){//按照宽度进行缩放
+			wf = ((float)newWidth) / width;
+			hf = wf;
+		} else {
+			wf = ((float)newWidth) / width;
+			hf = ((float)newHeight) / height;
+		}
+		return zoom(bitmap, wf, hf);
+	}
+	
+	/**
+	 * 按照宽度等比例缩放图片
+	 * @param bitmap	需要进行缩放的图片
+	 * @param newWidth	新图片的宽度，如果只按照高度进行缩放，请传入-1
+	 * @return			返回缩放后的图片对象
+	 */
+	public static Bitmap zoomByWidth(Bitmap bitmap, int newWidth){
+		return zoom(bitmap, newWidth, -1);
+	}
+	
+	/**
+	 * 按照宽度等比例缩放图片
+	 * @param bitmap	需要进行缩放的图片
+	 * @param newHeight	新图片的宽度，如果只按照高度进行缩放，请传入-1
+	 * @return			返回缩放后的图片对象
+	 */
+	public static Bitmap zoomByHeight(Bitmap bitmap, int newHeight){
+		return zoom(bitmap, -1, newHeight);
+	}
     
 }
