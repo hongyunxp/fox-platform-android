@@ -141,14 +141,13 @@ public class BitmapUtils {
 	 * @param filePath	图片的路径
 	 * @return			返回图片对象
 	 */
-	public static Bitmap loadBitmap(Context context, String filePath){
+	public static Bitmap loadBitmap(Context context, String filePath)
+			throws FileNotFoundException {
 		FileInputStream fis = null;
 		Bitmap bitmap = null;
 		try {
 			fis = context.openFileInput(filePath);
 			bitmap = BitmapFactory.decodeStream(fis);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} finally {
 			Closer.close(fis);
 		}
@@ -161,7 +160,8 @@ public class BitmapUtils {
 	 * @param filePath	图片的路径
 	 * @return			返回图片对象
 	 */
-	public static Bitmap loadBitmapFromSdCard(Context context, String filePath){
+	public static Bitmap loadBitmapFromSdCard(Context context, String filePath)
+			throws FileNotFoundException {
 		FileInputStream fis = null;
 		Bitmap bitmap = null;
 		File file = null;
@@ -177,8 +177,6 @@ public class BitmapUtils {
 		try {
 			fis = new FileInputStream(file);
 			bitmap = BitmapFactory.decodeStream(fis);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} finally {
 			Closer.close(fis);
 		}
