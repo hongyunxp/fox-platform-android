@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.foxchan.foxdiary.core.R;
 import com.foxchan.foxdiary.entity.Diary;
+import com.foxchan.foxutils.tool.BitmapUtils;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -126,6 +127,9 @@ public class DiaryLineAdapter extends BaseAdapter {
 		} else if(diary.hasVoice()){
 			nodeItem.tvVoice.setVisibility(View.VISIBLE);
 			nodeItem.tvWords.setVisibility(View.GONE);
+		} else {
+			nodeItem.tvVoice.setVisibility(View.GONE);
+			nodeItem.tvWords.setVisibility(View.GONE);
 		}
 		if(diary.hasVoice()){
 			nodeItem.ibVoice.setVisibility(View.VISIBLE);
@@ -138,6 +142,8 @@ public class DiaryLineAdapter extends BaseAdapter {
 		} else {
 			nodeItem.ivPhoto.setVisibility(View.GONE);
 		}
+		//设置日记的发布时间
+		nodeItem.tvDatetime.setText(diary.getCreateDatetimeStr());
 		return convertView;
 	}
 	

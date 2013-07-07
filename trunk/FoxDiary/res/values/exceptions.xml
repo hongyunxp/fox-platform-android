@@ -2,4 +2,7 @@
 <resources>
     <!-- 写日记模块的异常 -->
     <string name="ex_writing_recorder">启动录音设备失败。</string>
+    <string name="ex_diary_empty">该日记中没有任何内容。</string>
+    
+    <string name="ex_image_not_found">没有找到该图片。</string>
 </resources>

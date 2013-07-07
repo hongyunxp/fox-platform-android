@@ -29,6 +29,7 @@
         android:clickable="true"
         android:orientation="vertical"
         android:paddingBottom="2dip"
+        android:paddingLeft="7dip"
         android:paddingTop="@dimen/diary_line_item_other_padding" >
 
         <LinearLayout
@@ -56,7 +57,7 @@
 
             <TextView
                 android:id="@+id/diary_line_item_words"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/diary_line_item_other_padding"
                 android:layout_marginLeft="@dimen/diary_line_item_left_padding"
@@ -83,7 +84,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dip"
-            android:background="@drawable/demo_pic3"
+            android:src="@drawable/demo_pic3"
             android:visibility="visible" />
 
         <RelativeLayout
