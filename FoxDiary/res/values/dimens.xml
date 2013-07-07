@@ -15,7 +15,7 @@
 	<dimen name="diary_line_item_other_padding">6dip</dimen>
 	<dimen name="diary_line_width">4dip</dimen>
 	<dimen name="diary_line_time_font_size">16sp</dimen>
-	<dimen name="diary_line_content_font_size">14sp</dimen>
+	<dimen name="diary_line_content_font_size">16sp</dimen>
 	<!-- 添加日记控件 -->
 	<dimen name="diary_write_big_circle_radius">253dip</dimen>
 	

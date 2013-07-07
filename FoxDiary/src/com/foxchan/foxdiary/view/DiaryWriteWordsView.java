@@ -117,12 +117,12 @@ public class DiaryWriteWordsView extends FakeActivity {
 	}
 	
 	/**
-	 * 判断日记的文字部分的数据是否正确
+	 * 判断日记的文字部分是否存在
 	 * @return	如果日记的文字部分的数据正确无误则返回true，否则返回false
 	 */
-	public boolean isDiaryWordsReady() throws DiaryWordsException{
+	public boolean isWordsExist() {
 		if(StringUtils.isEmpty(content)){
-			throw new DiaryWordsException(diaryWriteView, R.string.diary_write_words_empty);
+			return false;
 		}
 		return true;
 	}

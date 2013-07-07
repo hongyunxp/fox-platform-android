@@ -32,6 +32,8 @@ public class Constants {
 	public static final int DIARY_WORDS_MAX = 140;
 	/** 日记模块的图片保存文件夹路径 */
 	public static final String DIARY_IMAGE_DOCUMENT = "diary";
+	/** 日记模块的图片的宽度 */
+	public static final int DIARY_IMAGE_WIDTH = 410;
 	/** 日记模块的临时图片的保存名称 */
 	public static final String DIARY_TEMP_IMAGE = "temp_photo.png";
 	/** 日记模块的临时正文的文件保存名称 */

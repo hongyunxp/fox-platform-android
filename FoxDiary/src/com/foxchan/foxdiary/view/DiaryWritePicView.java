@@ -12,9 +12,11 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.foxchan.foxdiary.core.R;
 import com.foxchan.foxdiary.core.widgets.FakeActivity;
+import com.foxchan.foxdiary.core.widgets.FoxToast;
 import com.foxchan.foxdiary.utils.Constants;
 import com.foxchan.foxutils.data.StringUtils;
 import com.foxchan.foxutils.tool.BitmapUtils;
@@ -65,6 +67,7 @@ public class DiaryWritePicView extends FakeActivity {
 			public void onClick(View v) {
 				Intent intent = new Intent(Intent.ACTION_PICK,null);
 				intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+				intent.putExtra("return-data", true);
 				diaryWriteView.startActivityForResult(intent, DiaryWriteView.ACTIVITY_CODE_IMAGE_FROM_ALBUM);
 			}
 		});
@@ -115,11 +118,11 @@ public class DiaryWritePicView extends FakeActivity {
 		intentCarema.putExtra("noFaceDetection", true);//不需要人脸识别功能
 //		intentCarema.putExtra("circleCrop", "");// 设定此方法选定区域会是圆形区域
 		// aspectX aspectY是宽高比例
-		intentCarema.putExtra("aspectX", 1);
-		intentCarema.putExtra("aspectY", 1);
+//		intentCarema.putExtra("aspectX", 400);
+//		intentCarema.putExtra("aspectY", 1);
 		// outputX outputY 是裁剪图片的宽高
-		intentCarema.putExtra("outputX", 380);
-		intentCarema.putExtra("outputY", 380);
+		intentCarema.putExtra("outputX", 400);
+//		intentCarema.putExtra("outputY", 380);
 		intentCarema.putExtra("return-data", true);
 		diaryWriteView.startActivityForResult(intentCarema,
 				DiaryWriteView.ACTIVITY_CODE_IMAGE_CUT);
@@ -143,6 +146,45 @@ public class DiaryWritePicView extends FakeActivity {
 			Drawable drawable = new BitmapDrawable(diaryWriteView.getResources(), picTemp4Show);
 			ivPhoto.setBackgroundDrawable(drawable);
 		}
+	}
+	
+	/**
+	 * 处理用户拍摄的（选择的）的图片
+	 * @param data	处理用户拍摄的（选择的）图片
+	 */
+	public void dealWithImage(Intent data){
+		Bitmap picTemp = data.getParcelableExtra("data");
+		if(picTemp == null){
+			FoxToast.showException(diaryWriteView,
+					diaryWriteView.getString(R.string.ex_image_not_found),
+					Toast.LENGTH_SHORT);
+		} else {
+			//缩小图片
+			int width = picTemp.getWidth();
+			if(width > Constants.DIARY_IMAGE_WIDTH){
+				picTemp = BitmapUtils.zoomByWidth(picTemp, width);
+			}
+			
+			String imagePath = Constants.buildDiaryImagePath();
+			String imageName = StringUtils.getUUID();
+			diaryWriteView.setImagePath(imagePath);
+			diaryWriteView.setImage(picTemp);
+			diaryWriteView.setImageName(imageName);
+			//显示图片
+			Drawable drawable = new BitmapDrawable(diaryWriteView.getResources(), picTemp);
+			ivPhoto.setBackgroundDrawable(drawable);
+		}
+	}
+	
+	/**
+	 * 判断当前的日记是否有图片
+	 * @return	如果有图片则返回true，否则返回false
+	 */
+	public boolean isPicExist(){
+		if(StringUtils.isEmpty(diaryWriteView.getImagePath()) || StringUtils.isEmpty(diaryWriteView.getImageName())){
+			return false;
+		}
+		return true;
 	}
 
 }

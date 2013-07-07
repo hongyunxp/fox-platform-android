@@ -1,6 +1,7 @@
 package com.foxchan.foxdiary.entity;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Date;
 
 import android.content.Context;
@@ -163,7 +164,11 @@ public class Diary {
 		if(StringUtils.isEmpty(imagePath)) {
 			image = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_not_found_image);
 		} else {
-			image = BitmapUtils.loadBitmapFromSdCard(context, imagePath);
+			try {
+				image = BitmapUtils.loadBitmapFromSdCard(context, imagePath);
+			} catch (FileNotFoundException e) {
+				image = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_not_found_image);
+			}
 		}
 		return image;
 	}
@@ -204,6 +209,22 @@ public class Diary {
 		boolean flag = false;
 		flag = (StringUtils.isEmpty(voicePath) ? false : true);
 		return flag;
+	}
+	
+	/**
+	 * 获得日记的创建日期的日期字符串
+	 * @return	返回日记的创建日期的日期字符串
+	 */
+	public String getCreateDateStr(){
+		return DateUtils.formatDate(createDate, "yyyy年MM月dd日");
+	}
+	
+	/**
+	 * 获得日记的创建时间的时间字符串
+	 * @return	返回日记的创建时间的时间字符串
+	 */
+	public String getCreateDatetimeStr(){
+		return DateUtils.formatDate(createDate, "MM月dd日  HH:mm");
 	}
 	
 }

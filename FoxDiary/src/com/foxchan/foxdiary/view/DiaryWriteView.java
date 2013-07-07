@@ -16,6 +16,7 @@ import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -38,7 +39,7 @@ import com.foxchan.foxdiary.core.widgets.FoxConfirmDialog;
 import com.foxchan.foxdiary.core.widgets.FoxToast;
 import com.foxchan.foxdiary.entity.Diary;
 import com.foxchan.foxdiary.entity.TimeLineNodeStyle;
-import com.foxchan.foxdiary.exception.DiaryWordsException;
+import com.foxchan.foxdiary.exception.DiaryEmptyException;
 import com.foxchan.foxdiary.utils.Constants;
 import com.foxchan.foxutils.data.StringUtils;
 import com.foxchan.foxutils.tool.BitmapUtils;
@@ -289,9 +290,12 @@ public class DiaryWriteView extends Activity {
 		try {
 			isDiarySaveSuccess = saveDiary();
 			handler.sendEmptyMessage(STATE_DIARY_SAVED);
-		} catch (DiaryWordsException e) {
+		} catch (DiaryEmptyException e) {
 			String errMsg = String.format(getString(R.string.diary_write_save_fail), e.getMessage());
 			FoxToast.showToast(this, errMsg, Toast.LENGTH_SHORT);
+			//将状态恢复
+			ivRefresh.clearAnimation();
+			vsSaveAndRefresh.showPrevious();
 			e.printStackTrace();
 		}
 	}
@@ -318,9 +322,16 @@ public class DiaryWriteView extends Activity {
 	 * 判断日记是否可以进行保存
 	 * @return	如果日记的内容验证无误，则返回true，否则返回false
 	 */
-	private boolean isDiaryReady() throws DiaryWordsException{
+	private boolean isDiaryReady() throws DiaryEmptyException{
 		boolean validation = true;
-		validation = diaryWriteWordsView.isDiaryWordsReady();
+		if(diaryWriteWordsView.isWordsExist() || 
+				diaryWritePicView.isPicExist() ||
+				diaryWriteVoiceView.isAudioFileExist()){
+			validation = true;
+		} else {
+			validation = false;
+			throw new DiaryEmptyException(this, R.string.ex_diary_empty);
+		}
 		return validation;
 	}
 	
@@ -344,7 +355,7 @@ public class DiaryWriteView extends Activity {
 		return diary;
 	}
 	
-	private boolean saveDiary() throws DiaryWordsException{
+	private boolean saveDiary() throws DiaryEmptyException{
 		if(isDiaryReady()){
 			Diary diary = buildDiary();
 			Session session = db.openSession();
@@ -376,22 +387,25 @@ public class DiaryWriteView extends Activity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
+		//super.onActivityResult(requestCode, resultCode, data);
 		if(resultCode == RESULT_OK){
 			Uri uri = null;
 			switch(requestCode){
 			case ACTIVITY_CODE_IMAGE_FROM_ALBUM:
-				uri = data.getData();
+				diaryWritePicView.dealWithImage(data);
+				Log.d(Constants.DIARY_TAG, "data == null ? " + (data.getParcelableExtra("data") == null));
+				/*uri = data.getData();
 				if(uri != null){
 					diaryWritePicView.startPicCut(data.getData());
-				}
+				}*/
 				break;
 			case ACTIVITY_CODE_IMAGE_FROM_CAMARA:
-					File tempImage = new File(Constants.buildDiaryTempImagePath());
-					uri = Uri.fromFile(tempImage);
-					if(uri != null){
-						diaryWritePicView.startPicCut(uri);
-					}
+				diaryWritePicView.dealWithImage(data);
+				/*File tempImage = new File(Constants.buildDiaryTempImagePath());
+				uri = Uri.fromFile(tempImage);
+				if(uri != null){
+					diaryWritePicView.startPicCut(uri);
+				}*/
 				break;
 			case ACTIVITY_CODE_IMAGE_CUT:
 				diaryWritePicView.setPicToView(data);
