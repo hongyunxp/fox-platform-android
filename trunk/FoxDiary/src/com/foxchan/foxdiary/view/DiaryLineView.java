@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.crypto.spec.IvParameterSpec;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -72,14 +74,7 @@ public class DiaryLineView extends Activity {
 	 */
 	private void initWidgets() {
 		lvDiarys = (RefreshListView)findViewById(R.id.diary_line_listview);
-		lvDiarys.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View v, int position,
-					long id) {
-				
-			}
-		});
+		//绑定下拉刷新和上划加载的事件
 		lvDiarys.setOnTaskDoingListener(new RefreshListView.OnTaskDoingListener() {
 			
 			@Override
@@ -122,26 +117,27 @@ public class DiaryLineView extends Activity {
 		});
 		
 		diaryLineAdapter = new DiaryLineAdapter(this, diaries);
+		//绑定操作日记的事件
 		diaryLineAdapter.setNodeListener(new NodeListener() {
 			
 			@Override
-			public void share(int position) {
+			public void onShare(int position) {
 				Diary diary = diaries.get(position);
 				FoxToast.showToast(DiaryLineView.this, "分享的日记的标题是：" + diary.getTitle(), Toast.LENGTH_SHORT);
-				Log.d(Constants.DIARY_TAG, "分享日记");
-				diaryLineAdapter.notifyAll();
 			}
 			
 			@Override
-			public void edit(int position) {
+			public void onEdit(int position) {
 				Diary diary = diaries.get(position);
 				FoxToast.showToast(DiaryLineView.this, "编辑的日记的标题是：" + diary.getTitle(), Toast.LENGTH_SHORT);
 			}
 			
 			@Override
-			public void delete(int position) {
+			public void onDelete(int position) {
 				Diary diary = diaries.get(position);
 				FoxToast.showToast(DiaryLineView.this, "删除的日记的标题是：" + diary.getTitle(), Toast.LENGTH_SHORT);
+				diaries.remove(position);
+				diaryLineAdapter.notifyDataSetChanged();
 			}
 		});
 		lvDiarys.setAdapter(diaryLineAdapter);
@@ -166,7 +162,6 @@ public class DiaryLineView extends Activity {
 			}
 		});
 		
-		Log.d(Constants.DIARY_TAG, "总页数是：" + pager.getTotalPage());
 		if(pager.getTotalPage() <= 1){
 			lvDiarys.loadMoreDataComplete();
 		}

@@ -144,6 +144,28 @@ public class DiaryLineAdapter extends BaseAdapter {
 		}
 		//设置日记的发布时间
 		nodeItem.tvDatetime.setText(diary.getCreateDatetimeStr());
+		//绑定对于日记的操作事件
+		nodeItem.ibDelete.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				nodeListener.onDelete(position);
+			}
+		});
+		nodeItem.ibEdit.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				nodeListener.onEdit(position);
+			}
+		});
+		nodeItem.ibShare.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				nodeListener.onShare(position);
+			}
+		});
 		return convertView;
 	}
 	
@@ -158,19 +180,19 @@ public class DiaryLineAdapter extends BaseAdapter {
 		 * 删除该节点
 		 * @param position	节点的位置
 		 */
-		void delete(int position);
+		void onDelete(int position);
 		
 		/**
 		 * 编辑节点的内容
 		 * @param position	节点的位置
 		 */
-		void edit(int position);
+		void onEdit(int position);
 		
 		/**
 		 * 分享节点的内容
 		 * @param position	节点的位置
 		 */
-		void share(int position);
+		void onShare(int position);
 		
 	}
 

@@ -392,20 +392,14 @@ public class DiaryWriteView extends Activity {
 			Uri uri = null;
 			switch(requestCode){
 			case ACTIVITY_CODE_IMAGE_FROM_ALBUM:
-				diaryWritePicView.dealWithImage(data);
-				Log.d(Constants.DIARY_TAG, "data == null ? " + (data.getParcelableExtra("data") == null));
-				/*uri = data.getData();
-				if(uri != null){
-					diaryWritePicView.startPicCut(data.getData());
-				}*/
+				diaryWritePicView.dealWithImage(data.getData());
 				break;
 			case ACTIVITY_CODE_IMAGE_FROM_CAMARA:
-				diaryWritePicView.dealWithImage(data);
-				/*File tempImage = new File(Constants.buildDiaryTempImagePath());
+				File tempImage = new File(Constants.buildDiaryTempImagePath());
 				uri = Uri.fromFile(tempImage);
 				if(uri != null){
-					diaryWritePicView.startPicCut(uri);
-				}*/
+					diaryWritePicView.dealWithImage(uri);
+				}
 				break;
 			case ACTIVITY_CODE_IMAGE_CUT:
 				diaryWritePicView.setPicToView(data);
