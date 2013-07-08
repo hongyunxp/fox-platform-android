@@ -152,28 +152,29 @@ public class DiaryWritePicView extends FakeActivity {
 	 * 处理用户拍摄的（选择的）的图片
 	 * @param data	处理用户拍摄的（选择的）图片
 	 */
-	public void dealWithImage(Intent data){
-		Bitmap picTemp = data.getParcelableExtra("data");
-		if(picTemp == null){
+	public void dealWithImage(Uri uri){
+		Bitmap picTemp = null;
+		try {
+			picTemp = MediaStore.Images.Media.getBitmap(diaryWriteView.getContentResolver(), uri);
+		} catch (Exception e) {
 			FoxToast.showException(diaryWriteView,
 					diaryWriteView.getString(R.string.ex_image_not_found),
 					Toast.LENGTH_SHORT);
-		} else {
-			//缩小图片
-			int width = picTemp.getWidth();
-			if(width > Constants.DIARY_IMAGE_WIDTH){
-				picTemp = BitmapUtils.zoomByWidth(picTemp, width);
-			}
-			
-			String imagePath = Constants.buildDiaryImagePath();
-			String imageName = StringUtils.getUUID();
-			diaryWriteView.setImagePath(imagePath);
-			diaryWriteView.setImage(picTemp);
-			diaryWriteView.setImageName(imageName);
-			//显示图片
-			Drawable drawable = new BitmapDrawable(diaryWriteView.getResources(), picTemp);
-			ivPhoto.setBackgroundDrawable(drawable);
 		}
+		//缩小图片
+		int width = picTemp.getWidth();
+		if(width > Constants.DIARY_IMAGE_WIDTH){
+			picTemp = BitmapUtils.zoomByWidth(picTemp, Constants.DIARY_IMAGE_WIDTH);
+		}
+		
+		String imagePath = Constants.buildDiaryImagePath();
+		String imageName = StringUtils.getUUID();
+		diaryWriteView.setImagePath(imagePath);
+		diaryWriteView.setImage(picTemp);
+		diaryWriteView.setImageName(imageName);
+		//显示图片
+		Drawable drawable = new BitmapDrawable(diaryWriteView.getResources(), picTemp);
+		ivPhoto.setBackgroundDrawable(drawable);
 	}
 	
 	/**

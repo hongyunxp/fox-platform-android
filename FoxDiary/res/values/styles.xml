@@ -61,8 +61,8 @@
     </style>
     
 	<style name="IconButton">
-	    <item name="android:layout_width">32dip</item>
-	    <item name="android:layout_height">32dip</item>
+	    <item name="android:layout_width">42dip</item>
+	    <item name="android:layout_height">42dip</item>
 	    <item name="android:background">@drawable/icon_button_bg</item>
 	</style>
 </resources>
