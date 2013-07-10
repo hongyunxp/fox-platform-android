@@ -5,85 +5,125 @@
     android:layout_height="match_parent" >
 
     <RelativeLayout
-        android:id="@+id/diary_write_voice_recorder"
-        android:layout_width="256dip"
-        android:layout_height="273dip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true" >
 
-        <ImageView
-            android:id="@+id/diary_write_voice_record_body"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/diary_write_voice_recorder"
+            android:layout_width="256dip"
+            android:layout_height="273dip" >
+
+            <ImageView
+                android:id="@+id/diary_write_voice_record_body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/record_wheel_body" />
+
+            <ImageView
+                android:id="@+id/diary_write_voice_record_wheel_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/record_wheel_left" />
+
+            <ImageView
+                android:id="@+id/diary_write_voice_record_wheel_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/record_wheel_right" />
+
+            <TextView
+                android:id="@+id/diary_write_voice_record_long"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="74dip"
+                android:layout_marginLeft="43dip"
+                android:text="@string/time_temp_zero"
+                android:textColor="@color/white"
+                android:textSize="28sp" />
+
+            <ImageButton
+                android:id="@+id/diary_write_voice_start_record"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="25dip"
+                android:layout_marginRight="45dip"
+                android:background="@drawable/brown_circle"
+                android:src="@drawable/icon_play" />
+
+            <ImageButton
+                android:id="@+id/diary_write_voice_stop_record"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="25dip"
+                android:layout_marginRight="45dip"
+                android:background="@drawable/brown_circle"
+                android:src="@drawable/icon_stop"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/diary_write_voice_record"
+            android:layout_width="203dip"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@id/diary_write_voice_recorder"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/record_wheel_body" />
+            android:layout_marginTop="6dip"
+            android:background="#5a79ba"
+            android:padding="4dip"
+            android:visibility="invisible" >
 
-        <ImageView
-            android:id="@+id/diary_write_voice_record_wheel_left"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/record_wheel_left" />
+            <TextView
+                android:id="@+id/diary_write_voice_record_long"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:drawableLeft="@drawable/icon_wave"
+                android:gravity="center_vertical"
+                android:text="02分35秒"
+                android:textColor="@color/white"
+                android:textSize="@dimen/h4" />
 
-        <ImageView
-            android:id="@+id/diary_write_voice_record_wheel_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/record_wheel_right" />
+            <ImageButton
+                android:id="@+id/diary_write_voice_delete"
+                android:layout_width="32dip"
+                android:layout_height="32dip"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="5dip"
+                android:background="@drawable/red_circle"
+                android:src="@drawable/icon_delete" />
 
-        <TextView
-            android:id="@+id/diary_write_voice_long"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="74dip"
-            android:layout_marginLeft="43dip"
-            android:text="00:00:35"
-            android:textColor="@color/white"
-            android:textSize="28sp" />
+            <ImageButton
+                android:id="@+id/diary_write_voice_play"
+                android:layout_width="32dip"
+                android:layout_height="32dip"
+                android:layout_marginLeft="5dip"
+                android:layout_toLeftOf="@id/diary_write_voice_delete"
+                android:background="@drawable/blue_circle"
+                android:src="@drawable/icon_play_48"
+                android:visibility="visible" />
 
-        <ImageButton
-            android:id="@+id/diary_write_voice_start_record"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="25dip"
-            android:layout_marginRight="45dip"
-            android:background="@drawable/brown_circle"
-            android:src="@drawable/icon_play" />
+            <ImageButton
+                android:id="@+id/diary_write_voice_stop"
+                android:layout_width="32dip"
+                android:layout_height="32dip"
+                android:layout_marginLeft="5dip"
+                android:layout_toLeftOf="@id/diary_write_voice_delete"
+                android:background="@drawable/brown_circle"
+                android:src="@drawable/icon_stop"
+                android:visibility="invisible" />
+        </RelativeLayout>
     </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/diary_write_voice_record"
-        android:layout_width="203dip"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/diary_write_voice_recorder"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="6dip"
-        android:background="#5a79ba"
-        android:orientation="horizontal"
-        android:padding="4dip" >
-
-        <TextView
-            android:id="@+id/diary_write_voice_record_long"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/icon_wave"
-            android:gravity="center_vertical"
-            android:text="02分35秒"
-            android:textColor="@color/white"
-            android:textSize="@dimen/h4" />
-
-        <ImageButton
-            android:id="@+id/diary_write_voice_play"
-            android:layout_width="38dip"
-            android:layout_height="38dip"
-            android:background="@drawable/blue_circle"
-            android:src="@drawable/icon_play" />
-    </LinearLayout>
 
 </RelativeLayout>
