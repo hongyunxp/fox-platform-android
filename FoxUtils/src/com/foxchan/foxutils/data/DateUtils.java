@@ -289,5 +289,30 @@ public class DateUtils {
 	public static int getSecond(){
 		return getDateParams(new Date())[5];
 	}
+	
+	/**
+	 * 将时间段格式化为00:00:00这样的形式
+	 * @param milliseconds	时间段的秒数（单位：秒）
+	 * @return				返回格式化后的时间字符串
+	 */
+	public static String formatTimeLong(long milliseconds){
+		String datetime = "";
+		String hour;
+		String minute;
+		String seconds;
+		hour = (milliseconds / 3600 + "");
+		milliseconds %= 3600;
+		minute = (milliseconds / 60 + "");
+		milliseconds %= 60;
+		seconds = (milliseconds + "");
+		//将字符串格式化为两位数
+		hour = StringUtils.extendStringPrefix(hour, 2);
+		minute = StringUtils.extendStringPrefix(minute, 2);
+		seconds = StringUtils.extendStringPrefix(seconds, 2);
+		datetime = StringUtils.concat(new Object[]{
+				hour, ":", minute, ":", seconds
+		});
+		return datetime;
+	}
 
 }
