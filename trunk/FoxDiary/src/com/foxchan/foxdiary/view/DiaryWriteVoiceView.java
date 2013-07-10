@@ -155,6 +155,7 @@ public class DiaryWriteVoiceView extends FakeActivity {
 				ibRecordingStop.setVisibility(View.GONE);
 				ivWheelLeft.clearAnimation();
 				ivWheelRight.clearAnimation();
+				diaryWriteView.setVoiceLength(recordLong);
 				recordLong = -1;
 				tvRecordLong.setText(tvRecordingLong.getText());
 				tvRecordingLong.setText(R.string.time_temp_zero);

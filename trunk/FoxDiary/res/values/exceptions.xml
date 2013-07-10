@@ -5,4 +5,5 @@
     <string name="ex_diary_empty">该日记中没有任何内容。</string>
     
     <string name="ex_image_not_found">没有找到该图片。</string>
+    <string name="ex_voice_not_found">没有找到该录音文件。</string>
 </resources>

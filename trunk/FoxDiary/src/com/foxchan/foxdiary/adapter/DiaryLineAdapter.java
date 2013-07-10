@@ -2,9 +2,13 @@ package com.foxchan.foxdiary.adapter;
 
 import java.util.List;
 
+import com.foxchan.foxdb.core.Session;
 import com.foxchan.foxdiary.core.R;
+import com.foxchan.foxdiary.core.widgets.FoxToast;
 import com.foxchan.foxdiary.entity.Diary;
-import com.foxchan.foxutils.tool.BitmapUtils;
+import com.foxchan.foxdiary.entity.Record;
+import com.foxchan.foxutils.data.DateUtils;
+import com.foxchan.foxutils.tool.PhoneUtils;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,6 +18,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * 日记时间线的数据适配器
@@ -26,6 +31,7 @@ public class DiaryLineAdapter extends BaseAdapter {
 	private LayoutInflater inflater;
 	private int diaryItemResource;
 	private NodeListener nodeListener;
+	private Session session;
 	
 	/** 日记列表 */
 	private List<Diary> diaries;
@@ -65,11 +71,12 @@ public class DiaryLineAdapter extends BaseAdapter {
 	 * @param context
 	 * @param diaries	日记列表
 	 */
-	public DiaryLineAdapter(Context context, List<Diary> diaries) {
+	public DiaryLineAdapter(Context context, List<Diary> diaries, Session session) {
 		this.context = context;
 		this.diaries = diaries;
 		this.inflater = LayoutInflater.from(this.context);
 		this.diaryItemResource = R.layout.diary_line_item;
+		this.session = session;
 	}
 
 	public NodeListener getNodeListener() {
@@ -120,18 +127,20 @@ public class DiaryLineAdapter extends BaseAdapter {
 		}
 		
 		//绑定数据
+		final Record record = session.findObjectFrom(diary, "record", Record.class);
 		if(diary.hasWords()){
 			nodeItem.tvWords.setText(diary.getContent());
 			nodeItem.tvWords.setVisibility(View.VISIBLE);
 			nodeItem.tvVoice.setVisibility(View.GONE);
-		} else if(diary.hasVoice()){
+		} else if(diary.hasVoice(session)){
+			nodeItem.tvVoice.setText(DateUtils.formatTimeLong(record.getLength()));
 			nodeItem.tvVoice.setVisibility(View.VISIBLE);
 			nodeItem.tvWords.setVisibility(View.GONE);
 		} else {
 			nodeItem.tvVoice.setVisibility(View.GONE);
 			nodeItem.tvWords.setVisibility(View.GONE);
 		}
-		if(diary.hasVoice()){
+		if(diary.hasVoice(session)){
 			nodeItem.ibVoice.setVisibility(View.VISIBLE);
 		} else {
 			nodeItem.ibVoice.setVisibility(View.GONE);
@@ -164,6 +173,17 @@ public class DiaryLineAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				nodeListener.onShare(position);
+			}
+		});
+		nodeItem.ibVoice.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				try {
+					PhoneUtils.playAudio(record.getPath());
+				} catch (Exception e) {
+					FoxToast.showException(context, R.string.ex_voice_not_found, Toast.LENGTH_SHORT);
+				}
 			}
 		});
 		return convertView;

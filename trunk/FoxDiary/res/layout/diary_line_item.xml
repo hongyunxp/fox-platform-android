@@ -50,9 +50,9 @@
                 android:drawableRight="@drawable/icon_wave"
                 android:gravity="center"
                 android:padding="@dimen/diary_line_item_other_padding"
-                android:text="2分30秒"
+                android:text="@string/time_temp_zero"
                 android:textColor="@color/white"
-                android:textSize="@dimen/h5"
+                android:textSize="@dimen/h4"
                 android:visibility="gone" />
 
             <TextView
