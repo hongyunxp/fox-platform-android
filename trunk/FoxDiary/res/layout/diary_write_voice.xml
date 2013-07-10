@@ -85,13 +85,13 @@
             android:visibility="invisible" >
 
             <TextView
-                android:id="@+id/diary_write_voice_record_long"
+                android:id="@+id/diary_write_voice_record_long_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:drawableLeft="@drawable/icon_wave"
                 android:gravity="center_vertical"
-                android:text="02分35秒"
+                android:text="@string/time_temp_zero"
                 android:textColor="@color/white"
                 android:textSize="@dimen/h4" />
 
@@ -115,7 +115,7 @@
                 android:visibility="visible" />
 
             <ImageButton
-                android:id="@+id/diary_write_voice_stop"
+                android:id="@+id/diary_write_voice_shutdown"
                 android:layout_width="32dip"
                 android:layout_height="32dip"
                 android:layout_marginLeft="5dip"
