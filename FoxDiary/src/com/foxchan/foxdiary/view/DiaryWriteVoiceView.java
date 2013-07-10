@@ -9,15 +9,13 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +23,6 @@ import com.foxchan.foxdiary.core.R;
 import com.foxchan.foxdiary.core.widgets.FakeActivity;
 import com.foxchan.foxdiary.core.widgets.FoxToast;
 import com.foxchan.foxdiary.utils.Constants;
-import com.foxchan.foxdiary.view.DiaryWriteView.MyHandler;
 import com.foxchan.foxutils.data.DateUtils;
 import com.foxchan.foxutils.data.StringUtils;
 import com.foxchan.foxutils.tool.FileUtils;
@@ -36,20 +33,13 @@ import com.foxchan.foxutils.tool.FileUtils;
  * @version 1.0.0
  * @create 2013-4-30
  */
-public class DiaryWriteVoiceView extends FakeActivity implements OnTouchListener {
+public class DiaryWriteVoiceView extends FakeActivity {
 	
 	/** 状态：更新录音时长 */
 	public static final int UPDATE_RECORD_LONG = 0;
 	
 	private DiaryWriteView diaryWriteView;
 	private View layoutView;
-	
-	/** 播放录音的按钮 */
-	private ImageView ivPlay;
-	/** 停止播放的按钮 */
-	private ImageView ivStop;
-	/** 删除录音的按钮 */
-	private ImageView ivDelete;
 	
 	/** 录音机的滚轮（左边） */
 	private ImageView ivWheelLeft;
@@ -69,6 +59,16 @@ public class DiaryWriteVoiceView extends FakeActivity implements OnTouchListener
 	private long recordLong = 0;
 	/** 录音的计时线程 */
 	private RecordThread recordThread;
+	/** 录音记录的界面 */
+	private RelativeLayout rlRecord;
+	/** 录音记录的时长 */
+	private TextView tvRecordLong;
+	/** 删除当前的录音记录 */
+	private ImageButton ibDeleteRecord;
+	/** 播放当前的录音记录 */
+	private ImageButton ibPlayRecord;
+	/** 停止播放当前的录音记录 */
+	private ImageButton ibShutdownRecord;
 	
 	//与录音相关的对象
 	private MediaRecorder mediaRecorder;
@@ -113,14 +113,15 @@ public class DiaryWriteVoiceView extends FakeActivity implements OnTouchListener
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		//初始化相关的部件
-		ivDelete = (ImageView)layoutView.findViewById(R.id.diary_write_voice_delete);
-		ivPlay = (ImageView)layoutView.findViewById(R.id.diary_write_voice_play);
-		ivStop = (ImageView)layoutView.findViewById(R.id.diary_write_voice_stop);
 		ibRecordingStart = (ImageButton)layoutView.findViewById(R.id.diary_write_voice_start_record);
 		ibRecordingStop = (ImageButton)layoutView.findViewById(R.id.diary_write_voice_stop_record);
 		tvRecordingLong = (TextView)layoutView.findViewById(R.id.diary_write_voice_record_long);
 		tvRecordingLong.setText(DateUtils.formatTimeLong(recordLong));
 		
+		ivWheelLeft = (ImageView)layoutView.findViewById(R.id.diary_write_voice_record_wheel_left);
+		ivWheelRight = (ImageView)layoutView.findViewById(R.id.diary_write_voice_record_wheel_right);
+		aniWheel = AnimationUtils.loadAnimation(diaryWriteView, R.anim.record_wheel);
+		aniWheelReverse = AnimationUtils.loadAnimation(diaryWriteView, R.anim.record_wheel_reverse);
 		recordThread = new RecordThread();
 		recordThread.start();
 		//绑定开始录音的按钮的事件
@@ -129,11 +130,19 @@ public class DiaryWriteVoiceView extends FakeActivity implements OnTouchListener
 			@Override
 			public void onClick(View v) {
 				recordLong = 0;
-				recordThread.isRecording = true;
-				ibRecordingStart.setVisibility(View.GONE);
-				ibRecordingStop.setVisibility(View.VISIBLE);
-				ivWheelLeft.startAnimation(aniWheelReverse);
-				ivWheelRight.startAnimation(aniWheelReverse);
+				//开始录音
+				try {
+					startRecording();
+					recordThread.isRecording = true;
+					ibRecordingStart.setVisibility(View.GONE);
+					ibRecordingStop.setVisibility(View.VISIBLE);
+					ivWheelLeft.startAnimation(aniWheelReverse);
+					ivWheelRight.startAnimation(aniWheelReverse);
+					//隐藏录音文件标志
+					rlRecord.setVisibility(View.INVISIBLE);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		//绑定结束录音的按钮的事件
@@ -146,24 +155,31 @@ public class DiaryWriteVoiceView extends FakeActivity implements OnTouchListener
 				ibRecordingStop.setVisibility(View.GONE);
 				ivWheelLeft.clearAnimation();
 				ivWheelRight.clearAnimation();
+				recordLong = -1;
+				tvRecordLong.setText(tvRecordingLong.getText());
+				tvRecordingLong.setText(R.string.time_temp_zero);
+				rlRecord.setVisibility(View.VISIBLE);
+				//停止录音
+				stopRecording();
 			}
 		});
 		
-		ivWheelLeft = (ImageView)layoutView.findViewById(R.id.diary_write_voice_record_wheel_left);
-		ivWheelRight = (ImageView)layoutView.findViewById(R.id.diary_write_voice_record_wheel_right);
-		aniWheel = AnimationUtils.loadAnimation(diaryWriteView, R.anim.record_wheel);
-		aniWheelReverse = AnimationUtils.loadAnimation(diaryWriteView, R.anim.record_wheel_reverse);
+		rlRecord = (RelativeLayout)layoutView.findViewById(R.id.diary_write_voice_record);
+		tvRecordLong = (TextView)layoutView.findViewById(R.id.diary_write_voice_record_long_text);
+		ibDeleteRecord = (ImageButton)layoutView.findViewById(R.id.diary_write_voice_delete);
+		ibPlayRecord = (ImageButton)layoutView.findViewById(R.id.diary_write_voice_play);
+		ibShutdownRecord = (ImageButton)layoutView.findViewById(R.id.diary_write_voice_shutdown);
 		
 		//绑定删除录音的按钮的事件
-		ivDelete.setOnClickListener(new OnClickListener() {
+		ibDeleteRecord.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				isAudioFileExist = false;
-				beforeRecording();
+				rlRecord.setVisibility(View.INVISIBLE);
 			}
 		});
 		//绑定播放录音的按钮的事件
-		ivPlay.setOnClickListener(new OnClickListener() {
+		ibPlayRecord.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if(isAudioFileExist && mediaPlayer != null){
@@ -171,6 +187,14 @@ public class DiaryWriteVoiceView extends FakeActivity implements OnTouchListener
 					try {
 						mediaPlayer.prepare();
 						mediaPlayer.start();
+						//启动转轮的动画
+						ivWheelLeft.startAnimation(aniWheel);
+						ivWheelRight.startAnimation(aniWheel);
+						recordLong = 0;
+						//显示停止播放的按钮
+						ibPlayRecord.setVisibility(View.GONE);
+						ibShutdownRecord.setVisibility(View.VISIBLE);
+						recordThread.isRecording = true;
 					} catch (IllegalStateException e) {
 						e.printStackTrace();
 					} catch (IOException e) {
@@ -180,11 +204,20 @@ public class DiaryWriteVoiceView extends FakeActivity implements OnTouchListener
 			}
 		});
 		//绑定停止播放按钮的事件
-		ivStop.setOnClickListener(new OnClickListener() {
+		ibShutdownRecord.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if(isAudioFileExist && mediaPlayer != null){
 					mediaPlayer.stop();
+					//启动转轮的动画
+					ivWheelLeft.clearAnimation();
+					ivWheelRight.clearAnimation();
+					//显示停止播放的按钮
+					ibPlayRecord.setVisibility(View.VISIBLE);
+					ibShutdownRecord.setVisibility(View.GONE);
+					recordLong = -1;
+					recordThread.isRecording = false;
+					tvRecordingLong.setText(R.string.time_temp_zero);
 				}
 			}
 		});
@@ -203,7 +236,7 @@ public class DiaryWriteVoiceView extends FakeActivity implements OnTouchListener
 	/**
 	 * 初始化录音相关的组件
 	 */
-	private void startRecording(){
+	private void startRecording() throws Exception{
 		mediaRecorder = new MediaRecorder();
 		//设置音频的来源
 		mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -217,22 +250,29 @@ public class DiaryWriteVoiceView extends FakeActivity implements OnTouchListener
 		mediaRecorder.setOutputFile(audioPath);
 		try {
 			mediaRecorder.prepare();
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			mediaRecorder.reset();
-			mediaRecorder.release();
-			mediaRecorder = null;
-			e.printStackTrace();
-		}
-		try {
 			mediaRecorder.start();
-		} catch (RuntimeException e) {
+		} catch (Exception e) {
 			mediaRecorder.reset();
 			mediaRecorder.release();
 			mediaRecorder = null;
-			FoxToast.showException(diaryWriteView, R.string.ex_writing_recorder, Toast.LENGTH_SHORT);
+			FoxToast.showException(diaryWriteView,
+					R.string.ex_writing_recorder, Toast.LENGTH_SHORT);
 			e.printStackTrace();
+			throw e;
+		}
+	}
+	
+	/**
+	 * 完成录音
+	 */
+	private void stopRecording(){
+		if(mediaRecorder != null){
+			//停止并保存录音
+			mediaRecorder.stop();
+			mediaRecorder.release();
+			mediaRecorder = null;
+			isAudioFileExist = true;
+		} else {
 		}
 	}
 	
@@ -257,6 +297,14 @@ public class DiaryWriteVoiceView extends FakeActivity implements OnTouchListener
 			public void onCompletion(MediaPlayer mp) {
 				mp.seekTo(0);
 				mp.stop();
+				//更新滚轮的动画状态
+				ivWheelLeft.clearAnimation();
+				ivWheelRight.clearAnimation();
+				recordLong = -1;
+				recordThread.isRecording = false;
+				tvRecordingLong.setText(R.string.time_temp_zero);
+				ibPlayRecord.setVisibility(View.VISIBLE);
+				ibShutdownRecord.setVisibility(View.GONE);
 			}
 		});
 	}
@@ -271,57 +319,6 @@ public class DiaryWriteVoiceView extends FakeActivity implements OnTouchListener
 			mediaPlayer.release();
 			mediaPlayer = null;
 		}
-	}
-
-	@Override
-	public boolean onTouch(View v, MotionEvent ev) {
-		switch(ev.getAction()){
-		case MotionEvent.ACTION_DOWN:
-//			if(v.getId() == R.id.diary_write_voice_circle && isAudioFileExist == false){
-//				onRecording();
-//			}
-			break;
-		case MotionEvent.ACTION_UP:
-//			if(v.getId() == R.id.diary_write_voice_circle && isAudioFileExist == false){
-//				onRecorded();
-//			}
-			break;
-		}
-		return false;
-	}
-	
-	/**
-	 * 正在录音中
-	 */
-	private void onRecording(){
-		startRecording();
-	}
-	
-	/**
-	 * 完成录音
-	 */
-	private void onRecorded(){
-		if(mediaRecorder != null){
-			ivDelete.setVisibility(View.VISIBLE);
-			ivPlay.setVisibility(View.VISIBLE);
-			ivStop.setVisibility(View.VISIBLE);
-		
-			//停止并保存录音
-			mediaRecorder.stop();
-			mediaRecorder.release();
-			mediaRecorder = null;
-			isAudioFileExist = true;
-		} else {
-		}
-	}
-	
-	/**
-	 * 回到开始录音之前
-	 */
-	private void beforeRecording(){
-		ivDelete.setVisibility(View.INVISIBLE);
-		ivPlay.setVisibility(View.INVISIBLE);
-		ivStop.setVisibility(View.INVISIBLE);
 	}
 
 	public boolean isAudioFileExist() {

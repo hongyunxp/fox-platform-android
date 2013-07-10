@@ -16,7 +16,7 @@ import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -241,13 +241,7 @@ public class DiaryWriteView extends Activity {
 		llBack.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if(!StringUtils.isEmpty(diaryWriteWordsView.getContent()) ||
-						!StringUtils.isEmpty(imagePath) ||
-						diaryWriteVoiceView.isAudioFileExist()){
-					cdBack.show();
-				} else {
-					finish();
-				}
+				leaveView();
 			}
 		});
 		ivSave.setOnClickListener(new OnClickListener() {
@@ -271,6 +265,11 @@ public class DiaryWriteView extends Activity {
 		cdBack.setOnPositiveButtonClickListener(new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
+				//删除录得声音临时文件
+				File voiceFile = new File(voicePath);
+				if(voiceFile != null && voiceFile.exists()){
+					voiceFile.delete();
+				}
 				finish();
 			}
 		});
@@ -401,9 +400,6 @@ public class DiaryWriteView extends Activity {
 					diaryWritePicView.dealWithImage(uri);
 				}
 				break;
-			case ACTIVITY_CODE_IMAGE_CUT:
-				diaryWritePicView.setPicToView(data);
-				break;
 			}
 		}
 	}
@@ -445,6 +441,10 @@ public class DiaryWriteView extends Activity {
 		diaryWriteWordsView.onDestroy();
 		diaryWritePicView.onDestroy();
 		diaryWriteVoiceView.onDestroy();
+		if(image != null){
+			image.recycle();
+			image = null;
+		}
 		super.onDestroy();
 	}
 
@@ -452,6 +452,27 @@ public class DiaryWriteView extends Activity {
 	protected void onResume() {
 		diaryWriteWordsView.onResume();
 		super.onResume();
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if(keyCode == KeyEvent.KEYCODE_BACK){
+			leaveView();
+		}
+		return super.onKeyDown(keyCode, event);
+	}
+	
+	/**
+	 * 离开当前的界面
+	 */
+	private void leaveView() {
+		if(!StringUtils.isEmpty(diaryWriteWordsView.getContent()) ||
+				!StringUtils.isEmpty(imagePath) ||
+				diaryWriteVoiceView.isAudioFileExist()){
+			cdBack.show();
+		} else {
+			finish();
+		}
 	}
 
 }
