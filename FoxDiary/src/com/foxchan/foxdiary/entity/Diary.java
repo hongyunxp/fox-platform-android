@@ -8,12 +8,15 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.foxchan.foxdb.annotation.CascadeType;
 import com.foxchan.foxdb.annotation.Column;
 import com.foxchan.foxdb.annotation.GeneratedType;
 import com.foxchan.foxdb.annotation.GeneratedValue;
 import com.foxchan.foxdb.annotation.Id;
+import com.foxchan.foxdb.annotation.OneToOne;
 import com.foxchan.foxdb.annotation.Table;
 import com.foxchan.foxdb.annotation.Transient;
+import com.foxchan.foxdb.core.Session;
 import com.foxchan.foxdiary.core.R;
 import com.foxchan.foxutils.data.DateUtils;
 import com.foxchan.foxutils.data.StringUtils;
@@ -39,12 +42,14 @@ public class Diary {
 	/** 日记的图片文件对象 */
 	@Transient
 	private Bitmap image;
-	/** 日记的语音信息的存储位置 */
-	@Column
-	private String voicePath;
+	/** 日记的语音信息 */
+	@OneToOne(cascade = CascadeType.ALL)
+	private Record record;
 	/** 日记的录音 */
 	@Transient
 	private File voice;
+	/** 是否有录音的标志 */
+	private Boolean hasVoice = null;
 	/** 日记的正文，不可为空，最多140字 */
 	@Column(nullable=false)
 	private String content;
@@ -90,12 +95,12 @@ public class Diary {
 		this.imagePath = imagePath;
 	}
 
-	public String getVoicePath() {
-		return voicePath;
+	public Record getRecord() {
+		return record;
 	}
 
-	public void setVoicePath(String voicePath) {
-		this.voicePath = voicePath;
+	public void setRecord(Record record) {
+		this.record = record;
 	}
 
 	public String getContent() {
@@ -203,12 +208,12 @@ public class Diary {
 	
 	/**
 	 * 判断日记是否有录音内容
-	 * @return	如果日记有录音内容则返回true，否则返回false
+	 * @param session	数据会话
+	 * @return			如果日记有录音内容则返回true，否则返回false
 	 */
-	public boolean hasVoice(){
-		boolean flag = false;
-		flag = (StringUtils.isEmpty(voicePath) ? false : true);
-		return flag;
+	public boolean hasVoice(Session session){
+		checkVoice(session);
+		return hasVoice;
 	}
 	
 	/**
@@ -225,6 +230,17 @@ public class Diary {
 	 */
 	public String getCreateDatetimeStr(){
 		return DateUtils.formatDate(createDate, "MM月dd日  HH:mm");
+	}
+	
+	/**
+	 * 检查日记是否有录音文件
+	 * @param session	数据库会话
+	 */
+	public void checkVoice(Session session){
+		if(hasVoice == null){
+			record = session.findObjectFrom(this, "record", Record.class);
+			hasVoice = (record != null);
+		}
 	}
 	
 }

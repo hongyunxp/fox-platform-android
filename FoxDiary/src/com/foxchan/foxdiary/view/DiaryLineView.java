@@ -4,15 +4,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.crypto.spec.IvParameterSpec;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,7 +59,7 @@ public class DiaryLineView extends Activity {
 		setContentView(R.layout.diary_line);
 		//初始化组件和数据
 		db = FoxDB.create(this, Constants.DIARY_DB_NAME, Constants.DIARY_DB_VERSION);
-		session = db.openSession();
+		session = db.getCurrentSession();
 		initDatas();
 		initWidgets();
 	}
@@ -116,7 +111,7 @@ public class DiaryLineView extends Activity {
 			}
 		});
 		
-		diaryLineAdapter = new DiaryLineAdapter(this, diaries);
+		diaryLineAdapter = new DiaryLineAdapter(this, diaries, session);
 		//绑定操作日记的事件
 		diaryLineAdapter.setNodeListener(new NodeListener() {
 			

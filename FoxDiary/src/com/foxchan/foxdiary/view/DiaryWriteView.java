@@ -38,6 +38,7 @@ import com.foxchan.foxdiary.core.R;
 import com.foxchan.foxdiary.core.widgets.FoxConfirmDialog;
 import com.foxchan.foxdiary.core.widgets.FoxToast;
 import com.foxchan.foxdiary.entity.Diary;
+import com.foxchan.foxdiary.entity.Record;
 import com.foxchan.foxdiary.entity.TimeLineNodeStyle;
 import com.foxchan.foxdiary.exception.DiaryEmptyException;
 import com.foxchan.foxdiary.utils.Constants;
@@ -107,6 +108,8 @@ public class DiaryWriteView extends Activity {
 	private Bitmap image;
 	/** 录音保存的文件夹路径 */
 	private String voicePath;
+	/** 录音文件的时长 */
+	private long voiceLength;
 	/** 日记保存的结果，成功或者失败 */
 	private boolean isDiarySaveSuccess = false;
 	
@@ -346,9 +349,12 @@ public class DiaryWriteView extends Activity {
 		targetPath = targetPath.replaceAll("//", "/");
 		diary.setImagePath(targetPath);
 		if(diaryWriteVoiceView.isAudioFileExist()){
-			diary.setVoicePath(voicePath);
+			Record record = new Record(voicePath, voiceLength);
+			Session session = db.getCurrentSession();
+			session.save(record);
+			diary.setRecord(record);
 		} else {
-			diary.setVoicePath(null);
+			diary.setRecord(null);
 		}
 		diary.setTimeLineNodeStyleId(TimeLineNodeStyle.getRandomStyleId());
 		return diary;
@@ -357,7 +363,7 @@ public class DiaryWriteView extends Activity {
 	private boolean saveDiary() throws DiaryEmptyException{
 		if(isDiaryReady()){
 			Diary diary = buildDiary();
-			Session session = db.openSession();
+			Session session = db.getCurrentSession();
 			session.save(diary);
 			//保存图片
 			BitmapUtils.persistImageToSdCard(imagePath, imageName, image);
@@ -434,6 +440,10 @@ public class DiaryWriteView extends Activity {
 
 	public void setVoicePath(String voicePath) {
 		this.voicePath = voicePath;
+	}
+
+	public void setVoiceLength(long voiceLength) {
+		this.voiceLength = voiceLength;
 	}
 
 	@Override

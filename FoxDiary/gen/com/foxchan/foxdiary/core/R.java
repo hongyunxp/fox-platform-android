@@ -385,48 +385,49 @@ public final class R {
     public static final class string {
         public static final int action_settings=0x7f060001;
         public static final int app_name=0x7f060000;
-        public static final int date_temp=0x7f060007;
+        public static final int date_temp=0x7f060008;
         /**  日记时间线 
          */
-        public static final int diary_line_add=0x7f060012;
-        public static final int diary_write_add_diary=0x7f06001b;
-        public static final int diary_write_back_confirm=0x7f06001c;
-        public static final int diary_write_left_words=0x7f060014;
-        public static final int diary_write_press_to_record=0x7f060015;
-        public static final int diary_write_recording=0x7f060016;
-        public static final int diary_write_save_fail=0x7f06001a;
-        public static final int diary_write_save_success=0x7f060019;
+        public static final int diary_line_add=0x7f060013;
+        public static final int diary_write_add_diary=0x7f06001c;
+        public static final int diary_write_back_confirm=0x7f06001d;
+        public static final int diary_write_left_words=0x7f060015;
+        public static final int diary_write_press_to_record=0x7f060016;
+        public static final int diary_write_recording=0x7f060017;
+        public static final int diary_write_save_fail=0x7f06001b;
+        public static final int diary_write_save_success=0x7f06001a;
         /**  写日记的界面 
          */
-        public static final int diary_write_title=0x7f060013;
-        public static final int diary_write_words_empty=0x7f060018;
-        public static final int diary_write_words_hint=0x7f060017;
+        public static final int diary_write_title=0x7f060014;
+        public static final int diary_write_words_empty=0x7f060019;
+        public static final int diary_write_words_hint=0x7f060018;
         public static final int ex_diary_empty=0x7f060004;
         public static final int ex_image_not_found=0x7f060005;
+        public static final int ex_voice_not_found=0x7f060006;
         /**  写日记模块的异常 
          */
         public static final int ex_writing_recorder=0x7f060003;
         public static final int hello_world=0x7f060002;
-        public static final int loading=0x7f060006;
-        public static final int pull_to_refresh_result=0x7f060011;
-        public static final int pull_to_refresh_state_last_update_date=0x7f06000f;
-        public static final int pull_to_refresh_state_loading_more=0x7f060010;
+        public static final int loading=0x7f060007;
+        public static final int pull_to_refresh_result=0x7f060012;
+        public static final int pull_to_refresh_state_last_update_date=0x7f060010;
+        public static final int pull_to_refresh_state_loading_more=0x7f060011;
         /**  下拉刷新相关的信息 
          */
-        public static final int pull_to_refresh_state_pull=0x7f06000c;
-        public static final int pull_to_refresh_state_refreshing=0x7f06000e;
-        public static final int pull_to_refresh_state_release=0x7f06000d;
+        public static final int pull_to_refresh_state_pull=0x7f06000d;
+        public static final int pull_to_refresh_state_refreshing=0x7f06000f;
+        public static final int pull_to_refresh_state_release=0x7f06000e;
         /**  安全相关的信息 
          */
-        public static final int secure_create_password=0x7f06000a;
-        public static final int secure_modify_password=0x7f06000b;
-        public static final int time_temp=0x7f060008;
-        public static final int time_temp_zero=0x7f060009;
-        public static final int widget_confirm_dialog_title=0x7f06001f;
-        public static final int widget_dialog_negative=0x7f06001e;
+        public static final int secure_create_password=0x7f06000b;
+        public static final int secure_modify_password=0x7f06000c;
+        public static final int time_temp=0x7f060009;
+        public static final int time_temp_zero=0x7f06000a;
+        public static final int widget_confirm_dialog_title=0x7f060020;
+        public static final int widget_dialog_negative=0x7f06001f;
         /**  组件相关 
          */
-        public static final int widget_dialog_positive=0x7f06001d;
+        public static final int widget_dialog_positive=0x7f06001e;
     }
     public static final class style {
         /** 
