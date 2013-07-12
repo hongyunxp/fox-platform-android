@@ -6,6 +6,7 @@ import java.util.List;
 import com.foxchan.foxdb.engine.Pager;
 import com.foxchan.foxdb.engine.PagerTemplate;
 import com.foxchan.foxdb.exception.FoxDbException;
+import com.foxchan.foxdb.table.Column;
 
 import android.database.sqlite.SQLiteDatabase;
 
@@ -32,6 +33,12 @@ public interface Session {
 	 * @return	返回当前会话中使用的数据库连接
 	 */
 	SQLiteDatabase getDB();
+	
+	/**
+	 * 在数据库中添加新的数据列
+	 * @param columns	新的属性列的集合
+	 */
+	void addNewColumn(List<Column> columns);
 	
 	/**
 	 * 保存对象

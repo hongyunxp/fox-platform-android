@@ -2,8 +2,10 @@ package com.foxchan.foxdb.core;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import com.foxchan.foxdb.engine.TableInfo;
+import com.foxchan.foxdb.table.Column;
 import com.foxchan.foxdb.table.SQLObject;
 
 /**
@@ -32,6 +34,13 @@ public interface SQLEngine {
 	 * @param clazz	实体
 	 */
 	void checkTableExist(Class<?> clazz);
+	
+	/**
+	 * 获得向数据库中添加新的数据列的SQL语句
+	 * @param column	属性
+	 * @return			返回向数据库中添加新的数据列的SQL对象
+	 */
+	SQLObject getAddNewColumnSQL(Column column);
 	
 	/**
 	 * 获得插入对象的SQL语句的方法
