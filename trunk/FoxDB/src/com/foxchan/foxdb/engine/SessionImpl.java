@@ -17,12 +17,14 @@ import com.foxchan.foxdb.core.SQLEngine;
 import com.foxchan.foxdb.core.Session;
 import com.foxchan.foxdb.core.Transaction;
 import com.foxchan.foxdb.exception.FoxDbException;
+import com.foxchan.foxdb.table.Column;
 import com.foxchan.foxdb.table.Id;
 import com.foxchan.foxdb.table.OneToMany;
 import com.foxchan.foxdb.table.SQLObject;
 import com.foxchan.foxdb.utils.Closer;
 import com.foxchan.foxdb.utils.CursorUtils;
 import com.foxchan.foxdb.utils.FieldUtils;
+import com.foxchan.foxutils.data.CollectionUtils;
 import com.foxchan.foxutils.data.StringUtils;
 
 /**
@@ -176,6 +178,7 @@ public class SessionImpl implements Session {
 	@Override
 	public int findCount(String where, Object[] params, Class<?> clazz) {
 		//查询总数量
+		sqlEngine.checkTableExist(clazz);
 		SQLObject sqlObject = sqlEngine.getQueryCountSQL(where, params, clazz);
 		Cursor c = db.rawQuery(sqlObject.getSql(), sqlObject.getBindArgsAsStringArray());
 		if(c != null && c.moveToNext()){
@@ -233,6 +236,7 @@ public class SessionImpl implements Session {
 		TableInfo parentTable = TableInfo.getInstance(parent.getClass());
 		Object parentIdValue = parentTable.getId().getValue(parent);
 		SQLObject sqlObject = sqlEngine.getQueryObjectSQL(parentIdValue, parent, attributeName, targetClass);
+		sqlEngine.checkTableExist(targetClass);
 		Cursor c = db.rawQuery(sqlObject.getSql(), sqlObject.getBindArgsAsStringArray());
 		T result = null;
 		if(c.moveToFirst()){
@@ -246,6 +250,7 @@ public class SessionImpl implements Session {
 		List<T> list = new ArrayList<T>();
 		Cursor c;
 		try {
+			sqlEngine.checkTableExist(targetClass);
 			c = db.rawQuery(sql, null);
 			if(c != null){
 				while(c.moveToNext()){
@@ -280,6 +285,24 @@ public class SessionImpl implements Session {
 	@Override
 	public SQLiteDatabase getDB() {
 		return this.db;
+	}
+
+	public boolean isBeginTransaction() {
+		return isBeginTransaction;
+	}
+
+	public void setBeginTransaction(boolean isBeginTransaction) {
+		this.isBeginTransaction = isBeginTransaction;
+	}
+
+	@Override
+	public void addNewColumn(List<Column> columns) {
+		if(CollectionUtils.isEmpty(columns)) return;
+		SQLObject sqlObject = null;
+		for(Column c : columns){
+			sqlObject = sqlEngine.getAddNewColumnSQL(c);
+			db.execSQL(sqlObject.getSql());
+		}
 	}
 
 }

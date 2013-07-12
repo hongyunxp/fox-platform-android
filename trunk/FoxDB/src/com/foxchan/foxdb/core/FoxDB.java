@@ -1,16 +1,19 @@
 package com.foxchan.foxdb.core;
 
 import java.util.HashMap;
-
-import com.foxchan.foxdb.engine.SQLiteEngine;
-import com.foxchan.foxdb.engine.SessionImpl;
-import com.foxchan.foxdb.exception.FoxDbException;
-import com.foxchan.foxdb.utils.Closer;
+import java.util.List;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.foxchan.foxdb.engine.SQLiteEngine;
+import com.foxchan.foxdb.engine.SessionImpl;
+import com.foxchan.foxdb.exception.FoxDbException;
+import com.foxchan.foxdb.table.Column;
+import com.foxchan.foxdb.utils.Closer;
+import com.foxchan.foxutils.data.CollectionUtils;
 
 /**
  * FoxDB的操作类
@@ -22,6 +25,8 @@ public class FoxDB {
 	public static final String TAG = "FoxDB SQL";
 	/** 是否是调试模式，如果是调试模式，将在后台打印SQL文件信息 */
 	public static boolean DEBUG = false;
+	/** 新添加的属性集合 */
+	public static List<Column> newColumns;
 	
 	/** 数据库链接集合 */
 	private static HashMap<String, FoxDB> dbMap = new HashMap<String, FoxDB>();
@@ -39,10 +44,10 @@ public class FoxDB {
 		if(configuration.context == null){
 			throw new FoxDbException("Android context对象为空。");
 		}
-		this.db = new SqliteDbHelper(configuration.context,
-				configuration.getDbName(), configuration.dbVersion, configuration.dbUpdateListener)
-				.getWritableDatabase();
 		this.configuration = configuration;
+		this.db = new SqliteDbHelper(this.configuration.context,
+				this.configuration.getDbName(), this.configuration.dbVersion)
+				.getWritableDatabase();
 		this.sqlEngine = new SQLiteEngine(configuration, db);
 	}
 	
@@ -84,7 +89,7 @@ public class FoxDB {
 	 * @return					返回一个可用的FoxDB对象
 	 */
 	public static FoxDB create(Context context, String dbName, boolean isDebug){
-		return create(context, dbName, 1, null, isDebug);
+		return create(context, dbName, 1, isDebug);
 	}
 	
 	/**
@@ -95,7 +100,7 @@ public class FoxDB {
 	 * @return				返回一个可用的FoxDB对象
 	 */
 	public static FoxDB create(Context context, String dbName, int dbVersion){
-		return create(context, dbName, dbVersion, null, true);
+		return create(context, dbName, dbVersion, true);
 	}
 	
 	/**
@@ -108,12 +113,11 @@ public class FoxDB {
 	 * @return					返回一个可用的FoxDB对象
 	 */
 	public static FoxDB create(Context context, String dbName, int dbVersion,
-			DbUpdateListener dbUpdateListener, boolean isDebug) {
+			boolean isDebug) {
 		DbConfiguration configuration = new DbConfiguration();
 		configuration.setContext(context);
 		configuration.setDbName(dbName);
 		configuration.setDbVersion(dbVersion);
-		configuration.setDbUpdateListener(dbUpdateListener);
 		return getInstance(configuration);
 	}
 	
@@ -146,6 +150,14 @@ public class FoxDB {
 	}
 	
 	/**
+	 * 添加新的属性
+	 * @param columns	属性集合
+	 */
+	public static void addNewColumns(final List<Column> columns){
+		newColumns = columns;
+	}
+	
+	/**
 	 * 数据库的配置文件
 	 * @author chengqingmin@www.lezhixing.com.cn
 	 * @create 2013-3-13
@@ -156,8 +168,6 @@ public class FoxDB {
 		private String dbName = "fox.db";
 		/** 数据库的版本 */
 		private int dbVersion = 1;
-		/** 数据库版本的监听器 */
-		private DbUpdateListener dbUpdateListener;
 
 		public Context getContext() {
 			return context;
@@ -183,14 +193,6 @@ public class FoxDB {
 			this.dbVersion = dbVersion;
 		}
 
-		public DbUpdateListener getDbUpdateListener() {
-			return dbUpdateListener;
-		}
-
-		public void setDbUpdateListener(DbUpdateListener dbUpdateListener) {
-			this.dbUpdateListener = dbUpdateListener;
-		}
-		
 	}
 	
 	/**
@@ -200,12 +202,8 @@ public class FoxDB {
 	 */
 	private class SqliteDbHelper extends SQLiteOpenHelper{
 		
-		private DbUpdateListener dbUpdateListener;
-
-		public SqliteDbHelper(Context context, String name, int version,
-				DbUpdateListener dbUpdateListener) {
+		public SqliteDbHelper(Context context, String name, int version) {
 			super(context, name, null, version);
-			this.dbUpdateListener = dbUpdateListener;
 		}
 		
 		@Override
@@ -215,8 +213,10 @@ public class FoxDB {
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			if(dbUpdateListener != null){
-				dbUpdateListener.onUpgrade(db, oldVersion, newVersion);
+			if(!CollectionUtils.isEmpty(newColumns)){
+				FoxDB.this.db = db;
+				sqlEngine = new SQLiteEngine(db);
+				getCurrentSession().addNewColumn(newColumns);
 			} else {
 				Cursor c = db.rawQuery("SELECT name FROM sqlite_master WHERE type = 'table'", null);
 				if(c != null){
@@ -232,19 +232,4 @@ public class FoxDB {
 		}
 	}
 	
-	/**
-	 * 数据库版本更新的监听器，如果监听到数据库版本的更新，将删除以前的数据表
-	 * @author chengqingmin@www.lezhixing.com.cn
-	 * @create 2013-3-13
-	 */
-	public interface DbUpdateListener{
-		/**
-		 * 监听到数据库版本更新后执行的操作
-		 * @param db			数据库连接
-		 * @param oldVersion	老版本的版本号
-		 * @param newVersion	新版本的版本号
-		 */
-		void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion);
-	}
-
 }

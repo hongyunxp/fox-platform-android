@@ -28,6 +28,8 @@ public class Column {
 	private Class<?> dataType;
 	/** 列对应的属性 */
 	private Field field;
+	/** 该属性属于的类 */
+	private Class<?> parent;
 	
 	/** 用户给该列重新取的别名，将被用作数据库中的表的列名 */
 	private String name;
@@ -38,6 +40,28 @@ public class Column {
 	
 	private Method get;
 	private Method set;
+	
+	/**
+	 * 构造一个属性
+	 */
+	public Column(){}
+	
+	/**
+	 * 构造一个属性
+	 * @param fieldName		该属性的名称
+	 * @param dataType		该属性的数据类型
+	 * @param parent		该属性对应的类
+	 * @param defaultValue	该属性的默认值
+	 * @param nullable		该属性能否为空的标志
+	 */
+	public Column(String fieldName, Class<?> dataType, Class<?> parent,
+			String defaultValue, boolean nullable) {
+		this.name = fieldName;
+		this.dataType = dataType;
+		this.parent = parent;
+		this.defaultValue = defaultValue;
+		this.nullable = nullable;
+	}
 	
 	public void setValue(Object receiver, Object value){
 		if(set != null && value != null){
@@ -160,6 +184,14 @@ public class Column {
 		this.set = set;
 	}
 	
+	public Class<?> getParent() {
+		return parent;
+	}
+
+	public void setParent(Class<?> parent) {
+		this.parent = parent;
+	}
+
 	public boolean isNullable() {
 		return nullable;
 	}

@@ -33,6 +33,10 @@ public class SQLiteEngine implements SQLEngine {
 	private DbConfiguration configuration;
 	private SQLiteDatabase db;
 	
+	public SQLiteEngine(SQLiteDatabase db){
+		this(null, db);
+	}
+	
 	public SQLiteEngine(DbConfiguration configuration, SQLiteDatabase db){
 		this.configuration = configuration;
 		this.db = db;
@@ -114,6 +118,16 @@ public class SQLiteEngine implements SQLEngine {
 	private void debug(String sql){
 		if(FoxDB.DEBUG){
 			android.util.Log.d("FoxDB SQL:", sql);
+		}
+	}
+	
+	/**
+	 * 显示执行的sql语句
+	 * @param sql	执行的sql语句
+	 */
+	private void debug(StringBuilder sql){
+		if(FoxDB.DEBUG){
+			android.util.Log.d("FoxDB SQL:", sql.toString());
 		}
 	}
 
@@ -368,6 +382,30 @@ public class SQLiteEngine implements SQLEngine {
 		.append(" WHERE ").append(parentIdObject.getName()).append(" = ?)");
 		debug(sql.toString());
 		SQLObject sqlObject = new SQLObject(sql.toString(), parentId);
+		return sqlObject;
+	}
+
+	@Override
+	public SQLObject getAddNewColumnSQL(Column column) {
+		StringBuilder sql = new StringBuilder();
+		TableInfo tableInfo = TableInfo.getInstance(column.getParent());
+		sql.append("ALTER TABLE [");
+		sql.append(tableInfo.getTableName());
+		sql.append("] add [");
+		sql.append(TableInfo.buildForeignKeyName(column.getName())).append("]");
+		if (column.getDataType() == String.class) {
+			sql.append(" TEXT");
+		} else if (FieldUtils.isInteger(column.getDataType())) {
+			sql.append(" INTEGER");
+		} else if (FieldUtils.isRealNumber(column.getDataType())) {
+			sql.append(" REAL");
+		}
+		if (!column.isNullable()) {
+			sql.append(" NOT NULL");
+		}
+		SQLObject sqlObject = new SQLObject();
+		sqlObject.setSql(sql.toString());
+		debug(sql);
 		return sqlObject;
 	}
 
