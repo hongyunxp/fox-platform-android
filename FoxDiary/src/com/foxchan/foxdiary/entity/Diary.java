@@ -167,12 +167,12 @@ public class Diary {
 	public Bitmap photo(Context context){
 		if(image != null) return image;
 		if(StringUtils.isEmpty(imagePath)) {
-			image = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_not_found_image);
+			image = BitmapFactory.decodeResource(context.getResources(), R.drawable.image_not_found_image);
 		} else {
 			try {
 				image = BitmapUtils.loadBitmapFromSdCard(context, imagePath);
 			} catch (FileNotFoundException e) {
-				image = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_not_found_image);
+				image = BitmapFactory.decodeResource(context.getResources(), R.drawable.image_not_found_image);
 			}
 		}
 		return image;

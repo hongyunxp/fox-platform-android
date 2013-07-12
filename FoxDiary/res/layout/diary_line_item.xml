@@ -15,7 +15,7 @@
         android:layout_width="24dip"
         android:layout_height="24dip"
         android:layout_marginTop="5dip"
-        android:background="@drawable/red_node"
+        android:background="@drawable/red_circle"
         android:clickable="true"
         android:src="@drawable/emotion01" />
 

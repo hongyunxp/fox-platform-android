@@ -42,24 +42,7 @@ public class TimeLineNodeStyle {
 	 */
 	public TimeLineNodeStyle(int style){
 		switch(style){
-		case STYLE_CYAN:
-			init(R.color.cyan, R.drawable.cyan_node, R.drawable.cyan_balloon);
-			break;
-		case STYLE_DARK_BLUE:
-			init(R.color.dark_blue, R.drawable.dark_blue_node, R.drawable.dark_blue_balloon);
-			break;
-		case STYLE_GREEN:
-			init(R.color.green, R.drawable.green_node, R.drawable.green_balloon);
-			break;
-		case STYLE_ORANGE:
-			init(R.color.orange, R.drawable.orange_node, R.drawable.orange_balloon);
-			break;
-		case STYLE_PURPLE:
-			init(R.color.purple, R.drawable.purple_node, R.drawable.purple_balloon);
-			break;
-		case STYLE_RED:
-			init(R.color.red, R.drawable.red_node, R.drawable.red_balloon);
-			break;
+		
 		}
 	}
 	
