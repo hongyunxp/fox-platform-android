@@ -159,6 +159,14 @@ public class Diary {
 		this.weatherId = weatherId;
 	}
 
+	public Boolean getHasVoice() {
+		return hasVoice;
+	}
+
+	public void setHasVoice(Boolean hasVoice) {
+		this.hasVoice = hasVoice;
+	}
+
 	/**
 	 * 获得节点的图片
 	 * @param context

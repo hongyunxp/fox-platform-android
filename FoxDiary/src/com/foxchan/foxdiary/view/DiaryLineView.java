@@ -74,29 +74,29 @@ public class DiaryLineView extends Activity {
 			
 			@Override
 			public void refreshingData(RefreshListView view) {
-				pager = new Pager<Diary>(Constants.DIARY_RECORD_NUMBER, 1);
-				List<Diary> nDiaries = pager.getContent();
-				int newDiaryCount = 0;
-				if(!CollectionUtils.isEmpty(nDiaries)){
-					for(Diary d : nDiaries){
-						boolean b = false;
-						for(Diary diary : diaries){
-							if(d.getId().equals(diary.getId())){
-								b = true;
-								break;
-							}
-						}
-						if(b == false){
-							diaries.add(0, d);
-							newDiaryCount++;
-						}
-					}
-				}
-				FoxToast.showToast(view.getContext(),
-						String.format(
-								getResources().getString(
-										R.string.pull_to_refresh_result),
-								newDiaryCount), Toast.LENGTH_SHORT);
+//				pager = new Pager<Diary>(Constants.DIARY_RECORD_NUMBER, 1);
+//				List<Diary> nDiaries = pager.getContent();
+//				int newDiaryCount = 0;
+//				if(!CollectionUtils.isEmpty(nDiaries)){
+//					for(Diary d : nDiaries){
+//						boolean b = false;
+//						for(Diary diary : diaries){
+//							if(d.getId().equals(diary.getId())){
+//								b = true;
+//								break;
+//							}
+//						}
+//						if(b == false){
+//							diaries.add(0, d);
+//							newDiaryCount++;
+//						}
+//					}
+//				}
+//				FoxToast.showToast(view.getContext(),
+//						String.format(
+//								getResources().getString(
+//										R.string.pull_to_refresh_result),
+//								newDiaryCount), Toast.LENGTH_SHORT);
 				view.refreshingDataComplete();
 			}
 			

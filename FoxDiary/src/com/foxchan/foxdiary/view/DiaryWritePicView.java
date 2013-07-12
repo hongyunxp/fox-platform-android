@@ -11,7 +11,9 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.foxchan.foxdiary.core.R;
@@ -32,14 +34,18 @@ public class DiaryWritePicView extends FakeActivity {
 	private DiaryWriteView diaryWriteView;
 	private View layoutView;
 	
+	/** 按钮布局 */
+	private RelativeLayout rlButtons;
+	/** 从相册中选择图片的按钮 */
+	private ImageButton ibFromAlbum;
+	/** 从相机中拍摄照片的按钮 */
+	private ImageButton ibFromCamara;
+	/** 选择的内容界面 */
+	private RelativeLayout rlContent;
 	/** 裁减后的图片 */
 	private ImageView ivPhoto;
-	/** 从相册中选择图片的按钮 */
-	private ImageView ivAlbum;
-	/** 从相机中拍摄照片的按钮 */
-	private ImageView ivCamara;
 	/** 删除按钮 */
-	private ImageView ivDelete;
+	private ImageButton ibDelete;
 
 	public DiaryWritePicView(DiaryWriteView diaryWriteView) {
 		this.diaryWriteView = diaryWriteView;
@@ -56,13 +62,15 @@ public class DiaryWritePicView extends FakeActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		//初始化组件
-		ivDelete = (ImageView)layoutView.findViewById(R.id.diary_write_pic_delete);
-		ivCamara = (ImageView)layoutView.findViewById(R.id.diary_write_pic_from_camara);
-		ivAlbum = (ImageView)layoutView.findViewById(R.id.diary_write_pic_from_album);
-		ivPhoto = (ImageView)layoutView.findViewById(R.id.diary_write_pic_main);
+		rlButtons = (RelativeLayout)layoutView.findViewById(R.id.diary_write_pic_buttons);
+		ibFromAlbum = (ImageButton)layoutView.findViewById(R.id.diary_write_pic_add_from_album);
+		ibFromCamara = (ImageButton)layoutView.findViewById(R.id.diary_write_pic_add_from_camara);
+		rlContent = (RelativeLayout)layoutView.findViewById(R.id.diary_write_pic_content);
+		ibDelete = (ImageButton)layoutView.findViewById(R.id.diary_write_pic_delete_photo);
+		ivPhoto = (ImageView)layoutView.findViewById(R.id.diary_write_pic_photo);
 		
 		//绑定从相册中选择图片的按钮的事件
-		ivAlbum.setOnClickListener(new OnClickListener() {
+		ibFromAlbum.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(Intent.ACTION_PICK,null);
@@ -73,7 +81,7 @@ public class DiaryWritePicView extends FakeActivity {
 		});
 		
 		//绑定从相机中拍摄照片的按钮的事件
-		ivCamara.setOnClickListener(new OnClickListener() {
+		ibFromCamara.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				//设置临时的照片文件
@@ -88,13 +96,13 @@ public class DiaryWritePicView extends FakeActivity {
 		});
 		
 		//绑定删除当前图片的按钮的事件
-		ivDelete.setOnClickListener(new OnClickListener() {
+		ibDelete.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if(diaryWriteView.getImage() != null){
 					diaryWriteView.setImage(null);
 					//将预览图片设置为默认样式
-					ivPhoto.setImageResource(R.drawable.demo_pic2);
+					ivPhoto.setImageResource(R.drawable.image_poster1);
 				}
 				if(!StringUtils.isEmpty(diaryWriteView.getImageName())){
 					diaryWriteView.setImageName(null);
@@ -102,6 +110,9 @@ public class DiaryWritePicView extends FakeActivity {
 				if(!StringUtils.isEmpty(diaryWriteView.getImagePath())){
 					diaryWriteView.setImagePath(null);
 				}
+				//切换选择的界面
+				rlButtons.setVisibility(View.VISIBLE);
+				rlContent.setVisibility(View.GONE);
 			}
 		});
 	}
@@ -110,6 +121,7 @@ public class DiaryWritePicView extends FakeActivity {
 	 * 裁剪图片的方法
 	 * @param uri
 	 */
+	@Deprecated
 	public void startPicCut(Uri uri) {
 		Intent intentCarema = new Intent("com.android.camera.action.CROP");
 		intentCarema.setDataAndType(uri, "image/*");
@@ -132,6 +144,7 @@ public class DiaryWritePicView extends FakeActivity {
 	 * 保存裁剪后的图片
 	 * @param picIntent
 	 */
+	@Deprecated
 	public void setPicToView(Intent picIntent){
 		Bundle bundle = picIntent.getExtras();
 		if(bundle != null){
@@ -173,8 +186,10 @@ public class DiaryWritePicView extends FakeActivity {
 		diaryWriteView.setImage(picTemp);
 		diaryWriteView.setImageName(imageName);
 		//显示图片
-		Drawable drawable = new BitmapDrawable(diaryWriteView.getResources(), picTemp);
-		ivPhoto.setBackgroundDrawable(drawable);
+		ivPhoto.setImageBitmap(picTemp);
+		//切换选择的界面
+		rlButtons.setVisibility(View.GONE);
+		rlContent.setVisibility(View.VISIBLE);
 	}
 	
 	/**
