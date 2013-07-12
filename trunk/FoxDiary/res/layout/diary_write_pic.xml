@@ -31,14 +31,15 @@
         android:id="@+id/diary_write_pic_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true" >
+        android:layout_centerInParent="true"
+        android:visibility="gone" >
 
         <ImageView
             android:id="@+id/diary_write_pic_photo"
-            android:layout_width="273dip"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/image_poster1" />
+            android:src="@drawable/image_poster1" />
 
         <ImageButton
             android:id="@+id/diary_write_pic_delete_photo"

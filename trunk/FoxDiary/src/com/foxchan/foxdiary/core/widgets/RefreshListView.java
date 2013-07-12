@@ -45,6 +45,7 @@ public class RefreshListView extends ListView implements OnScrollListener {
 	
 	private LayoutInflater inflater;
 	private int maxOverScrollDIstance;
+	private boolean enable = true;
 	
 	/** 当前列表的状态 */
 	private int state;
