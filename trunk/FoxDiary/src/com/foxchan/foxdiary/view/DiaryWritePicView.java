@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
@@ -75,7 +76,6 @@ public class DiaryWritePicView extends FakeActivity {
 			public void onClick(View v) {
 				Intent intent = new Intent(Intent.ACTION_PICK,null);
 				intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-				intent.putExtra("return-data", true);
 				diaryWriteView.startActivityForResult(intent, DiaryWriteView.ACTIVITY_CODE_IMAGE_FROM_ALBUM);
 			}
 		});
@@ -91,7 +91,8 @@ public class DiaryWritePicView extends FakeActivity {
 				Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 				intent.putExtra(MediaStore.Images.Media.ORIENTATION, false);
 				intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-				diaryWriteView.startActivityForResult(intent, DiaryWriteView.ACTIVITY_CODE_IMAGE_FROM_CAMARA);
+				diaryWriteView.startActivityForResult(intent,
+						DiaryWriteView.ACTIVITY_CODE_IMAGE_FROM_CAMARA);
 			}
 		});
 		

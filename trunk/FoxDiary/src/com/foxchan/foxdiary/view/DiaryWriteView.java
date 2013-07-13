@@ -16,6 +16,7 @@ import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -397,9 +398,11 @@ public class DiaryWriteView extends Activity {
 			Uri uri = null;
 			switch(requestCode){
 			case ACTIVITY_CODE_IMAGE_FROM_ALBUM:
+				Log.d(Constants.DIARY_TAG, "从相册返回照片了。");
 				diaryWritePicView.dealWithImage(data.getData());
 				break;
 			case ACTIVITY_CODE_IMAGE_FROM_CAMARA:
+				Log.d(Constants.DIARY_TAG, "从相机返回照片了。");
 				File tempImage = new File(Constants.buildDiaryTempImagePath());
 				uri = Uri.fromFile(tempImage);
 				if(uri != null){
