@@ -320,6 +320,10 @@ public class DiaryWriteVoiceView extends FakeActivity {
 			mediaPlayer.release();
 			mediaPlayer = null;
 		}
+		if(recordThread != null && recordThread.isAlive()){
+			recordThread.interrupt();
+			recordThread = null;
+		}
 	}
 
 	public boolean isAudioFileExist() {
