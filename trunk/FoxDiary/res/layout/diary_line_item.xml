@@ -76,7 +76,7 @@
                 android:layout_width="45dip"
                 android:layout_height="45dip"
                 android:layout_marginRight="@dimen/diary_line_item_other_padding"
-                android:background="@drawable/weather01" />
+                android:background="@drawable/weather_sunny" />
         </LinearLayout>
 
         <ImageView
