@@ -12,14 +12,14 @@ public final class R {
 		public static final int activity_vertical_margin = 0x7f050001;
 	}
 	public static final class drawable {
-		public static final int ic_launcher = 0x7f02002e;
+		public static final int ic_launcher = 0x7f020041;
 	}
 	public static final class id {
-		public static final int action_settings = 0x7f0a0048;
+		public static final int action_settings = 0x7f0a0052;
 	}
 	public static final class layout {
-		public static final int start = 0x7f03000a;
-		public static final int test = 0x7f03000b;
+		public static final int start = 0x7f03000c;
+		public static final int test = 0x7f03000d;
 	}
 	public static final class menu {
 		public static final int fox_dbtest = 0x7f090001;

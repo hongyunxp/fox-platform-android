@@ -34,6 +34,10 @@
 	<string name="diary_write_save_fail">非常抱歉，日记保存失败，原因如下：%1$s</string>
 	<string name="diary_write_add_diary">写点什么吧...</string>
 	<string name="diary_write_back_confirm">您的日记还没有保存，您确定要放弃这篇日记的内容吗？</string>
+	<string name="diary_write_attachment_weather_tip">告诉我现在的天气情况吧：</string>
+	<string name="diary_write_attachment_emotion_tip">告诉我你现在的心情吧：</string>
+	<string name="diary_write_attachment_location_tip">告诉我你现在在哪吧：</string>
+	<string name="diary_write_attachment_location_input_hint">自己输入...</string>
 	
 	<!-- 组件相关 -->
 	<string name="widget_dialog_positive">确定</string>

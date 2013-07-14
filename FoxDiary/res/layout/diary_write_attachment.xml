@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/diary_write_attachment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dip" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/diary_write_attachment_weather"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/blue_lite"
+            android:orientation="vertical"
+            android:padding="7dip" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/diary_write_attachment_weather_tip"
+                android:textColor="@color/white"
+                android:textSize="@dimen/h4" />
+
+            <RadioGroup
+                android:id="@+id/diary_write_attachment_weather_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <RadioButton
+                    style="@style/AttachmentButton"
+                    android:background="@drawable/weather_sunny"
+                    android:checked="true"
+                    android:enabled="false" />
+
+                <RadioButton
+                    style="@style/AttachmentButton"
+                    android:background="@drawable/weather_sunny_cloudy"
+                    android:checked="true"
+                    android:enabled="true" />
+
+                <RadioButton
+                    style="@style/AttachmentButton"
+                    android:background="@drawable/weather_cloudy"
+                    android:checked="true"
+                    android:enabled="true" />
+
+                <RadioButton
+                    style="@style/AttachmentButton"
+                    android:background="@drawable/weather_thunder"
+                    android:checked="true"
+                    android:enabled="true" />
+
+                <RadioButton
+                    style="@style/AttachmentButton"
+                    android:background="@drawable/weather_rainny"
+                    android:checked="true"
+                    android:enabled="true" />
+
+                <RadioButton
+                    style="@style/AttachmentButton"
+                    android:background="@drawable/weather_snowy"
+                    android:checked="true"
+                    android:enabled="true" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/diary_write_attachment_emotion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
+            android:background="@color/blue_middle"
+            android:orientation="vertical"
+            android:padding="7dip" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/diary_write_attachment_emotion_tip"
+                android:textColor="@color/white"
+                android:textSize="@dimen/h4" />
+
+            <RadioGroup
+                android:id="@+id/diary_write_attachment_emotion_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <RadioButton
+                    style="@style/AttachmentButton"
+                    android:background="@drawable/emotion_xiao"
+                    android:checked="true" />
+
+                <RadioButton
+                    style="@style/AttachmentButton"
+                    android:background="@drawable/emotion_nu"
+                    android:checked="false" />
+
+                <RadioButton
+                    style="@style/AttachmentButton"
+                    android:background="@drawable/emotion_ku"
+                    android:checked="false" />
+
+                <RadioButton
+                    style="@style/AttachmentButton"
+                    android:background="@drawable/emotion_ganga"
+                    android:checked="false" />
+
+                <RadioButton
+                    style="@style/AttachmentButton"
+                    android:background="@drawable/emotion_ai"
+                    android:checked="false" />
+
+                <RadioButton
+                    style="@style/AttachmentButton"
+                    android:background="@drawable/emotion_gandong"
+                    android:checked="false" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/diary_write_attachment_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
+            android:background="@color/blue_dark"
+            android:orientation="vertical"
+            android:padding="7dip" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/diary_write_attachment_location_tip"
+                android:textColor="@color/white"
+                android:textSize="@dimen/h4" />
+
+            <ListView
+                android:id="@+id/diary_write_attachment_location_listview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:cacheColorHint="@android:color/transparent"
+                android:divider="@null"
+                android:dividerHeight="0dip"
+                android:listSelector="@android:color/transparent"
+                android:scrollbars="vertical" />
+
+            <include layout="@layout/diary_write_location_item" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>
