@@ -1,18 +1,19 @@
 package com.foxchan.foxdiary.view;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.foxchan.foxdiary.core.AppContext;
+import com.foxchan.foxdiary.adapter.DiaryWriteLocationAdapter;
 import com.foxchan.foxdiary.core.R;
 import com.foxchan.foxdiary.core.widgets.FakeActivity;
-import com.foxchan.foxdiary.utils.Constants;
+import com.foxchan.foxdiary.core.widgets.FoxToast;
 
 /**
  * 写日记添加附件的界面（天气、心情、地点）
@@ -30,12 +31,13 @@ public class DiaryWriteAttachmentView extends FakeActivity {
 	private RadioGroup rgEmotion;
 	/** 自动检测的地点的列表 */
 	private ListView lvLocations;
-	/** 地点的输入框 */
-	private AutoCompleteTextView actvLocation;
+	/** 地点的数据适配器 */
+	private DiaryWriteLocationAdapter locationAdapter;
 	/** 地点的显示区域 */
 	private TextView tvLocation;
 	
-	private ImageView ivTest;
+	/** 地点集合 */
+	private List<String> locations;
 	
 	public DiaryWriteAttachmentView(DiaryWriteView diaryWriteView){
 		this.diaryWriteView = diaryWriteView;
@@ -52,22 +54,32 @@ public class DiaryWriteAttachmentView extends FakeActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		//初始化数据
+		locations = new ArrayList<String>();
+		locations.add("北京市 海淀区");
+		locations.add("北京市 门头沟区");
+		locations.add("北京市 朝阳区");
+		locationAdapter = new DiaryWriteLocationAdapter(diaryWriteView, locations);
+		
 		//初始化相关的组件
 		rgEmotion = (RadioGroup)layoutView.findViewById(R.id.diary_write_attachment_emotion_group);
 		rgWeather = (RadioGroup)layoutView.findViewById(R.id.diary_write_attachment_weather_group);
 		lvLocations = (ListView)layoutView.findViewById(R.id.diary_write_attachment_location_listview);
-		actvLocation = (AutoCompleteTextView)layoutView.findViewById(R.id.diary_write_location_input);
 		tvLocation = (TextView)layoutView.findViewById(R.id.diary_write_location_address);
-		ivTest = (ImageView)layoutView.findViewById(R.id.test_icon);
 		//隐藏自己输入地点的显示区域
-		tvLocation.setVisibility(View.GONE);
-		actvLocation.setVisibility(View.VISIBLE);
+		tvLocation.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				FoxToast.showToast(diaryWriteView, "自己写地点", Toast.LENGTH_SHORT);
+			}
+		});
 		//绑定选择表情的选择事件
 		rgEmotion.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 			
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
-				ivTest.setImageResource(AppContext.emotionMap.get(checkedId).getDrawableId());
+				
 			}
 		});
 		//绑定选择天气的选择事件
@@ -75,9 +87,11 @@ public class DiaryWriteAttachmentView extends FakeActivity {
 			
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
-				ivTest.setImageResource(AppContext.weatherMap.get(checkedId).getDrawableId());
+				
 			}
 		});
+		//绑定地点的数据适配器
+		lvLocations.setAdapter(locationAdapter);
 	}
 
 }

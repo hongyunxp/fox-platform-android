@@ -22,15 +22,4 @@
         android:textColor="@color/white"
         android:textSize="@dimen/h4" />
 
-    <AutoCompleteTextView
-        android:id="@+id/diary_write_location_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@null"
-        android:hint="@string/diary_write_attachment_location_input_hint"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:textSize="@dimen/h4"
-        android:visibility="gone" />
-
 </LinearLayout>
