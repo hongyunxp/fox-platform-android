@@ -95,6 +95,12 @@
                 style="@style/WriteDiaryCard"
                 android:background="@drawable/diary_voice_write_card_bg"
                 android:drawableTop="@drawable/icon_voice_64" />
+            
+            <RadioButton
+                android:id="@+id/diary_write_attachment"
+                style="@style/WriteDiaryCard"
+                android:background="@drawable/diary_attachment_write_card_bg"
+                android:drawableTop="@drawable/icon_attachment_64" />
         </RadioGroup>
     </RelativeLayout>
 

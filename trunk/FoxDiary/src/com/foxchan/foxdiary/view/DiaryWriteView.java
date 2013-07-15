@@ -16,7 +16,6 @@ import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -80,12 +79,16 @@ public class DiaryWriteView extends Activity {
 	private View vPic;
 	/** 录音的界面 */
 	private View vVoice;
+	/** 添加附件的界面 */
+	private View vAttachment;
 	/** 用文字记录日记的封装对象 */
 	private DiaryWriteWordsView diaryWriteWordsView;
 	/** 用图片（从相册）记录日记的封装对象 */
 	private DiaryWritePicView diaryWritePicView;
 	/** 用声音记录日记的封装对象 */
 	private DiaryWriteVoiceView diaryWriteVoiceView;
+	/** 添加附件日记的封装对象 */
+	private DiaryWriteAttachmentView diaryWriteAttachmentView;
 	/** 底部的单选框组 */
 	private RadioGroup rgMenus;
 	/** 返回按钮 */
@@ -158,14 +161,17 @@ public class DiaryWriteView extends Activity {
 		diaryWriteWordsView = new DiaryWriteWordsView(this);
 		diaryWritePicView = new DiaryWritePicView(this);
 		diaryWriteVoiceView = new DiaryWriteVoiceView(this);
+		diaryWriteAttachmentView = new DiaryWriteAttachmentView(this);
 		
 		pageViews = new ArrayList<View>();
 		vWords = diaryWriteWordsView.layoutView();
 		vPic = diaryWritePicView.layoutView();
 		vVoice = diaryWriteVoiceView.layoutView();
+		vAttachment = diaryWriteAttachmentView.layoutView();
 		pageViews.add(0, vWords);
 		pageViews.add(1, vPic);
 		pageViews.add(2, vVoice);
+		pageViews.add(3, vAttachment);
 		
 		rgMenus = (RadioGroup)findViewById(R.id.diary_write_down_menu);
 		viewPager = (ViewPager)findViewById(R.id.diary_write_viewpager);
@@ -217,6 +223,10 @@ public class DiaryWriteView extends Activity {
 					viewPager.setCurrentItem(2);
 					showOrHideImm(2);
 					break;
+				case R.id.diary_write_attachment:
+					viewPager.setCurrentItem(3);
+					showOrHideImm(3);
+					break;
 				}
 			}
 		});
@@ -258,6 +268,7 @@ public class DiaryWriteView extends Activity {
 		diaryWriteWordsView.onCreate(savedInstanceState);
 		diaryWritePicView.onCreate(savedInstanceState);
 		diaryWriteVoiceView.onCreate(savedInstanceState);
+		diaryWriteAttachmentView.onCreate(savedInstanceState);
 		
 		//初始化返回的确认框
 		cdBack = new FoxConfirmDialog(this, getString(R.string.diary_write_back_confirm));
@@ -398,11 +409,9 @@ public class DiaryWriteView extends Activity {
 			Uri uri = null;
 			switch(requestCode){
 			case ACTIVITY_CODE_IMAGE_FROM_ALBUM:
-				Log.d(Constants.DIARY_TAG, "从相册返回照片了。");
 				diaryWritePicView.dealWithImage(data.getData());
 				break;
 			case ACTIVITY_CODE_IMAGE_FROM_CAMARA:
-				Log.d(Constants.DIARY_TAG, "从相机返回照片了。");
 				File tempImage = new File(Constants.buildDiaryTempImagePath());
 				uri = Uri.fromFile(tempImage);
 				if(uri != null){
