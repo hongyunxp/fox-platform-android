@@ -38,9 +38,11 @@
 	<string name="diary_write_attachment_emotion_tip">告诉我你现在的心情吧：</string>
 	<string name="diary_write_attachment_location_tip">告诉我你现在在哪吧：</string>
 	<string name="diary_write_attachment_location_input_hint">自己输入...</string>
+	<string name="diary_write_attachment_location_input_title">在下面输入你当前的位置</string>
 	
 	<!-- 组件相关 -->
 	<string name="widget_dialog_positive">确定</string>
 	<string name="widget_dialog_negative">取消</string>
 	<string name="widget_confirm_dialog_title">警告</string>
+	<string name="widget_input_dialog_title">在下面输入</string>
 </resources>

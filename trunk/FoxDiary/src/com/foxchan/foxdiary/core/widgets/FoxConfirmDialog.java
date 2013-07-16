@@ -51,8 +51,9 @@ public class FoxConfirmDialog extends Dialog {
 	/**
 	 * 设置确定按钮点击时的监听器
 	 * @param onPositiveButtonClickListener	确定按钮点击时的监听器
+	 * @return								返回消息确认对话框
 	 */
-	public void setOnPositiveButtonClickListener(
+	public FoxConfirmDialog setOnPositiveButtonClickListener(
 			final DialogInterface.OnClickListener onPositiveButtonClickListener) {
 		btnPositive.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -61,13 +62,15 @@ public class FoxConfirmDialog extends Dialog {
 				onPositiveButtonClickListener.onClick(FoxConfirmDialog.this, 0);
 			}
 		});
+		return this;
 	}
 
 	/**
 	 * 设置取消按钮点击时的监听器
 	 * @param onNegativeButtonClickListener	取消按钮点击时的监听器
+	 * @return								返回消息确认对话框
 	 */
-	public void setOnNegativeButtonClickListener(
+	public FoxConfirmDialog setOnNegativeButtonClickListener(
 			final DialogInterface.OnClickListener onNegativeButtonClickListener) {
 		btnNegative.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -76,6 +79,7 @@ public class FoxConfirmDialog extends Dialog {
 				onNegativeButtonClickListener.onClick(FoxConfirmDialog.this, 0);
 			}
 		});
+		return this;
 	}
 
 	/**
