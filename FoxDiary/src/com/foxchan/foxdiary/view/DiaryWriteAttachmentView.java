@@ -10,12 +10,11 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.foxchan.foxdiary.adapter.DiaryWriteLocationAdapter;
 import com.foxchan.foxdiary.core.R;
 import com.foxchan.foxdiary.core.widgets.FakeActivity;
-import com.foxchan.foxdiary.core.widgets.FoxToast;
+import com.foxchan.foxdiary.core.widgets.FoxInputDialog;
 import com.foxchan.foxdiary.entity.Emotions;
 import com.foxchan.foxdiary.entity.Weathers;
 
@@ -41,6 +40,8 @@ public class DiaryWriteAttachmentView extends FakeActivity {
 	private TextView tvLocation;
 	/** 地点的项的内容 */
 	private LinearLayout llLocation;
+	/** 地点的输入对话框 */
+	private FoxInputDialog foxInputDialog;
 	
 	/** 地点集合 */
 	private List<String> locations;
@@ -82,6 +83,7 @@ public class DiaryWriteAttachmentView extends FakeActivity {
 						.getColor(R.color.blue_lite));
 				locationAdapter.setSelectedPosition(-1);
 				locationAdapter.notifyDataSetChanged();
+				foxInputDialog.show();
 			}
 		});
 		//绑定选择表情的选择事件
@@ -113,6 +115,22 @@ public class DiaryWriteAttachmentView extends FakeActivity {
 				locationAdapter.notifyDataSetChanged();
 				llLocation.setBackgroundColor(diaryWriteView
 					.getResources().getColor(android.R.color.transparent));
+			}
+		});
+		//初始化地点输入框对象以及绑定事件
+		foxInputDialog = new FoxInputDialog(
+				diaryWriteView,
+				diaryWriteView.getString(R.string.diary_write_attachment_location_input_title));
+		foxInputDialog.setOnPositiveButtonClickListener(new FoxInputDialog.OnClickListener() {
+			
+			@Override
+			public void onClick(String content, FoxInputDialog dialog) {
+				tvLocation.setText(content);
+			}
+		}).setOnNegativeButtonClickListener(new FoxInputDialog.OnClickListener() {
+			
+			@Override
+			public void onClick(String content, FoxInputDialog dialog) {
 			}
 		});
 	}
