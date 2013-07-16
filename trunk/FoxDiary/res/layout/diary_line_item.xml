@@ -12,18 +12,17 @@
 
     <ImageView
         android:id="@+id/diary_line_item_emotion"
-        android:layout_width="24dip"
-        android:layout_height="24dip"
+        android:layout_width="26dip"
+        android:layout_height="26dip"
         android:layout_marginTop="5dip"
-        android:background="@drawable/red_circle"
         android:clickable="true"
-        android:src="@drawable/emotion01" />
+        android:src="@drawable/emotion_ai_normal" />
 
     <LinearLayout
         android:id="@+id/diary_line_item_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="3dip"
+        android:layout_marginLeft="1dip"
         android:layout_toRightOf="@id/diary_line_item_emotion"
         android:background="@drawable/white_balloon_normal"
         android:clickable="true"
@@ -73,10 +72,10 @@
 
             <ImageView
                 android:id="@+id/diary_line_item_weather"
-                android:layout_width="45dip"
-                android:layout_height="45dip"
+                android:layout_width="48dip"
+                android:layout_height="48dip"
                 android:layout_marginRight="@dimen/diary_line_item_other_padding"
-                android:background="@drawable/weather_sunny" />
+                android:src="@drawable/weather_sunny" />
         </LinearLayout>
 
         <ImageView

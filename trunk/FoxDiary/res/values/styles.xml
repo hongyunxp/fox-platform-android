@@ -33,7 +33,7 @@
 	    <item name="android:background">@drawable/diary_edit_write_card_bg</item>
 	    <item name="android:button">@null</item>
 	    <item name="android:gravity">center</item>
-	    <item name="android:layout_marginLeft">-2dip</item>
+	    <item name="android:layout_marginLeft">0dip</item>
 	</style>
 	<style name="FirstWriteDiaryCard" parent="WriteDiaryCard">
 	    <item name="android:layout_marginLeft">0dip</item>

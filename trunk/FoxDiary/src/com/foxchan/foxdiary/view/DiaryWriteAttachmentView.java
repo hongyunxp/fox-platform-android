@@ -5,6 +5,8 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -14,6 +16,8 @@ import com.foxchan.foxdiary.adapter.DiaryWriteLocationAdapter;
 import com.foxchan.foxdiary.core.R;
 import com.foxchan.foxdiary.core.widgets.FakeActivity;
 import com.foxchan.foxdiary.core.widgets.FoxToast;
+import com.foxchan.foxdiary.entity.Emotions;
+import com.foxchan.foxdiary.entity.Weathers;
 
 /**
  * 写日记添加附件的界面（天气、心情、地点）
@@ -35,6 +39,8 @@ public class DiaryWriteAttachmentView extends FakeActivity {
 	private DiaryWriteLocationAdapter locationAdapter;
 	/** 地点的显示区域 */
 	private TextView tvLocation;
+	/** 地点的项的内容 */
+	private LinearLayout llLocation;
 	
 	/** 地点集合 */
 	private List<String> locations;
@@ -66,12 +72,16 @@ public class DiaryWriteAttachmentView extends FakeActivity {
 		rgWeather = (RadioGroup)layoutView.findViewById(R.id.diary_write_attachment_weather_group);
 		lvLocations = (ListView)layoutView.findViewById(R.id.diary_write_attachment_location_listview);
 		tvLocation = (TextView)layoutView.findViewById(R.id.diary_write_location_address);
+		llLocation = (LinearLayout)layoutView.findViewById(R.id.diary_write_location_item);
 		//隐藏自己输入地点的显示区域
 		tvLocation.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				FoxToast.showToast(diaryWriteView, "自己写地点", Toast.LENGTH_SHORT);
+				llLocation.setBackgroundColor(diaryWriteView.getResources()
+						.getColor(R.color.blue_lite));
+				locationAdapter.setSelectedPosition(-1);
+				locationAdapter.notifyDataSetChanged();
 			}
 		});
 		//绑定选择表情的选择事件
@@ -79,7 +89,8 @@ public class DiaryWriteAttachmentView extends FakeActivity {
 			
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
-				
+				int emotionId = Emotions.getEmotionByRadioButton(checkedId).getId();
+				diaryWriteView.setEmotionId(emotionId);
 			}
 		});
 		//绑定选择天气的选择事件
@@ -87,11 +98,23 @@ public class DiaryWriteAttachmentView extends FakeActivity {
 			
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
-				
+				int weatherId = Weathers.getWeatherByRadioButton(checkedId).getId();
+				diaryWriteView.setWeatherId(weatherId);
 			}
 		});
 		//绑定地点的数据适配器
 		lvLocations.setAdapter(locationAdapter);
+		lvLocations.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				locationAdapter.setSelectedPosition(position);
+				locationAdapter.notifyDataSetChanged();
+				llLocation.setBackgroundColor(diaryWriteView
+					.getResources().getColor(android.R.color.transparent));
+			}
+		});
 	}
 
 }

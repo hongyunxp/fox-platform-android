@@ -31,7 +31,7 @@
 	<color name="diary_font_color">#464646</color>
 	<!-- 日记时间线的界面 -->
 	<!-- <color name="diary_line_color">#5e607a</color> -->
-	<color name="diary_line_color">#ffffffff</color>
+	<color name="diary_line_color">#cfcfcf</color>
 	<!-- 写日记界面 -->
 	<color name="diary_write_bg">#eeeeee</color>
 	<color name="diary_write_content_border">#d9cec1</color>

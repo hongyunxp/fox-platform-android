@@ -7,11 +7,16 @@ package com.foxchan.foxdiary.entity;
  */
 public class Emotion {
 
-	/** id号 */
+	/** 天气的id号 */
 	private int id;
-	/** 对应的图片资源的id号 */
+	/** 天气对应的图片资源的id号 */
 	private int drawableId;
 
+	/**
+	 * 构造一个心情对象
+	 * @param id			天气的id号
+	 * @param drawableId	天气对应的图片资源的id号
+	 */
 	public Emotion(int id, int drawableId) {
 		this.id = id;
 		this.drawableId = drawableId;
