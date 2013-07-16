@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
@@ -23,6 +24,20 @@ public class DiaryWriteLocationAdapter extends BaseAdapter {
 	private LayoutInflater inflater;
 	/** 地点集合 */
 	private List<String> locations;
+	/** 选中的地点的位置索引 */
+	private int selectedPosition = -1;
+	
+	/**
+	 * 地点信息项
+	 * @author foxchan@live.cn
+	 * @create 2013-7-16
+	 */
+	private static class LocationItem{
+		/** 地点项目的容器 */
+		public LinearLayout llContainer;
+		/** 地点项目的显示内容 */
+		public TextView tvLocation;
+	}
 
 	/**
 	 * 构造一个日记界面的地点的数据适配器
@@ -52,17 +67,34 @@ public class DiaryWriteLocationAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		TextView tvLocation;
+		LocationItem locationItem;
 		if(convertView == null){
 			convertView = inflater.inflate(R.layout.diary_write_location_item, null);
-			tvLocation = (TextView)convertView.findViewById(R.id.diary_write_location_address);
-			convertView.setTag(tvLocation);
+			locationItem = new LocationItem();
+			locationItem.llContainer = (LinearLayout)convertView.findViewById(R.id.diary_write_location_item);
+			locationItem.tvLocation = (TextView)convertView.findViewById(R.id.diary_write_location_address);
+			convertView.setTag(locationItem);
 		} else {
-			tvLocation = (TextView)convertView.getTag();
+			locationItem = (LocationItem)convertView.getTag();
 		}
 		//绑定数据
-		tvLocation.setText(locations.get(position));
+		locationItem.tvLocation.setText(locations.get(position));
+		if(selectedPosition == position){
+			locationItem.llContainer.setBackgroundColor(context.getResources()
+					.getColor(R.color.blue_lite));
+		} else {
+			locationItem.llContainer.setBackgroundColor(context.getResources()
+					.getColor(android.R.color.transparent));
+		}
 		return convertView;
+	}
+
+	public int getSelectedPosition() {
+		return selectedPosition;
+	}
+
+	public void setSelectedPosition(int selectedPosition) {
+		this.selectedPosition = selectedPosition;
 	}
 
 }

@@ -16,6 +16,7 @@ import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -116,6 +117,10 @@ public class DiaryWriteView extends Activity {
 	private long voiceLength;
 	/** 日记保存的结果，成功或者失败 */
 	private boolean isDiarySaveSuccess = false;
+	/** 写日记时的天气的ID号 */
+	private int weatherId = 0;
+	/** 写日记时的心情的ID号 */
+	private int emotionId = 0;
 	
 	private MyHandler handler = new MyHandler(this);
 	static class MyHandler extends Handler{
@@ -369,6 +374,8 @@ public class DiaryWriteView extends Activity {
 			diary.setRecord(null);
 		}
 		diary.setTimeLineNodeStyleId(TimeLineNodeStyle.getRandomStyleId());
+		diary.setWeatherId(weatherId);
+		diary.setEmotionId(emotionId);
 		return diary;
 	}
 	
@@ -456,6 +463,22 @@ public class DiaryWriteView extends Activity {
 
 	public void setVoiceLength(long voiceLength) {
 		this.voiceLength = voiceLength;
+	}
+
+	public int getWeatherId() {
+		return weatherId;
+	}
+
+	public void setWeatherId(int weatherId) {
+		this.weatherId = weatherId;
+	}
+
+	public int getEmotionId() {
+		return emotionId;
+	}
+
+	public void setEmotionId(int emotionId) {
+		this.emotionId = emotionId;
 	}
 
 	@Override

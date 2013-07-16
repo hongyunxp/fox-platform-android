@@ -3,7 +3,7 @@
     android:id="@+id/diary_line"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/beige"
+    android:background="@drawable/repeat_texture_bg"
     android:orientation="vertical" >
 
     <RelativeLayout
@@ -59,7 +59,7 @@
             android:layout_width="4dip"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="16dip"
+            android:layout_marginLeft="17dip"
             android:background="@color/diary_line_color" />
 
         <com.foxchan.foxdiary.core.widgets.RefreshListView

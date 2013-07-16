@@ -3,10 +3,13 @@ package com.foxchan.foxdiary.adapter;
 import java.util.List;
 
 import com.foxchan.foxdb.core.Session;
+import com.foxchan.foxdiary.core.AppContext;
 import com.foxchan.foxdiary.core.R;
 import com.foxchan.foxdiary.core.widgets.FoxToast;
 import com.foxchan.foxdiary.entity.Diary;
+import com.foxchan.foxdiary.entity.Emotions;
 import com.foxchan.foxdiary.entity.Record;
+import com.foxchan.foxdiary.entity.Weathers;
 import com.foxchan.foxutils.data.DateUtils;
 import com.foxchan.foxutils.tool.PhoneUtils;
 
@@ -153,6 +156,9 @@ public class DiaryLineAdapter extends BaseAdapter {
 		}
 		//设置日记的发布时间
 		nodeItem.tvDatetime.setText(diary.getCreateDatetimeStr());
+		//绑定日记的发表心情和天气
+		nodeItem.ivEmotion.setImageResource(Emotions.getEmotionById(diary.getEmotionId()).getDrawableId());
+		nodeItem.ivWeather.setImageResource(Weathers.getWeatherById(diary.getWeatherId()).getDrawableId());
 		//绑定对于日记的操作事件
 		nodeItem.ibDelete.setOnClickListener(new View.OnClickListener() {
 			

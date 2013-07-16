@@ -55,7 +55,7 @@ public class Diary {
 	private String content;
 	/** 日记的心情 */
 	@Column
-	private int emotion;
+	private int emotionId;
 	/** 日记的生成时间 */
 	@Column(nullable=false)
 	private Date createDate;
@@ -111,12 +111,12 @@ public class Diary {
 		this.content = content;
 	}
 
-	public int getEmotion() {
-		return emotion;
+	public int getEmotionId() {
+		return emotionId;
 	}
 
-	public void setEmotion(int emotion) {
-		this.emotion = emotion;
+	public void setEmotionId(int emotionId) {
+		this.emotionId = emotionId;
 	}
 
 	public Date getCreateDate() {
