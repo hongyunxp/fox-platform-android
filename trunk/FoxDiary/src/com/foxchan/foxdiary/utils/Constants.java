@@ -48,6 +48,8 @@ public class Constants {
 	public static final int ARM_AUDIO_QUENTITY_HIGH = 16000;
 	/** ARM格式的录音的低品质数据 */
 	public static final int ARM_AUDIO_QUENTITY_LOW = 8000;
+	/** 获取地点信息的上限 */
+	public static final int MAX_LOCATION_COUNT = 3;
 	
 	/**
 	 * 构造日记模块的临时图片的文件路径

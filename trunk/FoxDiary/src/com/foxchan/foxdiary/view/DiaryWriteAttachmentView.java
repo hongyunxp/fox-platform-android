@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -11,12 +12,18 @@ import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.foxchan.foxdiary.adapter.DiaryWriteLocationAdapter;
+import com.foxchan.foxdiary.core.AppContext;
 import com.foxchan.foxdiary.core.R;
 import com.foxchan.foxdiary.core.widgets.FakeActivity;
 import com.foxchan.foxdiary.core.widgets.FoxInputDialog;
 import com.foxchan.foxdiary.entity.Emotions;
 import com.foxchan.foxdiary.entity.Weathers;
+import com.foxchan.foxdiary.utils.Constants;
 import com.foxchan.foxutils.data.StringUtils;
 
 /**
@@ -46,6 +53,10 @@ public class DiaryWriteAttachmentView extends FakeActivity {
 	
 	/** 地点集合 */
 	private List<String> locations;
+	/** 获取地点的客户端 */
+	private LocationClient locationClient;
+	/** 地点信息的监听器 */
+	private FoxLocationListener foxLocationListener;
 	
 	public DiaryWriteAttachmentView(DiaryWriteView diaryWriteView){
 		this.diaryWriteView = diaryWriteView;
@@ -64,9 +75,9 @@ public class DiaryWriteAttachmentView extends FakeActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		//初始化数据
 		locations = new ArrayList<String>();
-		locations.add("北京市 海淀区");
-		locations.add("北京市 门头沟区");
-		locations.add("北京市 朝阳区");
+//		locations.add("北京市 海淀区");
+//		locations.add("北京市 门头沟区");
+//		locations.add("北京市 朝阳区");
 		locationAdapter = new DiaryWriteLocationAdapter(diaryWriteView, locations);
 		
 		//初始化相关的组件
@@ -138,11 +149,75 @@ public class DiaryWriteAttachmentView extends FakeActivity {
 			public void onClick(String content, FoxInputDialog dialog) {
 			}
 		});
+		//初始化与地理信息相关的组件
+		foxLocationListener = new FoxLocationListener();
+		locationClient = ((AppContext)diaryWriteView.getApplication()).getLocationClient();
+		locationClient.registerLocationListener(foxLocationListener);
+		locationClient.start();
+		setLocationOption();
+		//最多获取3个地名
+		for(int i = 0; i < Constants.MAX_LOCATION_COUNT; i++){
+			locationClient.requestLocation();
+		}
+	}
+	
+	/**
+	 * 配置地点客户端的配置信息
+	 */
+	private void setLocationOption(){
+		LocationClientOption option = new LocationClientOption();
+		option.setAddrType("all");//返回的定位结果包含地址信息
+		option.setCoorType("bd09ll");//返回的定位结果是百度经纬度,默认值gcj02
+//		option.setScanSpan(5000);//设置发起定位请求的间隔时间为5000ms
+		option.disableCache(true);//禁止启用缓存定位
+		option.setPoiNumber(5);	//最多返回POI个数	
+//		option.setPoiDistance(1000); //poi查询距离		
+		option.setPoiExtraInfo(false); //是否需要POI的电话和地址等详细信息
+		option.setOpenGps(false);//关闭GPS定位
+		option.setProdName(Constants.APP_RESOURCE);//设置产品线名称
+		option.setPriority(LocationClientOption.NetWorkFirst);//设置网络定位优先
+		option.setServiceName("com.baidu.location.service_v2.9");
+		locationClient.setLocOption(option);
 	}
 
 	@Override
 	public void onDestroy() {
 		foxInputDialog.dismiss();
+		locationClient.stop();
+	}
+	
+	/**
+	 * 获取用户地理位置信息的监听器
+	 * @author foxchan@live.cn
+	 * @version 1.0.0
+	 * @create 2013年7月17日
+	 */
+	public class FoxLocationListener implements BDLocationListener{
+
+		@Override
+		public void onReceiveLocation(BDLocation bdLocation) {
+			if(bdLocation == null) return;
+			String locationStr = "";
+			if(bdLocation.getLocType() == BDLocation.TypeNetWorkLocation){
+				locationStr = bdLocation.getAddrStr();
+			}
+			if(!StringUtils.isEmpty(locationStr) && !locations.contains(locationStr)){
+				locations.add(locationStr);
+				Log.d(Constants.DIARY_TAG, "地点：" + locationStr);
+			}
+			locationAdapter.notifyDataSetChanged();
+		}
+
+		@Override
+		public void onReceivePoi(BDLocation bdLocation) {
+			if(bdLocation == null) return;
+			String locationStr = "";
+			if(bdLocation.getLocType() == BDLocation.TypeNetWorkLocation){
+				locationStr = bdLocation.getAddrStr();
+			}
+			locations.add(locationStr);
+		}
+		
 	}
 	
 }
