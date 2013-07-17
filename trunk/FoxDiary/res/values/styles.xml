@@ -16,7 +16,7 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
-    
+
     <!-- header -->
     <style name="Header">
         <item name="android:layout_width">match_parent</item>
@@ -27,48 +27,51 @@
         <item name="android:paddingRight">@dimen/border_padding</item>
     </style>
     <!-- 写日记 -->
-	<style name="WriteDiaryCard">
-	    <item name="android:layout_width">64dip</item>
-	    <item name="android:layout_height">43dip</item>
-	    <item name="android:background">@drawable/diary_edit_write_card_bg</item>
-	    <item name="android:button">@null</item>
-	    <item name="android:gravity">center</item>
-	    <item name="android:layout_marginLeft">0dip</item>
-	</style>
-	<style name="FirstWriteDiaryCard" parent="WriteDiaryCard">
-	    <item name="android:layout_marginLeft">0dip</item>
-	</style>
-	
-	<style name="WidgetButton">
-	    <item name="android:layout_width">match_parent</item>
-	    <item name="android:layout_height">@dimen/widget_button_height</item>
-	    <item name="android:textColor">@color/white</item>
-	    <item name="android:textSize">@dimen/h4</item>
-	    <item name="android:layout_marginRight">@dimen/widget_padding</item>
-	</style>
-	<style name="LastWidgetButton" parent="WidgetButton">
-	    <item name="android:layout_marginRight">0dip</item>
-	</style>
-	
-	<style name="FoxDialog" parent="@android:style/Theme.Dialog">
+    <style name="WriteDiaryCard">
+        <item name="android:layout_width">64dip</item>
+        <item name="android:layout_height">43dip</item>
+        <item name="android:background">@drawable/diary_edit_write_card_bg</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginLeft">0dip</item>
+    </style>
+
+    <style name="FirstWriteDiaryCard" parent="WriteDiaryCard">
+        <item name="android:layout_marginLeft">0dip</item>
+    </style>
+
+    <style name="WidgetButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/widget_button_height</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/h4</item>
+        <item name="android:layout_marginRight">@dimen/widget_padding</item>
+    </style>
+
+    <style name="LastWidgetButton" parent="WidgetButton">
+        <item name="android:layout_marginRight">0dip</item>
+    </style>
+
+    <style name="FoxDialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowIsTranslucent">false</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:background">@android:color/transparent</item>
-        <item name="android:windowBackground">@android:color/transparent</item><!-- 背景 -->
-        <item name="android:backgroundDimEnabled">false</item><!-- 背景模糊 -->
+        <item name="android:windowBackground">@android:color/transparent</item> <!-- 背景 -->
+        <item name="android:backgroundDimEnabled">false</item> <!-- 背景模糊 -->
     </style>
-    
-	<style name="IconButton">
-	    <item name="android:layout_width">42dip</item>
-	    <item name="android:layout_height">42dip</item>
-	    <item name="android:background">@drawable/icon_button_bg</item>
-	</style>
-	
-	<style name="AttachmentButton">
-	    <item name="android:layout_width">48dip</item>
-	    <item name="android:layout_height">48dip</item>
-	    <item name="android:button">@null</item>
-	</style>
+
+    <style name="IconButton">
+        <item name="android:layout_width">42dip</item>
+        <item name="android:layout_height">42dip</item>
+        <item name="android:background">@drawable/icon_button_bg</item>
+    </style>
+
+    <style name="AttachmentButton">
+        <item name="android:layout_width">48dip</item>
+        <item name="android:layout_height">48dip</item>
+        <item name="android:button">@null</item>
+    </style>
+
 </resources>

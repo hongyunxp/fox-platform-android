@@ -39,6 +39,7 @@
 	<string name="diary_write_attachment_location_tip">告诉我你现在在哪吧：</string>
 	<string name="diary_write_attachment_location_input_hint">自己输入...</string>
 	<string name="diary_write_attachment_location_input_title">在下面输入你当前的位置</string>
+	<string name="diary_write_attachment_location_default">没有留下地点信息</string>
 	
 	<!-- 组件相关 -->
 	<string name="widget_dialog_positive">确定</string>

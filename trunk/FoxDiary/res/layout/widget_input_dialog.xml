@@ -22,9 +22,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dip"
         android:background="@drawable/green_rectangle"
+        android:hint="@string/diary_write_attachment_location_input_hint"
         android:padding="8dip"
-        android:text="@string/loading"
         android:textColor="@color/white"
+        android:textColorHint="@color/white"
         android:textSize="@dimen/h4" />
 
     <LinearLayout

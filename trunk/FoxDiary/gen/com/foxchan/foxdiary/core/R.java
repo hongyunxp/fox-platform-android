@@ -437,6 +437,7 @@ public final class R {
         public static final int diary_line_add=0x7f060013;
         public static final int diary_write_add_diary=0x7f06001c;
         public static final int diary_write_attachment_emotion_tip=0x7f06001f;
+        public static final int diary_write_attachment_location_default=0x7f060023;
         public static final int diary_write_attachment_location_input_hint=0x7f060021;
         public static final int diary_write_attachment_location_input_title=0x7f060022;
         public static final int diary_write_attachment_location_tip=0x7f060020;
@@ -474,12 +475,12 @@ public final class R {
         public static final int secure_modify_password=0x7f06000c;
         public static final int time_temp=0x7f060009;
         public static final int time_temp_zero=0x7f06000a;
-        public static final int widget_confirm_dialog_title=0x7f060025;
-        public static final int widget_dialog_negative=0x7f060024;
+        public static final int widget_confirm_dialog_title=0x7f060026;
+        public static final int widget_dialog_negative=0x7f060025;
         /**  组件相关 
          */
-        public static final int widget_dialog_positive=0x7f060023;
-        public static final int widget_input_dialog_title=0x7f060026;
+        public static final int widget_dialog_positive=0x7f060024;
+        public static final int widget_input_dialog_title=0x7f060027;
     }
     public static final class style {
         /** 
