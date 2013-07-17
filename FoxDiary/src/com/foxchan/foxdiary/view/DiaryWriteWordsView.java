@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.foxchan.foxdiary.core.AppConfig;
 import com.foxchan.foxdiary.core.R;
 import com.foxchan.foxdiary.core.widgets.FakeActivity;
-import com.foxchan.foxdiary.exception.DiaryWordsException;
 import com.foxchan.foxdiary.utils.Constants;
 import com.foxchan.foxutils.data.StringUtils;
 
@@ -105,7 +104,6 @@ public class DiaryWriteWordsView extends FakeActivity {
 	@Override
 	public void onDestroy() {
 		config.removeProperties(Constants.DIARY_TEMP_WORDS);
-		super.onDestroy();
 	}
 
 	public String getContent() {

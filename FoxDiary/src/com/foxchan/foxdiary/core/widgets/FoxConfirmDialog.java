@@ -1,14 +1,18 @@
 package com.foxchan.foxdiary.core.widgets;
 
-import com.foxchan.foxdiary.core.R;
-import com.foxchan.foxutils.data.StringUtils;
-
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.foxchan.foxdiary.core.R;
+import com.foxchan.foxutils.data.StringUtils;
+import com.foxchan.foxutils.tool.PhoneUtils;
 
 /**
  * 给用户确认信息的弹出框
@@ -18,6 +22,8 @@ import android.widget.TextView;
  */
 public class FoxConfirmDialog extends Dialog {
 	
+	/** 确认对话框最外面的容器 */
+	private LinearLayout llDialog;
 	/** 确认框的标题 */
 	private TextView tvTitle;
 	/** 确认框的正文 */
@@ -35,6 +41,9 @@ public class FoxConfirmDialog extends Dialog {
 		tvContent = (TextView)findViewById(R.id.widget_confirm_dialog_content);
 		btnNegative = (Button)findViewById(R.id.widget_confirm_dialog_negative_button);
 		btnPositive = (Button)findViewById(R.id.widget_confirm_dialog_positive_button);
+		llDialog = (LinearLayout)findViewById(R.id.widget_confirm_dialog_box);
+		int width = PhoneUtils.getWindowWidth((Activity)context);
+		llDialog.setLayoutParams(new FrameLayout.LayoutParams(width, FrameLayout.LayoutParams.WRAP_CONTENT));
 	}
 	
 	public FoxConfirmDialog(Context context, String content){

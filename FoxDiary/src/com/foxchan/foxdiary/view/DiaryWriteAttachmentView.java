@@ -17,6 +17,7 @@ import com.foxchan.foxdiary.core.widgets.FakeActivity;
 import com.foxchan.foxdiary.core.widgets.FoxInputDialog;
 import com.foxchan.foxdiary.entity.Emotions;
 import com.foxchan.foxdiary.entity.Weathers;
+import com.foxchan.foxutils.data.StringUtils;
 
 /**
  * 写日记添加附件的界面（天气、心情、地点）
@@ -115,6 +116,7 @@ public class DiaryWriteAttachmentView extends FakeActivity {
 				locationAdapter.notifyDataSetChanged();
 				llLocation.setBackgroundColor(diaryWriteView
 					.getResources().getColor(android.R.color.transparent));
+				diaryWriteView.setLocation(locations.get(position));
 			}
 		});
 		//初始化地点输入框对象以及绑定事件
@@ -125,7 +127,10 @@ public class DiaryWriteAttachmentView extends FakeActivity {
 			
 			@Override
 			public void onClick(String content, FoxInputDialog dialog) {
-				tvLocation.setText(content);
+				if(!StringUtils.isEmpty(content)){
+					tvLocation.setText(content);
+					diaryWriteView.setLocation(content);
+				}
 			}
 		}).setOnNegativeButtonClickListener(new FoxInputDialog.OnClickListener() {
 			
@@ -135,4 +140,9 @@ public class DiaryWriteAttachmentView extends FakeActivity {
 		});
 	}
 
+	@Override
+	public void onDestroy() {
+		foxInputDialog.dismiss();
+	}
+	
 }

@@ -65,6 +65,9 @@ public class Diary {
 	/** 天气情况 */
 	@Column(nullable=false)
 	private int weatherId;
+	/** 用户所在的地点信息 */
+	@Column(nullable=true)
+	private String location;
 
 	public String getId() {
 		return id;
@@ -165,6 +168,14 @@ public class Diary {
 
 	public void setHasVoice(Boolean hasVoice) {
 		this.hasVoice = hasVoice;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 	/**

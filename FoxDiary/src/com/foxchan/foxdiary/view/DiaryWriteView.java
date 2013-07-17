@@ -16,7 +16,6 @@ import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -121,6 +120,8 @@ public class DiaryWriteView extends Activity {
 	private int weatherId = 0;
 	/** 写日记时的心情的ID号 */
 	private int emotionId = 0;
+	/** 用户当前的地点信息 */
+	private String location;
 	
 	private MyHandler handler = new MyHandler(this);
 	static class MyHandler extends Handler{
@@ -376,6 +377,7 @@ public class DiaryWriteView extends Activity {
 		diary.setTimeLineNodeStyleId(TimeLineNodeStyle.getRandomStyleId());
 		diary.setWeatherId(weatherId);
 		diary.setEmotionId(emotionId);
+		diary.setLocation(location);
 		return diary;
 	}
 	
@@ -481,15 +483,25 @@ public class DiaryWriteView extends Activity {
 		this.emotionId = emotionId;
 	}
 
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
 	@Override
 	protected void onDestroy() {
 		diaryWriteWordsView.onDestroy();
 		diaryWritePicView.onDestroy();
 		diaryWriteVoiceView.onDestroy();
+		diaryWriteAttachmentView.onDestroy();
 		if(image != null){
 			image.recycle();
 			image = null;
 		}
+		cdBack.dismiss();
 		super.onDestroy();
 	}
 

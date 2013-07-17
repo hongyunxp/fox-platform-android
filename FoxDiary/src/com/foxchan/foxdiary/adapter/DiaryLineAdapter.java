@@ -3,7 +3,6 @@ package com.foxchan.foxdiary.adapter;
 import java.util.List;
 
 import com.foxchan.foxdb.core.Session;
-import com.foxchan.foxdiary.core.AppContext;
 import com.foxchan.foxdiary.core.R;
 import com.foxchan.foxdiary.core.widgets.FoxToast;
 import com.foxchan.foxdiary.entity.Diary;
@@ -11,6 +10,7 @@ import com.foxchan.foxdiary.entity.Emotions;
 import com.foxchan.foxdiary.entity.Record;
 import com.foxchan.foxdiary.entity.Weathers;
 import com.foxchan.foxutils.data.DateUtils;
+import com.foxchan.foxutils.data.StringUtils;
 import com.foxchan.foxutils.tool.PhoneUtils;
 
 import android.content.Context;
@@ -154,8 +154,13 @@ public class DiaryLineAdapter extends BaseAdapter {
 		} else {
 			nodeItem.ivPhoto.setVisibility(View.GONE);
 		}
-		//设置日记的发布时间
+		//设置日记的发布时间和地点信息
 		nodeItem.tvDatetime.setText(diary.getCreateDatetimeStr());
+		if(StringUtils.isEmpty(diary.getLocation())){
+			nodeItem.tvLocation.setText(context.getString(R.string.diary_write_attachment_location_default));
+		} else {
+			nodeItem.tvLocation.setText(diary.getLocation());
+		}
 		//绑定日记的发表心情和天气
 		nodeItem.ivEmotion.setImageResource(Emotions.getEmotionById(diary.getEmotionId()).getDrawableId());
 		nodeItem.ivWeather.setImageResource(Weathers.getWeatherById(diary.getWeatherId()).getDrawableId());

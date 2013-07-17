@@ -1,13 +1,17 @@
 package com.foxchan.foxdiary.core.widgets;
 
-import com.foxchan.foxdiary.core.R;
-
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.foxchan.foxdiary.core.R;
+import com.foxchan.foxutils.tool.PhoneUtils;
 
 /**
  * 获得用户输入的对话框
@@ -17,6 +21,8 @@ import android.widget.TextView;
  */
 public class FoxInputDialog extends Dialog {
 	
+	/** 对话框最外面的容器 */
+	private LinearLayout llDialog;
 	/** 确认框的标题 */
 	private TextView tvTitle;
 	/** 确认框的正文输入框 */
@@ -34,6 +40,9 @@ public class FoxInputDialog extends Dialog {
 		etContent = (EditText)findViewById(R.id.widget_input_dialog_content);
 		btnNegative = (Button)findViewById(R.id.widget_input_dialog_negative_button);
 		btnPositive = (Button)findViewById(R.id.widget_input_dialog_positive_button);
+		llDialog = (LinearLayout)findViewById(R.id.widget_input_dialog_box);
+		int width = PhoneUtils.getWindowWidth((Activity)context);
+		llDialog.setLayoutParams(new FrameLayout.LayoutParams(width, FrameLayout.LayoutParams.WRAP_CONTENT));
 	}
 	
 	public FoxInputDialog(Context context, String title){
