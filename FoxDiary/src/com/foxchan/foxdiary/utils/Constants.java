@@ -49,7 +49,9 @@ public class Constants {
 	/** ARM格式的录音的低品质数据 */
 	public static final int ARM_AUDIO_QUENTITY_LOW = 8000;
 	/** 获取地点信息的上限 */
-	public static final int MAX_LOCATION_COUNT = 3;
+	public static final int MAX_LOCATION_COUNT_FOR_SEARCH = 5;
+	/** 写日记界面中显示定位数据的上限 */
+	public static final int MAX_LOCATION_COUNT_FOR_SHOW = 3;
 	
 	/**
 	 * 构造日记模块的临时图片的文件路径

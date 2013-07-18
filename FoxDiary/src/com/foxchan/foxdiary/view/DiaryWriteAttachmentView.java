@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -57,6 +56,8 @@ public class DiaryWriteAttachmentView extends FakeActivity {
 	private LocationClient locationClient;
 	/** 地点信息的监听器 */
 	private FoxLocationListener foxLocationListener;
+	/** 查询地点的次数 */
+	private int searchCount = 0;
 	
 	public DiaryWriteAttachmentView(DiaryWriteView diaryWriteView){
 		this.diaryWriteView = diaryWriteView;
@@ -75,9 +76,6 @@ public class DiaryWriteAttachmentView extends FakeActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		//初始化数据
 		locations = new ArrayList<String>();
-//		locations.add("北京市 海淀区");
-//		locations.add("北京市 门头沟区");
-//		locations.add("北京市 朝阳区");
 		locationAdapter = new DiaryWriteLocationAdapter(diaryWriteView, locations);
 		
 		//初始化相关的组件
@@ -155,10 +153,7 @@ public class DiaryWriteAttachmentView extends FakeActivity {
 		locationClient.registerLocationListener(foxLocationListener);
 		locationClient.start();
 		setLocationOption();
-		//最多获取3个地名
-		for(int i = 0; i < Constants.MAX_LOCATION_COUNT; i++){
-			locationClient.requestLocation();
-		}
+		locationClient.requestLocation();
 	}
 	
 	/**
@@ -168,10 +163,10 @@ public class DiaryWriteAttachmentView extends FakeActivity {
 		LocationClientOption option = new LocationClientOption();
 		option.setAddrType("all");//返回的定位结果包含地址信息
 		option.setCoorType("bd09ll");//返回的定位结果是百度经纬度,默认值gcj02
-//		option.setScanSpan(5000);//设置发起定位请求的间隔时间为5000ms
+		option.setScanSpan(5000);//设置发起定位请求的间隔时间为5000ms
 		option.disableCache(true);//禁止启用缓存定位
 		option.setPoiNumber(5);	//最多返回POI个数	
-//		option.setPoiDistance(1000); //poi查询距离		
+		option.setPoiDistance(1000); //poi查询距离		
 		option.setPoiExtraInfo(false); //是否需要POI的电话和地址等详细信息
 		option.setOpenGps(false);//关闭GPS定位
 		option.setProdName(Constants.APP_RESOURCE);//设置产品线名称
@@ -197,13 +192,22 @@ public class DiaryWriteAttachmentView extends FakeActivity {
 		@Override
 		public void onReceiveLocation(BDLocation bdLocation) {
 			if(bdLocation == null) return;
+			if(locations.size() >= Constants.MAX_LOCATION_COUNT_FOR_SHOW) {
+				locationClient.stop();
+				return;
+			}
+			searchCount++;
+			if(searchCount > Constants.MAX_LOCATION_COUNT_FOR_SEARCH) {
+				locationClient.stop();
+				return;
+			}
 			String locationStr = "";
 			if(bdLocation.getLocType() == BDLocation.TypeNetWorkLocation){
 				locationStr = bdLocation.getAddrStr();
 			}
-			if(!StringUtils.isEmpty(locationStr) && !locations.contains(locationStr)){
+			if (!StringUtils.isEmpty(locationStr)
+					&& !locations.contains(locationStr)) {
 				locations.add(locationStr);
-				Log.d(Constants.DIARY_TAG, "地点：" + locationStr);
 			}
 			locationAdapter.notifyDataSetChanged();
 		}
