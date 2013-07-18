@@ -4,14 +4,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import android.app.Activity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import cn.com.lezhixing.foxdb.R;
+
 import com.foxchan.foxdb.core.FoxDB;
 import com.foxchan.foxdb.core.Session;
 import com.foxchan.foxdb.core.Transaction;
-
-import cn.com.lezhixing.foxdb.R;
-import android.os.Bundle;
-import android.app.Activity;
-import android.view.Menu;
 
 public class FoxDBTest extends Activity {
 	
@@ -26,12 +27,14 @@ public class FoxDBTest extends Activity {
 		FoxDB db = FoxDB.create(this, "fox.db", 2);
 		session = db.getCurrentSession();
 		
-		new Thread(){
-			public void run(){
-				testTransaction(200);
-				testSave(200);
-			}
-		}.start();
+		testSaveOrUpdate();
+		
+//		new Thread(){
+//			public void run(){
+//				testTransaction(200);
+//				testSave(200);
+//			}
+//		}.start();
 		
 //		User user = session.findObject("id = ?", new Object[]{2}, User.class);
 //		Log.d("FoxDB", "User's name is " + user.getName());
@@ -134,6 +137,33 @@ public class FoxDBTest extends Activity {
 		Date end = new Date();
 		long time = end.getTime() - start.getTime();
 		System.out.println("测试结束，总共耗时：" + time + "ms");
+	}
+	
+	private void testSaveOrUpdate(){
+		//save
+		User user1 = new User();
+		user1.setCard(null);
+		user1.setCreateDate(new Date());
+		user1.setGroup(null);
+		user1.setHeight(173.0f);
+		user1.setIsGood(true);
+		user1.setName("用户-我是new的");
+		user1.setWeight(20.00);
+		Log.d(FoxDB.TAG, "保存前user1的id值是：" + user1.getId());
+		user1 = (User)session.saveOrUpdate(user1);
+		Log.d(FoxDB.TAG, "保存后user1的id值是：" + user1.getId());
+		//update
+		User user2 = session.findObject("id = ?", new Object[]{1}, User.class);
+		user2.setCard(null);
+		user2.setCreateDate(new Date());
+		user2.setGroup(null);
+		user2.setHeight(173.0f);
+		user2.setIsGood(true);
+		user2.setName("用户-我是update的");
+		user2.setWeight(20.00);
+		Log.d(FoxDB.TAG, "保存前user2的id值是：" + user2.getId());
+		user2 = (User)session.saveOrUpdate(user2);
+		Log.d(FoxDB.TAG, "保存后user2的id值是：" + user2.getId());
 	}
 
 	@Override

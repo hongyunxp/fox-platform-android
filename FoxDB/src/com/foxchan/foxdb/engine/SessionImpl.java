@@ -55,12 +55,23 @@ public class SessionImpl implements Session {
 		db.execSQL(sqlObject.getSql(), sqlObject.getParams().toArray());
 		//获得插入的对象的主键并且封装为对象
 		Cursor c = db.rawQuery(sqlEngine.getPKValueSQL(object), null);
-		if (table.strategy == GeneratedType.IDENTITY
-				&& FieldUtils.isInteger(object.getClass())) {
+		if (table.strategy == GeneratedType.IDENTITY &&
+				FieldUtils.isInteger(table.getId().getDataType())) {
+			c.moveToFirst();
 			int int_id = c.getInt(0);
 			table.getId().setValue(object, int_id);
 		}
 		return object;
+	}
+	
+	@Override
+	public Object saveOrUpdate(Object object) throws FoxDbException {
+		Object id = TableInfo.getInstance(object.getClass()).getId().getValue(object);
+		if(id == null){
+			return save(object);
+		} else {
+			return update(object);
+		}
 	}
 	
 	@Override
