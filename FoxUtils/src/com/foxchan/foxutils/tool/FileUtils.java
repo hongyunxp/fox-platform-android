@@ -1,6 +1,10 @@
 package com.foxchan.foxutils.tool;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import com.foxchan.foxutils.data.StringUtils;
 
@@ -101,5 +105,57 @@ public class FileUtils {
 	public static void deleteDir(String dirPath){
 		deleteDir(new File(dirPath));
 	}
-
+	
+	/**
+	 * 保存文件到Sd卡
+	 * @param filePath	目标文件的路径
+	 * @param fileName	目标文件名
+	 * @param file		要保存的文件对象
+	 * @return			文件保存成功则返回true，否则返回false
+	 */
+	public static boolean persistFileToSdcard(String filePath, String fileName, File file){
+		if(file == null) return false;
+		FileInputStream fin = null;
+		FileOutputStream fos = null;
+		File path = null;
+		File target = null;
+		try {
+			filePath = SdCardUtils.foarmatSdCardPath(filePath);
+			path = new File(filePath);
+			if(!path.exists()){
+				path.mkdirs();
+			}
+			target = new File(filePath, fileName);
+			fos = new FileOutputStream(target);
+			fin = new FileInputStream(file);
+			byte[] buffer = new byte[1024];
+			while(fin.read(buffer) != -1){
+				fos.write(buffer);
+			}
+			fos.flush();
+			return true;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return false;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			Closer.close(fin);
+			Closer.close(fos);
+		}
+	}
+	
+	/**
+	 * 保存文件到Sd卡
+	 * @param filePath		目标文件的路径
+	 * @param fileName		目标文件名
+	 * @param fromFilePath	要保存的文件的路径
+	 * @return				文件保存成功则返回true，否则返回false
+	 */
+	public static boolean persistFileToSdcard(String filePath, String fileName, String fromFilePath){
+		File file = new File(fromFilePath);
+		return persistFileToSdcard(fromFilePath, fileName, file);
+	}
+	
 }
