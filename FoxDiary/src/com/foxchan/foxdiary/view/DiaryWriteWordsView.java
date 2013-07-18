@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.foxchan.foxdiary.core.AppConfig;
 import com.foxchan.foxdiary.core.R;
 import com.foxchan.foxdiary.core.widgets.FakeActivity;
+import com.foxchan.foxdiary.entity.Diary;
 import com.foxchan.foxdiary.utils.Constants;
 import com.foxchan.foxutils.data.StringUtils;
 
@@ -35,6 +36,8 @@ public class DiaryWriteWordsView extends FakeActivity {
 	private TextView tvLeftWords;
 	/** 用户输入的正文内容 */
 	private String content;
+	/** 日记对象 */
+	private Diary diary;
 
 	public DiaryWriteWordsView(DiaryWriteView diaryWriteView) {
 		this.diaryWriteView = diaryWriteView;
@@ -48,12 +51,17 @@ public class DiaryWriteWordsView extends FakeActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		diary = diaryWriteView.getDiary();
 		//初始化相关组件
 		etContent = (EditText)layoutView.findViewById(R.id.diary_write_content_box);
 		llClearContent = (LinearLayout)layoutView.findViewById(R.id.diary_write_text_clear);
 		tvLeftWords = (TextView)layoutView.findViewById(R.id.diary_write_content_left_words);
 		//初始化用户输入的字符和剩余字符数量
-		etContent.setText("");
+		if(!StringUtils.isEmpty(diary.getId())){
+			setDiaryContent(diary.getContent());
+		} else {
+			etContent.setText("");
+		}
 		content = etContent.getText().toString();
 		int leftWordsNumber = Constants.DIARY_WORDS_MAX - content.length();
 		tvLeftWords.setText(String.format(diaryWriteView.getResources()
@@ -94,8 +102,7 @@ public class DiaryWriteWordsView extends FakeActivity {
 	public void onResume() {
 		String wordsContent = config.getProperty(Constants.DIARY_TEMP_WORDS);
 		if(!StringUtils.isEmpty(wordsContent)){
-			etContent.setText(wordsContent);
-			etContent.setSelection(wordsContent.length());
+			setDiaryContent(wordsContent);
 			config.removeProperties(Constants.DIARY_TEMP_WORDS);
 		}
 		super.onResume();
@@ -123,6 +130,15 @@ public class DiaryWriteWordsView extends FakeActivity {
 			return false;
 		}
 		return true;
+	}
+	
+	/**
+	 * 设置日记文字输入框的内容
+	 * @param content	日记的内容
+	 */
+	private void setDiaryContent(String content){
+		etContent.setText(content);
+		etContent.setSelection(content.length());
 	}
 	
 }

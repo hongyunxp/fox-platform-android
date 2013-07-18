@@ -16,6 +16,7 @@ import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -44,6 +45,7 @@ import com.foxchan.foxdiary.exception.DiaryEmptyException;
 import com.foxchan.foxdiary.utils.Constants;
 import com.foxchan.foxutils.data.StringUtils;
 import com.foxchan.foxutils.tool.BitmapUtils;
+import com.foxchan.foxutils.tool.FileUtils;
 
 /**
  * 写日记的界面
@@ -65,7 +67,7 @@ public class DiaryWriteView extends Activity {
 	private static final int STATE_DIARY_SAVED = 1;
 	
 	/** 数据库操作对象 */
-	private FoxDB db;
+	public FoxDB db;
 	/** 软键盘管理对象 */
 	private InputMethodManager imm;
 	
@@ -110,8 +112,8 @@ public class DiaryWriteView extends Activity {
 	private String imageName;
 	/** 图片对象 */
 	private Bitmap image;
-	/** 录音保存的文件夹路径 */
-	private String voicePath;
+	/** 录音保存的文件名 */
+	private String voiceName;
 	/** 录音文件的时长 */
 	private long voiceLength;
 	/** 日记保存的结果，成功或者失败 */
@@ -122,6 +124,10 @@ public class DiaryWriteView extends Activity {
 	private int emotionId = 0;
 	/** 用户当前的地点信息 */
 	private String location;
+	/** 需要修改的日记的id号 */
+	private String diaryIdForModify;
+	/** 日记对象 */
+	private Diary diary;
 	
 	private MyHandler handler = new MyHandler(this);
 	static class MyHandler extends Handler{
@@ -159,7 +165,17 @@ public class DiaryWriteView extends Activity {
 		//初始化数据库连接对象
 		FoxDB.DEBUG = Constants.DIARY_DEBUG;
 		db = FoxDB.create(this, Constants.DIARY_DB_NAME, Constants.DIARY_DB_VERSION);
-		
+				
+		//接收需要修改的日记的id号
+		Bundle bundle = getIntent().getExtras();
+		diaryIdForModify = bundle.getString(Constants.TAG_DIARY_ID);
+		diary = new Diary();
+		if(!StringUtils.isEmpty(diaryIdForModify)){
+			Session session = db.getCurrentSession();
+			diary = session.findObject("id = ?", new Object[]{diaryIdForModify}, Diary.class);
+			if(diary == null) diary = new Diary();
+		}
+				
 		//初始化键盘管理对象
 		imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
 		
@@ -287,9 +303,11 @@ public class DiaryWriteView extends Activity {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				//删除录得声音临时文件
-				File voiceFile = new File(voicePath);
-				if(voiceFile != null && voiceFile.exists()){
-					voiceFile.delete();
+				if(StringUtils.isEmpty(diary.getId())){
+//					File voiceFile = new File(voicePath);
+//					if(voiceFile != null && voiceFile.exists()){
+//						voiceFile.delete();
+//					}
 				}
 				finish();
 			}
@@ -359,39 +377,58 @@ public class DiaryWriteView extends Activity {
 	 * 构建一篇日记
 	 * @return	返回构建好的日记
 	 */
-	private Diary buildDiary(){
-		Diary diary = new Diary();
+	private void buildDiary(){
+		Session session = db.getCurrentSession();
 		diary.setContent(diaryWriteWordsView.getContent());
 		diary.setCreateDate(new Date());
 		String targetPath = StringUtils.concat(new Object[]{imagePath, imageName});
 		targetPath = targetPath.replaceAll("//", "/");
 		diary.setImagePath(targetPath);
 		if(diaryWriteVoiceView.isAudioFileExist()){
-			Record record = new Record(voicePath, voiceLength);
-			Session session = db.getCurrentSession();
-			session.save(record);
+			String voicePath = FileUtils.buildFileName(
+					new String[]{Constants.buildDiaryAudioPath()}, voiceName);
+			Record record = null;
+			if(!StringUtils.isEmpty(diary.getId()) && diary.hasVoice(session)){
+				record = diary.getRecord();
+				Log.d(Constants.DIARY_TAG, "已经有录音了，录音的路径是：" + record.getPath());
+				session.update(record);
+			} else {
+				record = new Record(voicePath, voiceLength);
+				session.save(record);
+			}
 			diary.setRecord(record);
 		} else {
+			//删除原来的录音文件信息
+			if(diary.hasVoice(session)){
+				Record record = diary.getRecord();
+				FileUtils.deleteFile(record.getPath());
+				session.delete(record);
+				Log.d(Constants.DIARY_TAG, "删除原来的录音文件");
+			}
 			diary.setRecord(null);
 		}
 		diary.setTimeLineNodeStyleId(TimeLineNodeStyle.getRandomStyleId());
 		diary.setWeatherId(weatherId);
 		diary.setEmotionId(emotionId);
 		diary.setLocation(location);
-		return diary;
 	}
 	
 	private boolean saveDiary() throws DiaryEmptyException{
 		if(isDiaryReady()){
-			Diary diary = buildDiary();
+			buildDiary();
 			Session session = db.getCurrentSession();
-			session.save(diary);
+			session.saveOrUpdate(diary);
 			//保存图片
 			BitmapUtils.persistImageToSdCard(imagePath, imageName, image);
 			//删除临时的照片
-			File tempImage = new File(Constants.buildDiaryTempImagePath());
+			File tempImage = new File(Constants.buildDiaryTempImageName());
 			if(tempImage != null && tempImage.exists()){
 				tempImage.delete();
+			}
+			//保存录音
+			if(diary.getRecord() != null){
+				FileUtils.persistFileToSdcard(Constants.buildDiaryAudioPath(),
+						voiceName, diaryWriteVoiceView.getVoiceFile());
 			}
 			//将添加的日记添加到公共容器中
 			AppContext.addDiaryToDiaryLineView(diary);
@@ -421,7 +458,7 @@ public class DiaryWriteView extends Activity {
 				diaryWritePicView.dealWithImage(data.getData());
 				break;
 			case ACTIVITY_CODE_IMAGE_FROM_CAMARA:
-				File tempImage = new File(Constants.buildDiaryTempImagePath());
+				File tempImage = new File(Constants.buildDiaryTempImageName());
 				uri = Uri.fromFile(tempImage);
 				if(uri != null){
 					diaryWritePicView.dealWithImage(uri);
@@ -455,12 +492,12 @@ public class DiaryWriteView extends Activity {
 		this.image = image;
 	}
 
-	public String getVoicePath() {
-		return voicePath;
+	public String getVoiceName() {
+		return voiceName;
 	}
 
-	public void setVoicePath(String voicePath) {
-		this.voicePath = voicePath;
+	public void setVoiceName(String voiceName) {
+		this.voiceName = voiceName;
 	}
 
 	public void setVoiceLength(long voiceLength) {
@@ -491,6 +528,10 @@ public class DiaryWriteView extends Activity {
 		this.location = location;
 	}
 
+	public Diary getDiary() {
+		return diary;
+	}
+
 	@Override
 	protected void onDestroy() {
 		diaryWriteWordsView.onDestroy();
@@ -502,6 +543,7 @@ public class DiaryWriteView extends Activity {
 			image = null;
 		}
 		cdBack.dismiss();
+		diary = null;
 		super.onDestroy();
 	}
 

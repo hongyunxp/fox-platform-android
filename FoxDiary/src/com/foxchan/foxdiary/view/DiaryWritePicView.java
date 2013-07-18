@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.foxchan.foxdiary.core.R;
 import com.foxchan.foxdiary.core.widgets.FakeActivity;
 import com.foxchan.foxdiary.core.widgets.FoxToast;
+import com.foxchan.foxdiary.entity.Diary;
 import com.foxchan.foxdiary.utils.Constants;
 import com.foxchan.foxutils.data.StringUtils;
 import com.foxchan.foxutils.tool.BitmapUtils;
@@ -46,6 +48,8 @@ public class DiaryWritePicView extends FakeActivity {
 	private ImageView ivPhoto;
 	/** 删除按钮 */
 	private ImageButton ibDelete;
+	/** 日记对象 */
+	private Diary diary;
 
 	public DiaryWritePicView(DiaryWriteView diaryWriteView) {
 		this.diaryWriteView = diaryWriteView;
@@ -61,6 +65,7 @@ public class DiaryWritePicView extends FakeActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		diary = diaryWriteView.getDiary();
 		//初始化组件
 		rlButtons = (RelativeLayout)layoutView.findViewById(R.id.diary_write_pic_buttons);
 		ibFromAlbum = (ImageButton)layoutView.findViewById(R.id.diary_write_pic_add_from_album);
@@ -84,7 +89,7 @@ public class DiaryWritePicView extends FakeActivity {
 			@Override
 			public void onClick(View v) {
 				//设置临时的照片文件
-				String tempPhotoPath = Constants.buildDiaryTempImagePath();
+				String tempPhotoPath = Constants.buildDiaryTempImageName();
 				File tempPhoto = new File(tempPhotoPath);
 				Uri uri = Uri.fromFile(tempPhoto);
 				Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -115,6 +120,19 @@ public class DiaryWritePicView extends FakeActivity {
 				rlContent.setVisibility(View.GONE);
 			}
 		});
+		//初始化显示的界面
+		if(diary.hasPhoto()){
+			ivPhoto.setImageBitmap(diary.photo(diaryWriteView));
+			rlContent.setVisibility(View.VISIBLE);
+			rlButtons.setVisibility(View.GONE);
+			String path = diary.getImagePath();
+			String imagePath = path.substring(0, path.lastIndexOf(File.separator)+1);
+			String imageName = path.substring(path.lastIndexOf(File.separator)+1);
+			Log.d(Constants.DIARY_TAG, "imagePath = " + imagePath + ", imageName = " + imageName);
+			diaryWriteView.setImagePath(imagePath);
+			diaryWriteView.setImage(diary.photo(diaryWriteView));
+			diaryWriteView.setImageName(imageName);
+		}
 	}
 
 	/**

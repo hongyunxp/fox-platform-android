@@ -1,7 +1,5 @@
 package com.foxchan.foxdiary.utils;
 
-import java.util.HashMap;
-
 import com.foxchan.foxutils.tool.FileUtils;
 import com.foxchan.foxutils.tool.SdCardUtils;
 
@@ -22,6 +20,8 @@ public class Constants {
 	
 	/** 日记模块的TAG */
 	public static final String DIARY_TAG = "tag_diary";
+	/** 日记对象的主键TAG */
+	public static final String TAG_DIARY_ID = "tag_diary_id";
 	/** 日记模块的数据库的名称 */
 	public static final String DIARY_DB_NAME = "db_diary.db";
 	/** 日记模块的数据库的版本号 */
@@ -35,9 +35,11 @@ public class Constants {
 	/** 日记模块的图片的宽度 */
 	public static final int DIARY_IMAGE_WIDTH = 410;
 	/** 日记模块的临时图片的保存名称 */
-	public static final String DIARY_TEMP_IMAGE = "temp_photo.png";
+	public static final String DIARY_TEMP_IMAGE = "temp_photo.temp";
 	/** 日记模块的临时正文的文件保存名称 */
 	public static final String DIARY_TEMP_WORDS = "temp_words.temp";
+	/** 日记模块的临时录音的文件名称 */
+	public static final String DIARY_TEMP_AUDIO = "temp_audio.temp";
 	/** 日记的每一页显示的记录数 */
 	public static final int DIARY_RECORD_NUMBER = 15;
 	/** 3GP格式的录音的高品质数据 */
@@ -57,7 +59,7 @@ public class Constants {
 	 * 构造日记模块的临时图片的文件路径
 	 * @return	返回日记模块的临时图片的文件路径
 	 */
-	public static final String buildDiaryTempImagePath(){
+	public static final String buildDiaryTempImageName(){
 		return FileUtils.buildFileName(new String[]{
 				SdCardUtils.getSdCardPath(), APP_RESOURCE, IMAGES
 		}, Constants.DIARY_TEMP_IMAGE);
@@ -84,10 +86,12 @@ public class Constants {
 	}
 	
 	/**
-	 * 天气的信息Map
+	 * 构造写日记模块中的录音的临时文件的文件路径
+	 * @return	返回写日记模块中的录音的临时文件的文件路径
 	 */
-	public static final HashMap<Integer, String> weatherMap = new HashMap<Integer, String>(){{
-		put(1, "");//晴
-	}};
-
+	public static final String buildTempDiaryAudioName(){
+		return FileUtils.buildFileName(new String[] { buildDiaryAudioPath() },
+				Constants.DIARY_TEMP_AUDIO);
+	}
+	
 }
