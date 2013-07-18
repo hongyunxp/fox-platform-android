@@ -58,5 +58,48 @@ public class FileUtils {
 		}
 		return ext;
 	}
+	
+	/**
+	 * 删除文件
+	 * @param file	文件对象
+	 */
+	public static void deleteFile(File file){
+		if(file != null && file.exists()){
+			file.delete();
+		}
+	}
+	
+	/**
+	 * 删除文件
+	 * @param filePath	文件的路径
+	 */
+	public static void deleteFile(String filePath){
+		deleteFile(new File(filePath));
+	}
+	
+	/**
+	 * 删除指定文件夹下的文件
+	 * @param dir	文件夹
+	 */
+	public static void deleteDir(File dir){
+		if(dir != null && dir.isDirectory() && dir.exists()){
+			for(File file : dir.listFiles()){
+				if(file.isFile()){
+					deleteFile(file);
+				} else {
+					deleteDir(file);
+				}
+			}
+			dir.delete();
+		}
+	}
+	
+	/**
+	 * 删除指定文件夹下的文件
+	 * @param dirPath	文件夹的路径
+	 */
+	public static void deleteDir(String dirPath){
+		deleteDir(new File(dirPath));
+	}
 
 }
