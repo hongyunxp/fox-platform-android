@@ -22,6 +22,7 @@
 	
 	<!-- 日记时间线 -->
 	<string name="diary_line_add">写点什么</string>
+	<string name="diary_line_delete_success">日记删除成功</string>
 	
 	<!-- 写日记的界面 -->
 	<string name="diary_write_title">写日记</string>

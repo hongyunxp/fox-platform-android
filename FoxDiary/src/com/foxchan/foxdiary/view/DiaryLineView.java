@@ -1,5 +1,6 @@
 package com.foxchan.foxdiary.view;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -7,8 +8,12 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,9 +27,11 @@ import com.foxchan.foxdiary.core.R;
 import com.foxchan.foxdiary.core.widgets.FoxToast;
 import com.foxchan.foxdiary.core.widgets.RefreshListView;
 import com.foxchan.foxdiary.entity.Diary;
+import com.foxchan.foxdiary.entity.Record;
 import com.foxchan.foxdiary.utils.Constants;
 import com.foxchan.foxutils.data.CollectionUtils;
 import com.foxchan.foxutils.data.DateUtils;
+import com.foxchan.foxutils.tool.FileUtils;
 
 /**
  * 日记时间线界面
@@ -33,25 +40,62 @@ import com.foxchan.foxutils.data.DateUtils;
  */
 public class DiaryLineView extends Activity {
 	
-	/** 日记的数据集 */
-	private List<Diary> diaries = new ArrayList<Diary>();
+	/** 状态：正在删除日记 */
+	private static final int STATE_DIARY_DELETING = 0;
+	/** 状态：删除日记结束 */
+	private static final int STATE_DIARY_DELETED = 1;
+	
 	/** 日记的列表 */
 	private RefreshListView lvDiarys;
 	/** 日记列表的数据适配器 */
 	private DiaryLineAdapter diaryLineAdapter;
 	/** 日期控件 */
 	private TextView tvShowDate;
+	/** 添加日记的按钮 */
+	private ImageButton ibAddDiary;
+	/** 加载中的图片 */
+	private ImageView ivLoading;
+	/** 加载中的动画 */
+	private Animation aniLoading;
+	
+	private FoxDB db;
+	private Session session;
+	/** 日记的数据集 */
+	private List<Diary> diaries = new ArrayList<Diary>();
 	/** 当前显示的日期 */
 	private Date showDate;
 	/** 用户所有的日记的日期列表 */
 	private static List<Date> diaryDates;
 	/** 日记的分页对象 */
 	private Pager<Diary> pager;
-	/** 添加日记的按钮 */
-	private ImageButton ibAddDiary;
+	/** 删除日记的线程 */
+	private Thread threadDeleteDiary;
+	/** 被删除的日记的索引号 */
+	private int deleteDiaryIndex = -1;
 	
-	private FoxDB db;
-	private Session session;
+	private MyHandler handler = new MyHandler(this);
+	static class MyHandler extends Handler{
+		WeakReference<DiaryLineView> reference;
+		
+		public MyHandler(DiaryLineView activity){
+			this.reference = new WeakReference<DiaryLineView>(activity);
+		}
+		
+		@Override
+		public void handleMessage(android.os.Message msg) {
+			DiaryLineView activity = reference.get();
+			switch (msg.what) {
+			case STATE_DIARY_DELETING:
+				activity.showLoadingView();
+				activity.threadDeleteDiary.start();
+				break;
+			case STATE_DIARY_DELETED:
+				activity.showAddDiaryButton();
+				activity.afterDiaryDeleted();
+				break;
+			}
+		}
+	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -129,10 +173,8 @@ public class DiaryLineView extends Activity {
 			
 			@Override
 			public void onDelete(int position) {
-				Diary diary = diaries.get(position);
-				FoxToast.showToast(DiaryLineView.this, "删除的日记的标题是：" + diary.getTitle(), Toast.LENGTH_SHORT);
-				diaries.remove(position);
-				diaryLineAdapter.notifyDataSetChanged();
+				deleteDiaryIndex = position;
+				handler.sendEmptyMessage(STATE_DIARY_DELETING);
 			}
 		});
 		lvDiarys.setAdapter(diaryLineAdapter);
@@ -156,10 +198,33 @@ public class DiaryLineView extends Activity {
 				toDiaryWriteView();
 			}
 		});
+		//初始化加载中的相关资源
+		ivLoading = (ImageView)findViewById(R.id.loading);
+		aniLoading = AnimationUtils.loadAnimation(this, R.anim.circle);
 		
 		if(pager.getTotalPage() <= 1){
 			lvDiarys.loadMoreDataComplete();
 		}
+		//初始化删除日记的线程
+		threadDeleteDiary = new Thread(){
+			public void run(){
+				if(deleteDiaryIndex >= 0){
+					Diary deleteDiary = diaries.get(deleteDiaryIndex);
+					//删除日记的图片资源
+					FileUtils.deleteFile(deleteDiary.getImagePath());
+					//删除日记的录音资源
+					session = db.getCurrentSession();
+					if(deleteDiary.hasVoice(session)){
+						Record deleteRecord = session.findObjectFrom(deleteDiary, "record", Record.class);
+						FileUtils.deleteFile(deleteRecord.getPath());
+						session.delete(deleteRecord);
+					}
+					//删除日记在数据库中的记录
+					session.delete(deleteDiary);
+					handler.sendEmptyMessage(STATE_DIARY_DELETED);
+				}
+			}
+		};
 	}
 	
 	/**
@@ -204,6 +269,35 @@ public class DiaryLineView extends Activity {
 			diaries = AppContext.diariesOnDiaryLineView;
 		}
 		super.onResume();
+	}
+	
+	/**
+	 * 显示加载动画
+	 */
+	private void showLoadingView(){
+		ibAddDiary.setVisibility(View.GONE);
+		ivLoading.setVisibility(View.VISIBLE);
+		ivLoading.clearAnimation();
+		ivLoading.startAnimation(aniLoading);
+	}
+	
+	/**
+	 * 显示添加日记的按钮7
+	 */
+	private void showAddDiaryButton(){
+		ivLoading.clearAnimation();
+		ivLoading.setVisibility(View.GONE);
+		ibAddDiary.setVisibility(View.VISIBLE);
+	}
+	
+	/**
+	 * 日记被删除之后进行的操作
+	 */
+	private void afterDiaryDeleted(){
+		diaries.remove(deleteDiaryIndex);
+		diaryLineAdapter.notifyDataSetChanged();
+		FoxToast.showToast(this, R.string.diary_line_delete_success, Toast.LENGTH_SHORT);
+		deleteDiaryIndex = -1;
 	}
 	
 }
