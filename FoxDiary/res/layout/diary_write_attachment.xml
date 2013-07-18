@@ -35,33 +35,33 @@
                 <RadioButton
                     android:id="@+id/rb_weather_sunny"
                     style="@style/AttachmentButton"
-                    android:background="@drawable/weather_sunny"
+                    android:drawableTop="@drawable/weather_sunny"
                     android:checked="true" />
 
                 <RadioButton
                     android:id="@+id/rb_weather_sunny_cloudy"
                     style="@style/AttachmentButton"
-                    android:background="@drawable/weather_sunny_cloudy" />
+                    android:drawableTop="@drawable/weather_sunny_cloudy" />
 
                 <RadioButton
                     android:id="@+id/rb_weather_cloudy"
                     style="@style/AttachmentButton"
-                    android:background="@drawable/weather_cloudy" />
+                    android:drawableTop="@drawable/weather_cloudy" />
 
                 <RadioButton
                     android:id="@+id/rb_weather_thunder"
                     style="@style/AttachmentButton"
-                    android:background="@drawable/weather_thunder" />
+                    android:drawableTop="@drawable/weather_thunder" />
 
                 <RadioButton
                     android:id="@+id/rb_weather_rainny"
                     style="@style/AttachmentButton"
-                    android:background="@drawable/weather_rainny" />
+                    android:drawableTop="@drawable/weather_rainny" />
 
                 <RadioButton
                     android:id="@+id/rb_weather_snowy"
                     style="@style/AttachmentButton"
-                    android:background="@drawable/weather_snowy" />
+                    android:drawableTop="@drawable/weather_snowy" />
             </RadioGroup>
         </LinearLayout>
 
@@ -90,33 +90,33 @@
                 <RadioButton
                     android:id="@+id/rb_emotion_xiao"
                     style="@style/AttachmentButton"
-                    android:background="@drawable/emotion_xiao"
+                    android:drawableTop="@drawable/emotion_xiao"
                     android:checked="true" />
 
                 <RadioButton
                     android:id="@+id/rb_emotion_nu"
                     style="@style/AttachmentButton"
-                    android:background="@drawable/emotion_nu" />
+                    android:drawableTop="@drawable/emotion_nu" />
 
                 <RadioButton
                     android:id="@+id/rb_emotion_ku"
                     style="@style/AttachmentButton"
-                    android:background="@drawable/emotion_ku" />
+                    android:drawableTop="@drawable/emotion_ku" />
 
                 <RadioButton
                     android:id="@+id/rb_emotion_ganga"
                     style="@style/AttachmentButton"
-                    android:background="@drawable/emotion_ganga" />
+                    android:drawableTop="@drawable/emotion_ganga" />
 
                 <RadioButton
                     android:id="@+id/rb_emotion_ai"
                     style="@style/AttachmentButton"
-                    android:background="@drawable/emotion_ai" />
+                    android:drawableTop="@drawable/emotion_ai" />
 
                 <RadioButton
                     android:id="@+id/rb_emotion_gandong"
                     style="@style/AttachmentButton"
-                    android:background="@drawable/emotion_gandong" />
+                    android:drawableTop="@drawable/emotion_gandong" />
             </RadioGroup>
         </LinearLayout>
 
