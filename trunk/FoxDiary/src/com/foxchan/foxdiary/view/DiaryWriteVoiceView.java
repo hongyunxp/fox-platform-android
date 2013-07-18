@@ -20,9 +20,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.foxchan.foxdb.core.Session;
 import com.foxchan.foxdiary.core.R;
 import com.foxchan.foxdiary.core.widgets.FakeActivity;
 import com.foxchan.foxdiary.core.widgets.FoxToast;
+import com.foxchan.foxdiary.entity.Diary;
+import com.foxchan.foxdiary.entity.Record;
 import com.foxchan.foxdiary.utils.Constants;
 import com.foxchan.foxutils.data.DateUtils;
 import com.foxchan.foxutils.data.StringUtils;
@@ -75,10 +78,14 @@ public class DiaryWriteVoiceView extends FakeActivity {
 	private MediaRecorder mediaRecorder;
 	/** 音频文件的保存路径 */
 	private String audioPath;
+	/** 录音的临时文件路径 */
+	private String tempAudioPath;
 	/** 播放器对象 */
 	private MediaPlayer mediaPlayer;
 	/** 是否存在音频文件的标志 */
 	private boolean isAudioFileExist = false;
+	/** 日记对象 */
+	private Diary diary;
 	
 	private MyHandler handler = new MyHandler(this);
 	static class MyHandler extends Handler{
@@ -113,6 +120,7 @@ public class DiaryWriteVoiceView extends FakeActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		diary = diaryWriteView.getDiary();
 		//初始化相关的部件
 		ibRecordingStart = (ImageButton)layoutView.findViewById(R.id.diary_write_voice_start_record);
 		ibRecordingStop = (ImageButton)layoutView.findViewById(R.id.diary_write_voice_stop_record);
@@ -131,6 +139,7 @@ public class DiaryWriteVoiceView extends FakeActivity {
 			@Override
 			public void onClick(View v) {
 				recordLong = 0;
+				audioPath = tempAudioPath;
 				//开始录音
 				try {
 					startRecording();
@@ -199,8 +208,10 @@ public class DiaryWriteVoiceView extends FakeActivity {
 						ibShutdownRecord.setVisibility(View.VISIBLE);
 						recordThread.isRecording = true;
 					} catch (IllegalStateException e) {
+						FoxToast.showException(diaryWriteView, R.string.ex_voice_not_found, Toast.LENGTH_SHORT);
 						e.printStackTrace();
 					} catch (IOException e) {
+						FoxToast.showException(diaryWriteView, R.string.ex_voice_not_found, Toast.LENGTH_SHORT);
 						e.printStackTrace();
 					}
 				}
@@ -226,13 +237,33 @@ public class DiaryWriteVoiceView extends FakeActivity {
 		});
 		//初始化音频录制相关的组件和播放录音相关的组件
 		//设置音频文件的保存路径和名称
-		File audioFile = new File(Constants.buildDiaryAudioPath());
-		if(!audioFile.exists()){
-			audioFile.mkdirs();
+		tempAudioPath = Constants.buildTempDiaryAudioName();
+		File audioFile;
+		Session session = diaryWriteView.db.getCurrentSession();
+		Log.d(Constants.DIARY_TAG, "diary.getId() = " + diary.getId());
+		if(!StringUtils.isEmpty(diary.getId()) && diary.hasVoice(session)){
+			Record record = diary.getRecord();
+			if(record != null && !StringUtils.isEmpty(record.getPath())){
+				isAudioFileExist = true;
+				audioPath = record.getPath();
+				String voiceName = audioPath.substring(audioPath.lastIndexOf(File.separator)+1);
+				diaryWriteView.setVoiceName(voiceName);
+				recordLong = record.getLength();
+				FileUtils.persistFileToSdcard(Constants.buildDiaryAudioPath(),
+						Constants.DIARY_TEMP_AUDIO, audioPath);
+				
+				//显示声音文件
+				tvRecordLong.setText(DateUtils.formatTimeLong(recordLong));
+				rlRecord.setVisibility(View.VISIBLE);
+			}
+		} else {
+			audioFile = new File(Constants.buildDiaryAudioPath());
+			if(!audioFile.exists()){
+				audioFile.mkdirs();
+			}
+			diaryWriteView.setVoiceName(StringUtils.getUUID() + ".amr");
 		}
-		audioPath = FileUtils.buildFileName(new String[]{Constants.buildDiaryAudioPath()}, 
-				StringUtils.getUUID() + ".amr");
-		diaryWriteView.setVoicePath(audioPath);
+		
 		initMediaPlayer();
 	}
 	
@@ -250,7 +281,7 @@ public class DiaryWriteVoiceView extends FakeActivity {
 		//设置音频的编码方式
 		mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
 		//设置音频输出文件
-		mediaRecorder.setOutputFile(audioPath);
+		mediaRecorder.setOutputFile(tempAudioPath);
 		try {
 			mediaRecorder.prepare();
 			mediaRecorder.start();
@@ -326,11 +357,6 @@ public class DiaryWriteVoiceView extends FakeActivity {
 			recordThread.interrupt();
 			recordThread = null;
 		}
-		Log.d(Constants.DIARY_TAG, "存在录音？" + isAudioFileExist);
-		//删除多余的声音文件
-		if(!isAudioFileExist){
-			FileUtils.deleteFile(audioPath);
-		}
 	}
 
 	public boolean isAudioFileExist() {
@@ -343,6 +369,14 @@ public class DiaryWriteVoiceView extends FakeActivity {
 	public void updateRecordLong(){
 		recordLong++;
 		tvRecordingLong.setText(DateUtils.formatTimeLong(recordLong));
+	}
+	
+	/**
+	 * 获得录音文件对象
+	 * @return	返回录音文件对象
+	 */
+	public File getVoiceFile(){
+		return new File(tempAudioPath);
 	}
 	
 	/**

@@ -7,6 +7,7 @@ import java.util.Date;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import com.foxchan.foxdb.annotation.CascadeType;
 import com.foxchan.foxdb.annotation.Column;
@@ -18,6 +19,7 @@ import com.foxchan.foxdb.annotation.Table;
 import com.foxchan.foxdb.annotation.Transient;
 import com.foxchan.foxdb.core.Session;
 import com.foxchan.foxdiary.core.R;
+import com.foxchan.foxdiary.utils.Constants;
 import com.foxchan.foxutils.data.DateUtils;
 import com.foxchan.foxutils.data.StringUtils;
 import com.foxchan.foxutils.tool.BitmapUtils;
@@ -49,6 +51,7 @@ public class Diary {
 	@Transient
 	private File voice;
 	/** 是否有录音的标志 */
+	@Transient
 	private Boolean hasVoice = null;
 	/** 日记的正文，不可为空，最多140字 */
 	@Column(nullable=false)
@@ -258,6 +261,7 @@ public class Diary {
 	public void checkVoice(Session session){
 		if(hasVoice == null){
 			record = session.findObjectFrom(this, "record", Record.class);
+			Log.d(Constants.DIARY_TAG, "record = null?" + (record == null));
 			hasVoice = (record != null);
 		}
 	}

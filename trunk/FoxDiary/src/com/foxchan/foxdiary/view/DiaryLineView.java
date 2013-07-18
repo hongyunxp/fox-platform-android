@@ -168,7 +168,7 @@ public class DiaryLineView extends Activity {
 			@Override
 			public void onEdit(int position) {
 				Diary diary = diaries.get(position);
-				FoxToast.showToast(DiaryLineView.this, "编辑的日记的标题是：" + diary.getTitle(), Toast.LENGTH_SHORT);
+				toDiaryWriteView(diary.getId());
 			}
 			
 			@Override
@@ -195,7 +195,7 @@ public class DiaryLineView extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				toDiaryWriteView();
+				toDiaryWriteView("");
 			}
 		});
 		//初始化加载中的相关资源
@@ -229,9 +229,11 @@ public class DiaryLineView extends Activity {
 	
 	/**
 	 * 跳转到写日记的界面
+	 * @param diaryId	日记的id号
 	 */
-	private void toDiaryWriteView() {
+	private void toDiaryWriteView(String diaryId) {
 		Intent intent = new Intent(this, DiaryWriteView.class);
+		intent.putExtra(Constants.TAG_DIARY_ID, diaryId);
 		startActivity(intent);
 	}
 
