@@ -437,24 +437,25 @@ public final class R {
         /**  日记时间线 
          */
         public static final int diary_line_add=0x7f060013;
-        public static final int diary_write_add_diary=0x7f06001c;
-        public static final int diary_write_attachment_emotion_tip=0x7f06001f;
-        public static final int diary_write_attachment_location_default=0x7f060023;
-        public static final int diary_write_attachment_location_input_hint=0x7f060021;
-        public static final int diary_write_attachment_location_input_title=0x7f060022;
-        public static final int diary_write_attachment_location_tip=0x7f060020;
-        public static final int diary_write_attachment_weather_tip=0x7f06001e;
-        public static final int diary_write_back_confirm=0x7f06001d;
-        public static final int diary_write_left_words=0x7f060015;
-        public static final int diary_write_press_to_record=0x7f060016;
-        public static final int diary_write_recording=0x7f060017;
-        public static final int diary_write_save_fail=0x7f06001b;
-        public static final int diary_write_save_success=0x7f06001a;
+        public static final int diary_line_delete_success=0x7f060014;
+        public static final int diary_write_add_diary=0x7f06001d;
+        public static final int diary_write_attachment_emotion_tip=0x7f060020;
+        public static final int diary_write_attachment_location_default=0x7f060024;
+        public static final int diary_write_attachment_location_input_hint=0x7f060022;
+        public static final int diary_write_attachment_location_input_title=0x7f060023;
+        public static final int diary_write_attachment_location_tip=0x7f060021;
+        public static final int diary_write_attachment_weather_tip=0x7f06001f;
+        public static final int diary_write_back_confirm=0x7f06001e;
+        public static final int diary_write_left_words=0x7f060016;
+        public static final int diary_write_press_to_record=0x7f060017;
+        public static final int diary_write_recording=0x7f060018;
+        public static final int diary_write_save_fail=0x7f06001c;
+        public static final int diary_write_save_success=0x7f06001b;
         /**  写日记的界面 
          */
-        public static final int diary_write_title=0x7f060014;
-        public static final int diary_write_words_empty=0x7f060019;
-        public static final int diary_write_words_hint=0x7f060018;
+        public static final int diary_write_title=0x7f060015;
+        public static final int diary_write_words_empty=0x7f06001a;
+        public static final int diary_write_words_hint=0x7f060019;
         public static final int ex_diary_empty=0x7f060004;
         public static final int ex_image_not_found=0x7f060005;
         public static final int ex_voice_not_found=0x7f060006;
@@ -477,12 +478,12 @@ public final class R {
         public static final int secure_modify_password=0x7f06000c;
         public static final int time_temp=0x7f060009;
         public static final int time_temp_zero=0x7f06000a;
-        public static final int widget_confirm_dialog_title=0x7f060026;
-        public static final int widget_dialog_negative=0x7f060025;
+        public static final int widget_confirm_dialog_title=0x7f060027;
+        public static final int widget_dialog_negative=0x7f060026;
         /**  组件相关 
          */
-        public static final int widget_dialog_positive=0x7f060024;
-        public static final int widget_input_dialog_title=0x7f060027;
+        public static final int widget_dialog_positive=0x7f060025;
+        public static final int widget_input_dialog_title=0x7f060028;
     }
     public static final class style {
         /** 

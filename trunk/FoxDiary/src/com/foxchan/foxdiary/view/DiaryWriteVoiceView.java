@@ -9,6 +9,7 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -141,6 +142,7 @@ public class DiaryWriteVoiceView extends FakeActivity {
 					//隐藏录音文件标志
 					rlRecord.setVisibility(View.INVISIBLE);
 				} catch (Exception e) {
+					isAudioFileExist = false;
 					e.printStackTrace();
 				}
 			}
@@ -323,6 +325,11 @@ public class DiaryWriteVoiceView extends FakeActivity {
 		if(recordThread != null && recordThread.isAlive()){
 			recordThread.interrupt();
 			recordThread = null;
+		}
+		Log.d(Constants.DIARY_TAG, "存在录音？" + isAudioFileExist);
+		//删除多余的声音文件
+		if(!isAudioFileExist){
+			FileUtils.deleteFile(audioPath);
 		}
 	}
 
