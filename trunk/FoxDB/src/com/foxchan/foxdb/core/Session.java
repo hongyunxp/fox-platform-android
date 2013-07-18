@@ -49,6 +49,14 @@ public interface Session {
 	Object save(Object object) throws FoxDbException;
 	
 	/**
+	 * 根据对象是否有主键保存或者更新对象
+	 * @param object	需要进行保存/更新的对象
+	 * @return			返回保存/更新后的对象
+	 * @throws FoxDbException
+	 */
+	Object saveOrUpdate(Object object) throws FoxDbException;
+	
+	/**
 	 * 删除对象
 	 * @param object
 	 * @throws FoxDbException

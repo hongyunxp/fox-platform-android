@@ -2,7 +2,6 @@ package com.foxchan.foxdb.core;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 
 import com.foxchan.foxdb.engine.TableInfo;
 import com.foxchan.foxdb.table.Column;
