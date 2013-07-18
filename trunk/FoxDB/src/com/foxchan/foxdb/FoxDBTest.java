@@ -2,19 +2,15 @@ package com.foxchan.foxdb;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import com.foxchan.foxdb.core.FoxDB;
 import com.foxchan.foxdb.core.Session;
 import com.foxchan.foxdb.core.Transaction;
-import com.foxchan.foxdb.engine.Pager;
-import com.foxchan.foxdb.engine.PagerTemplate;
 
 import cn.com.lezhixing.foxdb.R;
 import android.os.Bundle;
 import android.app.Activity;
-import android.util.Log;
 import android.view.Menu;
 
 public class FoxDBTest extends Activity {
