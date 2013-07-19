@@ -90,7 +90,7 @@ public class DiaryLineView extends Activity {
 			switch (msg.what) {
 			case STATE_DIARY_DELETING:
 				activity.showLoadingView();
-				activity.threadDeleteDiary.start();
+				activity.onDiaryDeleting();
 				break;
 			case STATE_DIARY_DELETED:
 				activity.showAddDiaryButton();
@@ -279,6 +279,7 @@ public class DiaryLineView extends Activity {
 				diaries.get(activeDiaryIndex).flush(AppContext.tempDiary);
 			}
 		}
+		AppContext.tempDiary = null;
 		diaryLineAdapter.notifyDataSetChanged();
 		super.onResume();
 	}
@@ -300,6 +301,17 @@ public class DiaryLineView extends Activity {
 		ivLoading.clearAnimation();
 		ivLoading.setVisibility(View.GONE);
 		ibAddDiary.setVisibility(View.VISIBLE);
+	}
+	
+	/**
+	 * 删除日记
+	 */
+	private void onDiaryDeleting(){
+		if(threadDeleteDiary.getState() == Thread.State.NEW){
+			threadDeleteDiary.start();
+		} else {
+			threadDeleteDiary.run();
+		}
 	}
 	
 	/**
