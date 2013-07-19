@@ -58,7 +58,8 @@
                 android:layout_marginBottom="25dip"
                 android:layout_marginRight="45dip"
                 android:background="@drawable/brown_circle"
-                android:src="@drawable/icon_play" />
+                android:src="@drawable/icon_play"
+                android:visibility="visible" />
 
             <ImageButton
                 android:id="@+id/diary_write_voice_stop_record"
@@ -69,7 +70,7 @@
                 android:layout_marginBottom="25dip"
                 android:layout_marginRight="45dip"
                 android:background="@drawable/brown_circle"
-                android:src="@drawable/icon_stop"
+                android:src="@drawable/icon_stop_64"
                 android:visibility="gone" />
         </RelativeLayout>
 
