@@ -49,6 +49,10 @@ public class DiaryWritePicView extends FakeActivity {
 	private ImageButton ibDelete;
 	/** 日记对象 */
 	private Diary diary;
+	/** 图片的路径 */
+	private String imagePath;
+	/** 图片的名称 */
+	private String imageName;
 
 	public DiaryWritePicView(DiaryWriteView diaryWriteView) {
 		this.diaryWriteView = diaryWriteView;
@@ -125,8 +129,8 @@ public class DiaryWritePicView extends FakeActivity {
 			rlContent.setVisibility(View.VISIBLE);
 			rlButtons.setVisibility(View.GONE);
 			String path = diary.getImagePath();
-			String imagePath = path.substring(0, path.lastIndexOf(File.separator)+1);
-			String imageName = path.substring(path.lastIndexOf(File.separator)+1);
+			imagePath = path.substring(0, path.lastIndexOf(File.separator)+1);
+			imageName = path.substring(path.lastIndexOf(File.separator)+1);
 			diaryWriteView.setImagePath(imagePath);
 			diaryWriteView.setImage(diary.photo(diaryWriteView));
 			diaryWriteView.setImageName(imageName);
@@ -166,8 +170,8 @@ public class DiaryWritePicView extends FakeActivity {
 		if(bundle != null){
 			Bitmap picTemp = bundle.getParcelable("data");
 			Bitmap picTemp4Show = BitmapUtils.getRoundedCornerBitmap(picTemp, 190.0f);
-			String imagePath = Constants.buildDiaryImagePath();
-			String imageName = StringUtils.getUUID();
+			imagePath = Constants.buildDiaryImagePath();
+			imageName = StringUtils.getUUID();
 			diaryWriteView.setImagePath(imagePath);
 			diaryWriteView.setImage(picTemp);
 			diaryWriteView.setImageName(imageName);
@@ -196,8 +200,10 @@ public class DiaryWritePicView extends FakeActivity {
 			picTemp = BitmapUtils.zoomByWidth(picTemp, Constants.DIARY_IMAGE_WIDTH);
 		}
 		
-		String imagePath = Constants.buildDiaryImagePath();
-		String imageName = StringUtils.getUUID();
+		imagePath = Constants.buildDiaryImagePath();
+		if(StringUtils.isEmpty(imageName)){
+			imageName = StringUtils.getUUID();
+		}
 		diaryWriteView.setImagePath(imagePath);
 		diaryWriteView.setImage(picTemp);
 		diaryWriteView.setImageName(imageName);

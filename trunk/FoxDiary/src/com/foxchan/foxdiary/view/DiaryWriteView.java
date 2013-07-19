@@ -292,7 +292,11 @@ public class DiaryWriteView extends Activity {
 		diaryWriteAttachmentView.onCreate(savedInstanceState);
 		
 		//初始化返回的确认框
-		cdBack = new FoxConfirmDialog(this, getString(R.string.diary_write_back_confirm));
+		if(StringUtils.isEmpty(diaryIdForModify)){
+			cdBack = new FoxConfirmDialog(this, getString(R.string.diary_write_back_confirm_insert));
+		} else {
+			cdBack = new FoxConfirmDialog(this, getString(R.string.diary_write_back_confirm_update));
+		}
 		cdBack.setOnNegativeButtonClickListener(new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
@@ -301,13 +305,6 @@ public class DiaryWriteView extends Activity {
 		cdBack.setOnPositiveButtonClickListener(new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				//删除录得声音临时文件
-				if(StringUtils.isEmpty(diary.getId())){
-//					File voiceFile = new File(voicePath);
-//					if(voiceFile != null && voiceFile.exists()){
-//						voiceFile.delete();
-//					}
-				}
 				finish();
 			}
 		});
@@ -426,15 +423,14 @@ public class DiaryWriteView extends Activity {
 			//保存图片
 			BitmapUtils.persistImageToSdCard(imagePath, imageName, image);
 			//删除临时的照片
-			File tempImage = new File(Constants.buildDiaryTempImageName());
-			if(tempImage != null && tempImage.exists()){
-				tempImage.delete();
-			}
+			FileUtils.deleteFile(Constants.buildDiaryTempImageName());
 			//保存录音
 			if(diary.getRecord() != null){
 				FileUtils.persistFileToSdcard(Constants.buildDiaryAudioPath(),
 						voiceName, diaryWriteVoiceView.getVoiceFile());
 			}
+			//删除临时录音
+			FileUtils.deleteFile(Constants.buildTempDiaryAudioName());
 			//将添加的日记添加到公共容器中
 			AppContext.tempDiary = diary;
 			return true;
