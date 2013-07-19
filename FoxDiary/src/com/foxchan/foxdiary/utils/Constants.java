@@ -11,6 +11,10 @@ import com.foxchan.foxutils.tool.SdCardUtils;
  */
 public class Constants {
 	
+	public static final int ACTION_NONE = -1;
+	public static final int ACTION_INSERT = 0;
+	public static final int ACTION_UPDATE = 1;
+	
 	/** 应用程序的资源文件夹名称 */
 	public static final String APP_RESOURCE = "FoxDiary";
 	/** 应用程序中存储图片的文件夹名 */
@@ -27,7 +31,7 @@ public class Constants {
 	/** 日记模块的数据库的版本号 */
 	public static final int DIARY_DB_VERSION = 2;
 	/** 日记模块的数据库是否打印调试信息的标志 */
-	public static final boolean DIARY_DEBUG = true;
+	public static final boolean DIARY_DEBUG = false;
 	/** 日记模块的文字输入上限 */
 	public static final int DIARY_WORDS_MAX = 140;
 	/** 日记模块的图片保存文件夹路径 */

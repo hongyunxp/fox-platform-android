@@ -263,4 +263,23 @@ public class Diary {
 		}
 	}
 	
+	/**
+	 * 刷新日记的信息
+	 * @param target	包含新信息的日记对象
+	 */
+	public void flush(Diary target){
+		this.content = target.getContent();
+		this.createDate = target.getCreateDate();
+		this.emotionId = target.getEmotionId();
+		this.hasVoice = null;
+		this.image = null;
+		this.imagePath = target.getImagePath();
+		this.location = target.getLocation();
+		this.record = target.getRecord();
+		this.timeLineNodeStyleId = target.getTimeLineNodeStyleId();
+		this.title = target.getTitle();
+		this.voice = target.getVoice();
+		this.weatherId = target.getWeatherId();
+	}
+	
 }

@@ -31,6 +31,7 @@ import com.foxchan.foxdiary.entity.Record;
 import com.foxchan.foxdiary.utils.Constants;
 import com.foxchan.foxutils.data.CollectionUtils;
 import com.foxchan.foxutils.data.DateUtils;
+import com.foxchan.foxutils.data.StringUtils;
 import com.foxchan.foxutils.tool.FileUtils;
 
 /**
@@ -70,8 +71,10 @@ public class DiaryLineView extends Activity {
 	private Pager<Diary> pager;
 	/** 删除日记的线程 */
 	private Thread threadDeleteDiary;
-	/** 被删除的日记的索引号 */
-	private int deleteDiaryIndex = -1;
+	/** 正在被操作的日记的索引号 */
+	private int activeDiaryIndex = -1;
+	/** 对日记的操作的索引号 */
+	private int actionIndex = Constants.ACTION_NONE;
 	
 	private MyHandler handler = new MyHandler(this);
 	static class MyHandler extends Handler{
@@ -168,12 +171,14 @@ public class DiaryLineView extends Activity {
 			@Override
 			public void onEdit(int position) {
 				Diary diary = diaries.get(position);
+				actionIndex = Constants.ACTION_UPDATE;
+				activeDiaryIndex = position;
 				toDiaryWriteView(diary.getId());
 			}
 			
 			@Override
 			public void onDelete(int position) {
-				deleteDiaryIndex = position;
+				activeDiaryIndex = position;
 				handler.sendEmptyMessage(STATE_DIARY_DELETING);
 			}
 		});
@@ -195,6 +200,7 @@ public class DiaryLineView extends Activity {
 			
 			@Override
 			public void onClick(View v) {
+				actionIndex = Constants.ACTION_INSERT;
 				toDiaryWriteView("");
 			}
 		});
@@ -208,8 +214,8 @@ public class DiaryLineView extends Activity {
 		//初始化删除日记的线程
 		threadDeleteDiary = new Thread(){
 			public void run(){
-				if(deleteDiaryIndex >= 0){
-					Diary deleteDiary = diaries.get(deleteDiaryIndex);
+				if(activeDiaryIndex >= 0){
+					Diary deleteDiary = diaries.get(activeDiaryIndex);
 					//删除日记的图片资源
 					FileUtils.deleteFile(deleteDiary.getImagePath());
 					//删除日记的录音资源
@@ -261,15 +267,19 @@ public class DiaryLineView extends Activity {
 	private void loadDiaries(){
 		session.query(pager, null, null, null, Diary.class);
 		diaries.addAll(pager.getContent());
-		AppContext.diariesOnDiaryLineView = diaries;
+		AppContext.addDiaryToDiaryLineView(diaries);
 	}
 
 	@Override
 	protected void onResume() {
-		if(AppContext.diariesOnDiaryLineView.size() != diaries.size()){
-			diaryLineAdapter.notifyDataSetChanged();
-			diaries = AppContext.diariesOnDiaryLineView;
+		if(AppContext.tempDiary != null && !StringUtils.isEmpty(AppContext.tempDiary.getId())){
+			if(actionIndex == Constants.ACTION_INSERT){
+				diaries.add(AppContext.tempDiary);
+			} else if(actionIndex == Constants.ACTION_UPDATE){
+				diaries.get(activeDiaryIndex).flush(AppContext.tempDiary);
+			}
 		}
+		diaryLineAdapter.notifyDataSetChanged();
 		super.onResume();
 	}
 	
@@ -296,10 +306,12 @@ public class DiaryLineView extends Activity {
 	 * 日记被删除之后进行的操作
 	 */
 	private void afterDiaryDeleted(){
-		diaries.remove(deleteDiaryIndex);
+		Diary diary = diaries.get(activeDiaryIndex);
+		AppContext.diaryMapForShow.remove(diary.getId());
+		diaries.remove(activeDiaryIndex);
 		diaryLineAdapter.notifyDataSetChanged();
 		FoxToast.showToast(this, R.string.diary_line_delete_success, Toast.LENGTH_SHORT);
-		deleteDiaryIndex = -1;
+		activeDiaryIndex = -1;
 	}
 	
 }
