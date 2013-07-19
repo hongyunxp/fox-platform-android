@@ -405,7 +405,7 @@ public class DiaryWriteView extends Activity {
 			diary.setRecord(record);
 		} else {
 			//删除原来的录音文件信息
-			if(diary.hasVoice(session)){
+			if(!StringUtils.isEmpty(diary.getId()) && diary.hasVoice(session)){
 				Record record = diary.getRecord();
 				FileUtils.deleteFile(record.getPath());
 				session.delete(record);
@@ -436,7 +436,7 @@ public class DiaryWriteView extends Activity {
 						voiceName, diaryWriteVoiceView.getVoiceFile());
 			}
 			//将添加的日记添加到公共容器中
-			AppContext.addDiaryToDiaryLineView(diary);
+			AppContext.tempDiary = diary;
 			return true;
 		}
 		return false;
