@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ import com.foxchan.foxdiary.core.AppContext;
 import com.foxchan.foxdiary.core.R;
 import com.foxchan.foxdiary.core.widgets.FakeActivity;
 import com.foxchan.foxdiary.core.widgets.FoxInputDialog;
+import com.foxchan.foxdiary.entity.Diary;
 import com.foxchan.foxdiary.entity.Emotions;
 import com.foxchan.foxdiary.entity.Weathers;
 import com.foxchan.foxdiary.utils.Constants;
@@ -58,6 +60,8 @@ public class DiaryWriteAttachmentView extends FakeActivity {
 	private FoxLocationListener foxLocationListener;
 	/** 查询地点的次数 */
 	private int searchCount = 0;
+	/** 日记对象 */
+	private Diary diary;
 	
 	public DiaryWriteAttachmentView(DiaryWriteView diaryWriteView){
 		this.diaryWriteView = diaryWriteView;
@@ -74,6 +78,7 @@ public class DiaryWriteAttachmentView extends FakeActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		diary = diaryWriteView.getDiary();
 		//初始化数据
 		locations = new ArrayList<String>();
 		locationAdapter = new DiaryWriteLocationAdapter(diaryWriteView, locations);
@@ -154,6 +159,22 @@ public class DiaryWriteAttachmentView extends FakeActivity {
 		locationClient.start();
 		setLocationOption();
 		locationClient.requestLocation();
+		//配置当篇日记的附加信息配置
+		if(!StringUtils.isEmpty(diary.getId())){
+			int weatherId = diary.getWeatherId();
+			int emotionId = diary.getEmotionId();
+			((RadioButton)rgEmotion.getChildAt(emotionId)).setChecked(true);
+			((RadioButton)rgWeather.getChildAt(weatherId)).setChecked(true);
+			String locationStr = diary.getLocation();
+			if(!StringUtils.isEmpty(locationStr) && !locations.contains(locationStr)){
+				locations.add(locationStr);
+				diaryWriteView.setLocation(locationStr);
+				locationAdapter.setSelectedPosition(0);
+				locationAdapter.notifyDataSetChanged();
+			} else if(!StringUtils.isEmpty(locationStr)){
+				diaryWriteView.setLocation(null);
+			}
+		}
 	}
 	
 	/**

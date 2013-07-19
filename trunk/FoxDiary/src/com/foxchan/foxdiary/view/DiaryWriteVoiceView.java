@@ -9,7 +9,6 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -240,7 +239,6 @@ public class DiaryWriteVoiceView extends FakeActivity {
 		tempAudioPath = Constants.buildTempDiaryAudioName();
 		File audioFile;
 		Session session = diaryWriteView.db.getCurrentSession();
-		Log.d(Constants.DIARY_TAG, "diary.getId() = " + diary.getId());
 		if(!StringUtils.isEmpty(diary.getId()) && diary.hasVoice(session)){
 			Record record = diary.getRecord();
 			if(record != null && !StringUtils.isEmpty(record.getPath())){
@@ -249,6 +247,7 @@ public class DiaryWriteVoiceView extends FakeActivity {
 				String voiceName = audioPath.substring(audioPath.lastIndexOf(File.separator)+1);
 				diaryWriteView.setVoiceName(voiceName);
 				recordLong = record.getLength();
+				diaryWriteView.setVoiceLength(recordLong);
 				FileUtils.persistFileToSdcard(Constants.buildDiaryAudioPath(),
 						Constants.DIARY_TEMP_AUDIO, audioPath);
 				

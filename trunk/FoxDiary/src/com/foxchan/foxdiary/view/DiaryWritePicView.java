@@ -9,7 +9,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
@@ -128,7 +127,6 @@ public class DiaryWritePicView extends FakeActivity {
 			String path = diary.getImagePath();
 			String imagePath = path.substring(0, path.lastIndexOf(File.separator)+1);
 			String imageName = path.substring(path.lastIndexOf(File.separator)+1);
-			Log.d(Constants.DIARY_TAG, "imagePath = " + imagePath + ", imageName = " + imageName);
 			diaryWriteView.setImagePath(imagePath);
 			diaryWriteView.setImage(diary.photo(diaryWriteView));
 			diaryWriteView.setImageName(imageName);

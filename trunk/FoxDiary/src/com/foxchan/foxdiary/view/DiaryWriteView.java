@@ -16,7 +16,6 @@ import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -381,6 +380,13 @@ public class DiaryWriteView extends Activity {
 		Session session = db.getCurrentSession();
 		diary.setContent(diaryWriteWordsView.getContent());
 		diary.setCreateDate(new Date());
+		//处理图片
+		if(!StringUtils.isEmpty(diary.getId()) && diary.hasPhoto()){
+			if(StringUtils.isEmpty(imagePath) && StringUtils.isEmpty(imageName)){
+				//删除图片
+				FileUtils.deleteFile(diary.getImagePath());
+			}
+		}
 		String targetPath = StringUtils.concat(new Object[]{imagePath, imageName});
 		targetPath = targetPath.replaceAll("//", "/");
 		diary.setImagePath(targetPath);
@@ -390,7 +396,7 @@ public class DiaryWriteView extends Activity {
 			Record record = null;
 			if(!StringUtils.isEmpty(diary.getId()) && diary.hasVoice(session)){
 				record = diary.getRecord();
-				Log.d(Constants.DIARY_TAG, "已经有录音了，录音的路径是：" + record.getPath());
+				record.setLength(voiceLength);
 				session.update(record);
 			} else {
 				record = new Record(voicePath, voiceLength);
@@ -403,7 +409,6 @@ public class DiaryWriteView extends Activity {
 				Record record = diary.getRecord();
 				FileUtils.deleteFile(record.getPath());
 				session.delete(record);
-				Log.d(Constants.DIARY_TAG, "删除原来的录音文件");
 			}
 			diary.setRecord(null);
 		}
