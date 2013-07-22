@@ -247,7 +247,7 @@ public class LocusPasswordPanel extends View
 					mPaint);
 		}
 
-		canvas.drawBitmap(locus_arrow, a.x, a.y - locus_arrow.getHeight() / 2.0f, mPaint);
+//		canvas.drawBitmap(locus_arrow, a.x, a.y - locus_arrow.getHeight() / 2.0f, mPaint);
 
 		canvas.rotate(-degrees, a.x, a.y);
 
@@ -343,9 +343,7 @@ public class LocusPasswordPanel extends View
 	}
 
 	/**
-	 * 
 	 * 检查
-	 * 
 	 * @param x
 	 * @param y
 	 * @return
