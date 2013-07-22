@@ -314,5 +314,19 @@ public class DateUtils {
 		});
 		return datetime;
 	}
+	
+	/**
+	 * 判断日期是否在今天之前
+	 * @param date	目标日期
+	 * @return		如果目标日期在今天之前，则返回true，否则返回false
+	 */
+	public static boolean isBeforeToday(Date date){
+		final int limit = 86400000;
+		Date today = new Date();
+		if(today.getTime() - date.getTime() > limit){
+			return true;
+		}
+		return false;
+	}
 
 }
