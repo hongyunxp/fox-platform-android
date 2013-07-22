@@ -36,7 +36,7 @@ public class PasswordManageView extends Activity {
 			public void onComplete(String p) {
 				password = p;
 				FoxToast.showToast(PasswordManageView.this, "您设置的密码是：" + password, Toast.LENGTH_SHORT);
-				passwordPanel.clearPassword(2000);
+//				passwordPanel.clearPassword(2000);
 			}
 		});
 	}

@@ -5,13 +5,13 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:background="@color/red_normal"
-    android:orientation="vertical"
-    android:padding="@dimen/widget_padding" >
+    android:orientation="vertical" >
 
     <TextView
         android:id="@+id/widget_confirm_dialog_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/widget_padding"
         android:text="@string/widget_confirm_dialog_title"
         android:textColor="@color/white"
         android:textSize="@dimen/h3" />
@@ -20,6 +20,7 @@
         android:id="@+id/widget_confirm_dialog_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/widget_padding"
         android:layout_marginTop="5dip"
         android:minLines="3"
         android:text="@string/loading"
@@ -32,19 +33,18 @@
         android:layout_marginTop="10dip"
         android:orientation="horizontal" >
 
-        <Button
+        <ImageButton
             android:id="@+id/widget_confirm_dialog_positive_button"
             style="@style/WidgetButton"
             android:layout_weight="1"
-            android:background="@drawable/red_rectangle"
-            android:text="@string/widget_dialog_positive" />
+            android:background="@drawable/blue_rectangle"
+            android:src="@drawable/icon_right_white" />
 
-        <Button
+        <ImageButton
             android:id="@+id/widget_confirm_dialog_negative_button"
-            style="@style/LastWidgetButton"
+            style="@style/NegativeWidgetButton"
             android:layout_weight="1"
-            android:background="@drawable/red_rectangle"
-            android:text="@string/widget_dialog_negative" />
+            android:src="@drawable/icon_delete_white" />
     </LinearLayout>
 
 </LinearLayout>

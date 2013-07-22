@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.foxchan.foxdiary.core.R;
+import com.foxchan.foxdiary.core.widgets.FoxToast;
 import com.foxchan.foxutils.data.StringUtils;
 import com.foxchan.foxutils.tool.BitmapUtils;
 import com.foxchan.foxutils.tool.MathUtils;
@@ -525,7 +526,10 @@ public class LocusPasswordPanel extends View
 				// mCompleteListener.onPasswordTooMin(sPoints.size());
 				error();
 				clearPassword();
-				Toast.makeText(this.getContext(), "密码太短,请重新输入!", Toast.LENGTH_SHORT).show();
+//				Toast.makeText(this.getContext(), "密码太短,请重新输入!", Toast.LENGTH_SHORT).show();
+				FoxToast.showException(getContext(), String.format(getContext()
+						.getString(R.string.ex_password_not_long_enough),
+						passwordMinLength), Toast.LENGTH_SHORT);
 			}
 			else if (mCompleteListener != null)
 			{

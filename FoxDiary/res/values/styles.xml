@@ -45,11 +45,12 @@
         <item name="android:layout_height">@dimen/widget_button_height</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/h4</item>
-        <item name="android:layout_marginRight">@dimen/widget_padding</item>
     </style>
-
-    <style name="LastWidgetButton" parent="WidgetButton">
-        <item name="android:layout_marginRight">0dip</item>
+    <style name="PositiveWidgetButton" parent="WidgetButton">
+        <item name="android:background">@drawable/blue_rectangle</item>
+    </style>
+    <style name="NegativeWidgetButton" parent="WidgetButton">
+        <item name="android:background">@drawable/dark_rectangle</item>
     </style>
 
     <style name="FoxDialog" parent="@android:style/Theme.Dialog">

@@ -197,6 +197,12 @@ public class DiaryLineAdapter extends BaseAdapter {
 				}
 			}
 		});
+		//如果不是当天的日记，隐藏删除和修改的按钮
+		if(DateUtils.isBeforeToday(diary.getCreateDate())){
+			nodeItem.ibEdit.setVisibility(View.INVISIBLE);
+		} else {
+			nodeItem.ibEdit.setVisibility(View.VISIBLE);
+		}
 		return convertView;
 	}
 	

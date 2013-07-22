@@ -9,8 +9,10 @@
 	<string name="time_temp_zero">00:00:00</string>
 	
 	<!-- 安全相关的信息 -->
+	<string name="secure_password_title">创建日记密码</string>
 	<string name="secure_create_password">创建密码</string>
 	<string name="secure_modify_password">修改密码</string>
+	<string name="secure_reset_password">重设密码</string>
 	
 	<!-- 下拉刷新相关的信息 -->
 	<string name="pull_to_refresh_state_pull">下拉刷新</string>
@@ -23,6 +25,7 @@
 	<!-- 日记时间线 -->
 	<string name="diary_line_add">写点什么</string>
 	<string name="diary_line_delete_success">日记删除成功</string>
+	<string name="diary_line_delete_comfirm">您确定要删除这篇日记？</string>
 	
 	<!-- 写日记的界面 -->
 	<string name="diary_write_title">写日记</string>

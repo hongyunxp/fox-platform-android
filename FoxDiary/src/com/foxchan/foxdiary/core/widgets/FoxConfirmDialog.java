@@ -5,8 +5,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -29,9 +29,9 @@ public class FoxConfirmDialog extends Dialog {
 	/** 确认框的正文 */
 	private TextView tvContent;
 	/** 确认按钮 */
-	private Button btnPositive;
+	private ImageButton ibPositive;
 	/** 取消按钮 */
-	private Button btnNegative;
+	private ImageButton ibNegative;
 
 	public FoxConfirmDialog(Context context) {
 		super(context, R.style.FoxDialog);
@@ -39,8 +39,8 @@ public class FoxConfirmDialog extends Dialog {
 		setContentView(R.layout.widget_confirm_dialog);
 		tvTitle = (TextView)findViewById(R.id.widget_confirm_dialog_title);
 		tvContent = (TextView)findViewById(R.id.widget_confirm_dialog_content);
-		btnNegative = (Button)findViewById(R.id.widget_confirm_dialog_negative_button);
-		btnPositive = (Button)findViewById(R.id.widget_confirm_dialog_positive_button);
+		ibNegative = (ImageButton)findViewById(R.id.widget_confirm_dialog_negative_button);
+		ibPositive = (ImageButton)findViewById(R.id.widget_confirm_dialog_positive_button);
 		llDialog = (LinearLayout)findViewById(R.id.widget_confirm_dialog_box);
 		int width = PhoneUtils.getWindowWidth((Activity)context);
 		llDialog.setLayoutParams(new FrameLayout.LayoutParams(width, FrameLayout.LayoutParams.WRAP_CONTENT));
@@ -64,7 +64,7 @@ public class FoxConfirmDialog extends Dialog {
 	 */
 	public FoxConfirmDialog setOnPositiveButtonClickListener(
 			final DialogInterface.OnClickListener onPositiveButtonClickListener) {
-		btnPositive.setOnClickListener(new View.OnClickListener() {
+		ibPositive.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				hide();
@@ -81,7 +81,7 @@ public class FoxConfirmDialog extends Dialog {
 	 */
 	public FoxConfirmDialog setOnNegativeButtonClickListener(
 			final DialogInterface.OnClickListener onNegativeButtonClickListener) {
-		btnNegative.setOnClickListener(new View.OnClickListener() {
+		ibNegative.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				hide();
