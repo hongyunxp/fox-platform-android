@@ -42,5 +42,15 @@ public class PhoneUtils {
 		Display display = manager.getDefaultDisplay();
 		return display.getWidth();
 	}
+	
+	/**
+	 * 获得设备上的Android的版本号
+	 * @return	返回设备上的Android的版本号
+	 */
+	public static int getPhoneAndroidSDKVersion(){
+		int version = 0;
+		version = Integer.valueOf(android.os.Build.VERSION.SDK_INT);
+		return version;
+	}
 
 }
