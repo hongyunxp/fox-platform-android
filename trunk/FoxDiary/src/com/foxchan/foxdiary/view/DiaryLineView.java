@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,6 +25,7 @@ import com.foxchan.foxdiary.adapter.DiaryLineAdapter;
 import com.foxchan.foxdiary.adapter.DiaryLineAdapter.NodeListener;
 import com.foxchan.foxdiary.core.AppContext;
 import com.foxchan.foxdiary.core.R;
+import com.foxchan.foxdiary.core.widgets.FoxConfirmDialog;
 import com.foxchan.foxdiary.core.widgets.FoxToast;
 import com.foxchan.foxdiary.core.widgets.RefreshListView;
 import com.foxchan.foxdiary.entity.Diary;
@@ -58,6 +60,8 @@ public class DiaryLineView extends Activity {
 	private ImageView ivLoading;
 	/** 加载中的动画 */
 	private Animation aniLoading;
+	/** 确认删除的对话框控件 */
+	private FoxConfirmDialog fcdDeleteDiary;
 	
 	private FoxDB db;
 	private Session session;
@@ -164,22 +168,33 @@ public class DiaryLineView extends Activity {
 			
 			@Override
 			public void onShare(int position) {
-				Diary diary = diaries.get(position);
-				FoxToast.showToast(DiaryLineView.this, "分享的日记的标题是：" + diary.getTitle(), Toast.LENGTH_SHORT);
+				if(DateUtils.isBeforeToday(diaries.get(position).getCreateDate())){
+//					Diary diary = diaries.get(position);
+				} else {
+					FoxToast.showException(getApplicationContext(),
+							R.string.ex_diary_cant_be_modify,
+							Toast.LENGTH_SHORT);
+				}
 			}
 			
 			@Override
 			public void onEdit(int position) {
-				Diary diary = diaries.get(position);
-				actionIndex = Constants.ACTION_UPDATE;
-				activeDiaryIndex = position;
-				toDiaryWriteView(diary.getId());
+				if(DateUtils.isBeforeToday(diaries.get(position).getCreateDate())){
+					FoxToast.showException(getApplicationContext(),
+							R.string.ex_diary_cant_be_modify,
+							Toast.LENGTH_SHORT);
+				} else {
+					Diary diary = diaries.get(position);
+					actionIndex = Constants.ACTION_UPDATE;
+					activeDiaryIndex = position;
+					toDiaryWriteView(diary.getId());
+				}
 			}
 			
 			@Override
 			public void onDelete(int position) {
 				activeDiaryIndex = position;
-				handler.sendEmptyMessage(STATE_DIARY_DELETING);
+				fcdDeleteDiary.show();
 			}
 		});
 		lvDiarys.setAdapter(diaryLineAdapter);
@@ -231,6 +246,20 @@ public class DiaryLineView extends Activity {
 				}
 			}
 		};
+		//初始化删除日记的警告框控件
+		fcdDeleteDiary = new FoxConfirmDialog(DiaryLineView.this, getString(R.string.diary_line_delete_comfirm));
+		fcdDeleteDiary.setOnPositiveButtonClickListener(new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				handler.sendEmptyMessage(STATE_DIARY_DELETING);
+			}
+		}).setOnNegativeButtonClickListener(new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+			}
+		});
 	}
 	
 	/**

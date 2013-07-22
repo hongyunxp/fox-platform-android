@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -28,9 +28,9 @@ public class FoxInputDialog extends Dialog {
 	/** 确认框的正文输入框 */
 	private EditText etContent;
 	/** 确认按钮 */
-	private Button btnPositive;
+	private ImageButton ibPositive;
 	/** 取消按钮 */
-	private Button btnNegative;
+	private ImageButton ibNegative;
 
 	public FoxInputDialog(Context context) {
 		super(context, R.style.FoxDialog);
@@ -38,8 +38,8 @@ public class FoxInputDialog extends Dialog {
 		setContentView(R.layout.widget_input_dialog);
 		tvTitle = (TextView)findViewById(R.id.widget_input_dialog_title);
 		etContent = (EditText)findViewById(R.id.widget_input_dialog_content);
-		btnNegative = (Button)findViewById(R.id.widget_input_dialog_negative_button);
-		btnPositive = (Button)findViewById(R.id.widget_input_dialog_positive_button);
+		ibNegative = (ImageButton)findViewById(R.id.widget_input_dialog_negative_button);
+		ibPositive = (ImageButton)findViewById(R.id.widget_input_dialog_positive_button);
 		llDialog = (LinearLayout)findViewById(R.id.widget_input_dialog_box);
 		int width = PhoneUtils.getWindowWidth((Activity)context);
 		llDialog.setLayoutParams(new FrameLayout.LayoutParams(width, FrameLayout.LayoutParams.WRAP_CONTENT));
@@ -57,7 +57,7 @@ public class FoxInputDialog extends Dialog {
 	 */
 	public FoxInputDialog setOnPositiveButtonClickListener(
 			final FoxInputDialog.OnClickListener onPositiveButtonClickListener){
-		btnPositive.setOnClickListener(new View.OnClickListener() {
+		ibPositive.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -75,7 +75,7 @@ public class FoxInputDialog extends Dialog {
 	 */
 	public FoxInputDialog setOnNegativeButtonClickListener(
 			final FoxInputDialog.OnClickListener onNegativeButtonClickListener){
-		btnNegative.setOnClickListener(new View.OnClickListener() {
+		ibNegative.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {

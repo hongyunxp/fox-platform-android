@@ -138,7 +138,8 @@
                 android:id="@+id/diary_line_item_share"
                 style="@style/IconButton"
                 android:layout_toRightOf="@id/diary_line_item_edit"
-                android:src="@drawable/button_diary_share" />
+                android:src="@drawable/button_diary_share"
+                android:visibility="invisible" />
 
             <ImageButton
                 android:id="@+id/diary_line_item_voice"

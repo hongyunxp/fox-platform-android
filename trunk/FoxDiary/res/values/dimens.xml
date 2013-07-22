@@ -29,8 +29,8 @@
 	<dimen name="function_shadow_height">1dip</dimen>
 	
 	<!-- 组件相关的数据 -->
-	<dimen name="widget_padding">10dip</dimen>
+	<dimen name="widget_padding">5dip</dimen>
 	<dimen name="widget_button_width">142dip</dimen>
-	<dimen name="widget_button_height">34dip</dimen>
+	<dimen name="widget_button_height">43dip</dimen>
 	<dimen name="widget_button_border_size">2dip</dimen>
 </resources>

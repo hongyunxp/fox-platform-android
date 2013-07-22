@@ -4,6 +4,7 @@
 	<color name="black">#000000</color>
 	<color name="half_white">#88FFFFFF</color>
 	<color name="half_black">#88000000</color>
+	<color name="dark_black">#bb000000</color>
 	
 	<color name="cyan_normal">#739ac2</color>
 	<color name="cyan_pressed">#5c7b9b</color>
