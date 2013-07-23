@@ -59,8 +59,6 @@ com.foxchan.foxdiary.view.DiaryLineView
 com.foxchan.foxdiary.view.DiaryLineView: DiaryLineView()
 com.foxchan.foxdiary.view.DiaryWriteView
 com.foxchan.foxdiary.view.DiaryWriteView: DiaryWriteView()
-com.foxchan.foxdiary.view.secure.LoginView
-com.foxchan.foxdiary.view.secure.LoginView: LoginView()
 com.foxchan.foxdiary.view.secure.PasswordManageView
 com.foxchan.foxdiary.view.secure.PasswordManageView: PasswordManageView()
 com.foxchan.foxutils.FoxTest
