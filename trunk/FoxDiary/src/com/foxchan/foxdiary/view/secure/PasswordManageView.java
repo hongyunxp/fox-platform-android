@@ -2,9 +2,13 @@ package com.foxchan.foxdiary.view.secure;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -12,6 +16,8 @@ import com.foxchan.foxdiary.core.AppConfig;
 import com.foxchan.foxdiary.core.R;
 import com.foxchan.foxdiary.core.widgets.FoxToast;
 import com.foxchan.foxdiary.core.widgets.locuspassword.LocusPasswordPanel;
+import com.foxchan.foxdiary.entity.Picture;
+import com.foxchan.foxdiary.entity.Pictures;
 import com.foxchan.foxdiary.utils.Constants;
 import com.foxchan.foxdiary.view.DiaryLineView;
 import com.foxchan.foxutils.data.StringUtils;
@@ -36,6 +42,16 @@ public class PasswordManageView extends Activity {
 	private Button btnResetPassword;
 	/** 确认密码的按钮 */
 	private Button btnSavePassword;
+	/** 背景图片 */
+	private ImageView ivBg;
+	/** 渐入动画 */
+	private Animation aniFadeIn;
+	/** 放大动画 */
+	private Animation aniScale;
+	/** 渐出动画 */
+	private Animation aniFadeOut;
+	/** 展示的图片 */
+	private Pictures pictures;
 	
 	/** 用户创建的新密码 */
 	private String newPassword;
@@ -136,6 +152,72 @@ public class PasswordManageView extends Activity {
 								R.string.secure_password_error,
 								Toast.LENGTH_SHORT);
 					}
+				}
+			});
+			ivBg = (ImageView)findViewById(R.id.secure_password_manage_bg);
+			//初始化动画
+			aniFadeIn = AnimationUtils.loadAnimation(PasswordManageView.this, R.anim.guide_welcome_fade_in);
+			aniFadeIn.setDuration(1000);
+			aniScale = AnimationUtils.loadAnimation(PasswordManageView.this, R.anim.guide_welcome_scale);
+			aniScale.setDuration(6000);
+			aniFadeOut = AnimationUtils.loadAnimation(PasswordManageView.this, R.anim.guide_welcome_fade_out);
+			aniFadeOut.setDuration(1000);
+			//初始化背景的图片资源
+			pictures = new Pictures(PasswordManageView.this);
+			pictures.addPicture(new Picture("测试一", R.drawable.guide_pic1));
+			pictures.addPicture(new Picture("测试二", R.drawable.guide_pic2));
+			pictures.addPicture(new Picture("测试三", R.drawable.guide_pic3));
+			
+			//开始播放第一个动画
+			ivBg.setBackgroundDrawable(pictures.getPictureAt(0).getDrawable(PasswordManageView.this));
+			ivBg.startAnimation(aniFadeIn);
+			//绑定渐入的动画效果
+			aniFadeIn.setAnimationListener(new Animation.AnimationListener() {
+				
+				@Override
+				public void onAnimationStart(Animation animation) {
+				}
+				
+				@Override
+				public void onAnimationRepeat(Animation animation) {
+				}
+				
+				@Override
+				public void onAnimationEnd(Animation animation) {
+					ivBg.startAnimation(aniScale);
+				}
+			});
+			//绑定放大的动画效果
+			aniScale.setAnimationListener(new Animation.AnimationListener() {
+				
+				@Override
+				public void onAnimationStart(Animation animation) {
+				}
+				
+				@Override
+				public void onAnimationRepeat(Animation animation) {
+				}
+				
+				@Override
+				public void onAnimationEnd(Animation animation) {
+					ivBg.startAnimation(aniFadeOut);
+				}
+			});
+			//绑定渐出的动画
+			aniFadeOut.setAnimationListener(new Animation.AnimationListener() {
+				
+				@Override
+				public void onAnimationStart(Animation animation) {
+				}
+				
+				@Override
+				public void onAnimationRepeat(Animation animation) {
+				}
+				
+				@Override
+				public void onAnimationEnd(Animation animation) {
+					ivBg.setBackgroundDrawable(pictures.nextPicture().getDrawable(PasswordManageView.this));
+					ivBg.startAnimation(aniFadeIn);
 				}
 			});
 		}
