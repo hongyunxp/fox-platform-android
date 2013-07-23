@@ -52,6 +52,9 @@
     <style name="NegativeWidgetButton" parent="WidgetButton">
         <item name="android:background">@drawable/dark_rectangle</item>
     </style>
+    <style name="CorrectWidgetButton" parent="WidgetButton">
+        <item name="android:background">@drawable/green_rectangle</item>
+    </style>
 
     <style name="FoxDialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
