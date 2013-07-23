@@ -1401,6 +1401,18 @@ com.foxchan.foxdiary.entity.Emotion:
     38:39:public void setDrawableId(int)
 com.foxchan.foxdiary.entity.Emotions:
     12:12:public Emotions()
+com.foxchan.foxdiary.entity.Picture:
+    48:48:public int getId()
+    52:53:public void setId(int)
+    56:56:public java.lang.String getTitle()
+    60:61:public void setTitle(java.lang.String)
+    64:64:public java.lang.String getDescription()
+    68:69:public void setDescription(java.lang.String)
+    72:72:public int getResourceId()
+    76:77:public void setResourceId(int)
+com.foxchan.foxdiary.entity.Pictures:
+    28:31:public Pictures(android.content.Context,java.util.List)
+    61:66:public com.foxchan.foxdiary.entity.Picture prevPicture()
 com.foxchan.foxdiary.entity.Record:
     private java.lang.String id
     45:45:public java.lang.String getId()
@@ -1500,8 +1512,8 @@ com.foxchan.foxdiary.view.DiaryWriteView:
 com.foxchan.foxdiary.view.DiaryWriteVoiceView:
     public static final int UPDATE_RECORD_LONG
 com.foxchan.foxdiary.view.secure.PasswordManageView:
-    148:150:private void showCreatePasswordButton()
-    156:158:private void showSavePasswordButton()
+    230:232:private void showCreatePasswordButton()
+    238:240:private void showSavePasswordButton()
 com.foxchan.foxutils.FoxTest:
     public static final java.lang.String TAG
 com.foxchan.foxutils.R:

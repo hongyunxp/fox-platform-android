@@ -2443,18 +2443,32 @@ com.foxchan.foxdiary.entity.Emotions -> com.foxchan.foxdiary.b.c:
     android.util.SparseArray emotionMapById -> b
     com.foxchan.foxdiary.entity.Emotion getEmotionById(int) -> a
     com.foxchan.foxdiary.entity.Emotion getEmotionByRadioButton(int) -> b
-com.foxchan.foxdiary.entity.Record -> com.foxchan.foxdiary.b.d:
+com.foxchan.foxdiary.entity.Picture -> com.foxchan.foxdiary.b.d:
+    int id -> a
+    java.lang.String title -> b
+    java.lang.String description -> c
+    int resourceId -> d
+    android.graphics.drawable.Drawable drawable -> e
+    android.graphics.drawable.Drawable getDrawable(android.content.Context) -> a
+com.foxchan.foxdiary.entity.Pictures -> com.foxchan.foxdiary.b.e:
+    android.content.Context context -> a
+    java.util.List pictures -> b
+    int currentIndex -> c
+    void addPicture(com.foxchan.foxdiary.entity.Picture) -> a
+    com.foxchan.foxdiary.entity.Picture nextPicture() -> a
+    com.foxchan.foxdiary.entity.Picture getPictureAt$70aed352() -> b
+com.foxchan.foxdiary.entity.Record -> com.foxchan.foxdiary.b.f:
     java.lang.String path -> a
     long length -> b
     java.lang.String getPath() -> a
     long getLength() -> b
     void setLength(long) -> a
-com.foxchan.foxdiary.entity.Weather -> com.foxchan.foxdiary.b.e:
+com.foxchan.foxdiary.entity.Weather -> com.foxchan.foxdiary.b.g:
     int id -> a
     int drawableId -> b
     int getId() -> a
     int getDrawableId() -> b
-com.foxchan.foxdiary.entity.Weathers -> com.foxchan.foxdiary.b.f:
+com.foxchan.foxdiary.entity.Weathers -> com.foxchan.foxdiary.b.h:
     android.util.SparseArray weatherMap -> a
     android.util.SparseArray weatherMapById -> b
     com.foxchan.foxdiary.entity.Weather getWeatherById(int) -> a
@@ -2808,13 +2822,6 @@ com.foxchan.foxdiary.view.DiaryWriteWordsView$1 -> com.foxchan.foxdiary.view.al:
 com.foxchan.foxdiary.view.DiaryWriteWordsView$2 -> com.foxchan.foxdiary.view.am:
     com.foxchan.foxdiary.view.DiaryWriteWordsView this$0 -> a
     void onClick(android.view.View) -> onClick
-com.foxchan.foxdiary.view.secure.LoginView -> com.foxchan.foxdiary.view.secure.LoginView:
-    com.foxchan.foxdiary.core.widgets.locuspassword.LocusPasswordPanel passwordPanel -> a
-    void onCreate(android.os.Bundle) -> onCreate
-    void access$0(com.foxchan.foxdiary.view.secure.LoginView) -> a
-com.foxchan.foxdiary.view.secure.LoginView$1 -> com.foxchan.foxdiary.view.secure.a:
-    com.foxchan.foxdiary.view.secure.LoginView this$0 -> a
-    void onComplete(java.lang.String) -> a
 com.foxchan.foxdiary.view.secure.PasswordManageView -> com.foxchan.foxdiary.view.secure.PasswordManageView:
     com.foxchan.foxdiary.core.AppConfig config -> a
     android.widget.RelativeLayout rlHeader -> b
@@ -2822,8 +2829,13 @@ com.foxchan.foxdiary.view.secure.PasswordManageView -> com.foxchan.foxdiary.view
     android.widget.Button btnCreatePassword -> d
     android.widget.Button btnResetPassword -> e
     android.widget.Button btnSavePassword -> f
-    java.lang.String newPassword -> g
-    java.lang.String oldPassword -> h
+    android.widget.ImageView ivBg -> g
+    android.view.animation.Animation aniFadeIn -> h
+    android.view.animation.Animation aniScale -> i
+    android.view.animation.Animation aniFadeOut -> j
+    com.foxchan.foxdiary.entity.Pictures pictures -> k
+    java.lang.String newPassword -> l
+    java.lang.String oldPassword -> m
     void onCreate(android.os.Bundle) -> onCreate
     java.lang.String access$0(com.foxchan.foxdiary.view.secure.PasswordManageView) -> a
     void access$1(com.foxchan.foxdiary.view.secure.PasswordManageView,java.lang.String) -> a
@@ -2831,21 +2843,41 @@ com.foxchan.foxdiary.view.secure.PasswordManageView -> com.foxchan.foxdiary.view
     com.foxchan.foxdiary.core.AppConfig access$3(com.foxchan.foxdiary.view.secure.PasswordManageView) -> c
     void access$4(com.foxchan.foxdiary.view.secure.PasswordManageView) -> d
     java.lang.String access$5(com.foxchan.foxdiary.view.secure.PasswordManageView) -> e
-com.foxchan.foxdiary.view.secure.PasswordManageView$1 -> com.foxchan.foxdiary.view.secure.b:
+    android.widget.ImageView access$6(com.foxchan.foxdiary.view.secure.PasswordManageView) -> f
+    android.view.animation.Animation access$7(com.foxchan.foxdiary.view.secure.PasswordManageView) -> g
+    android.view.animation.Animation access$8(com.foxchan.foxdiary.view.secure.PasswordManageView) -> h
+    com.foxchan.foxdiary.entity.Pictures access$9(com.foxchan.foxdiary.view.secure.PasswordManageView) -> i
+    android.view.animation.Animation access$10(com.foxchan.foxdiary.view.secure.PasswordManageView) -> j
+com.foxchan.foxdiary.view.secure.PasswordManageView$1 -> com.foxchan.foxdiary.view.secure.a:
     com.foxchan.foxdiary.view.secure.PasswordManageView this$0 -> a
     void onComplete(java.lang.String) -> a
-com.foxchan.foxdiary.view.secure.PasswordManageView$2 -> com.foxchan.foxdiary.view.secure.c:
+com.foxchan.foxdiary.view.secure.PasswordManageView$2 -> com.foxchan.foxdiary.view.secure.b:
     com.foxchan.foxdiary.view.secure.PasswordManageView this$0 -> a
     void onClick(android.view.View) -> onClick
-com.foxchan.foxdiary.view.secure.PasswordManageView$3 -> com.foxchan.foxdiary.view.secure.d:
+com.foxchan.foxdiary.view.secure.PasswordManageView$3 -> com.foxchan.foxdiary.view.secure.c:
     com.foxchan.foxdiary.view.secure.PasswordManageView this$0 -> a
     void onClick(android.view.View) -> onClick
-com.foxchan.foxdiary.view.secure.PasswordManageView$4 -> com.foxchan.foxdiary.view.secure.e:
+com.foxchan.foxdiary.view.secure.PasswordManageView$4 -> com.foxchan.foxdiary.view.secure.d:
     com.foxchan.foxdiary.view.secure.PasswordManageView this$0 -> a
     void onClick(android.view.View) -> onClick
-com.foxchan.foxdiary.view.secure.PasswordManageView$5 -> com.foxchan.foxdiary.view.secure.f:
+com.foxchan.foxdiary.view.secure.PasswordManageView$5 -> com.foxchan.foxdiary.view.secure.e:
     com.foxchan.foxdiary.view.secure.PasswordManageView this$0 -> a
     void onComplete(java.lang.String) -> a
+com.foxchan.foxdiary.view.secure.PasswordManageView$6 -> com.foxchan.foxdiary.view.secure.f:
+    com.foxchan.foxdiary.view.secure.PasswordManageView this$0 -> a
+    void onAnimationStart(android.view.animation.Animation) -> onAnimationStart
+    void onAnimationRepeat(android.view.animation.Animation) -> onAnimationRepeat
+    void onAnimationEnd(android.view.animation.Animation) -> onAnimationEnd
+com.foxchan.foxdiary.view.secure.PasswordManageView$7 -> com.foxchan.foxdiary.view.secure.g:
+    com.foxchan.foxdiary.view.secure.PasswordManageView this$0 -> a
+    void onAnimationStart(android.view.animation.Animation) -> onAnimationStart
+    void onAnimationRepeat(android.view.animation.Animation) -> onAnimationRepeat
+    void onAnimationEnd(android.view.animation.Animation) -> onAnimationEnd
+com.foxchan.foxdiary.view.secure.PasswordManageView$8 -> com.foxchan.foxdiary.view.secure.h:
+    com.foxchan.foxdiary.view.secure.PasswordManageView this$0 -> a
+    void onAnimationStart(android.view.animation.Animation) -> onAnimationStart
+    void onAnimationRepeat(android.view.animation.Animation) -> onAnimationRepeat
+    void onAnimationEnd(android.view.animation.Animation) -> onAnimationEnd
 com.foxchan.foxutils.FoxTest -> com.foxchan.foxutils.FoxTest:
     void onCreate(android.os.Bundle) -> onCreate
     boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
