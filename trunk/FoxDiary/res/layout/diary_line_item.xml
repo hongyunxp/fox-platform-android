@@ -94,10 +94,13 @@
 
             <TextView
                 android:id="@+id/diary_line_item_location"
-                android:layout_width="wrap_content"
+                android:layout_width="150dip"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/diary_line_item_other_padding"
                 android:drawableLeft="@drawable/icon_location"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:text="@string/loading"
                 android:textColor="@color/diary_font_color"
                 android:textSize="@dimen/h5" />
@@ -107,7 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:text="7月3日 12:26"
+                android:text="07月03日 12:26"
                 android:textColor="@color/diary_font_color"
                 android:textSize="@dimen/h5" />
         </RelativeLayout>

@@ -123,5 +123,29 @@ public class FoxToast {
 		foxToast.llBox.setBackgroundColor(context.getResources().getColor(R.color.red_normal));
 		toast(context, resource, duration);
 	}
+	
+	/**
+	 * 显示软件中的警告的消息
+	 * @param context
+	 * @param text		显示的内容
+	 * @param duration	显示的时间长短，与Toast的取值相同
+	 */
+	public static void showWarning(Context context, CharSequence text, int duration){
+		getInstance(context);
+		foxToast.llBox.setBackgroundColor(context.getResources().getColor(R.color.orange_normal));
+		toast(context, text, duration);
+	}
+	
+	/**
+	 * 显示软件中的警告的消息
+	 * @param context
+	 * @param resource	显示的内容的资源ID
+	 * @param duration	显示的时间长短，与Toast的取值相同
+	 */
+	public static void showWarning(Context context, int resource, int duration){
+		getInstance(context);
+		foxToast.llBox.setBackgroundColor(context.getResources().getColor(R.color.orange_normal));
+		toast(context, resource, duration);
+	}
 
 }

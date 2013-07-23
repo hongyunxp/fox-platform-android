@@ -13,6 +13,13 @@
 	<string name="secure_create_password">创建密码</string>
 	<string name="secure_modify_password">修改密码</string>
 	<string name="secure_reset_password">重设密码</string>
+	<string name="secure_save_password">保存密码</string>
+	<string name="secure_already_have_password">您已经设置过密码了</string>
+	<string name="secure_reinput_password">请您再输入一次密码</string>
+	<string name="secure_password_tip">创建一个您觉得合适的密码吧，密码至少%1$s位</string>
+	<string name="secure_password_not_same">您两次输入的密码不一样，请重新输入</string>
+	<string name="secure_password_complete">恭喜您，您的密码设置成功，请记住您的密码。</string>
+	<string name="secure_password_error">您输入的密码不正确。</string>
 	
 	<!-- 下拉刷新相关的信息 -->
 	<string name="pull_to_refresh_state_pull">下拉刷新</string>
@@ -49,6 +56,8 @@
 	<!-- 组件相关 -->
 	<string name="widget_dialog_positive">确定</string>
 	<string name="widget_dialog_negative">取消</string>
-	<string name="widget_confirm_dialog_title">警告</string>
+	<string name="widget_dialog_alert_title">错误</string>
+	<string name="widget_dialog_warning_title">警告</string>
+	<string name="widget_dialog_message_title">消息</string>
 	<string name="widget_input_dialog_title">在下面输入</string>
 </resources>

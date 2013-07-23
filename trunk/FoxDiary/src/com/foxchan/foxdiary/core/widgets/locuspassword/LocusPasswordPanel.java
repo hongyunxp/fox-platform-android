@@ -14,7 +14,6 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -417,7 +416,7 @@ public class LocusPasswordPanel extends View
 	 */
 	private String toPointString()
 	{
-		if (sPoints.size() > passwordMinLength)
+		if (sPoints.size() >= passwordMinLength)
 		{
 			StringBuffer sf = new StringBuffer();
 			for (Point p : sPoints)
@@ -457,7 +456,7 @@ public class LocusPasswordPanel extends View
 			{
 				task.cancel();
 				task = null;
-				Log.d("task", "touch cancel()");
+//				Log.d("task", "touch cancel()");
 			}
 			// 删除之前的点
 			reset();
@@ -613,7 +612,7 @@ public class LocusPasswordPanel extends View
 			if (task != null)
 			{
 				task.cancel();
-				Log.d("task", "clearPassword cancel()");
+//				Log.d("task", "clearPassword cancel()");
 			}
 			lineAlpha = 130;
 			postInvalidate();
@@ -625,7 +624,7 @@ public class LocusPasswordPanel extends View
 					postInvalidate();
 				}
 			};
-			Log.d("task", "clearPassword schedule(" + time + ")");
+//			Log.d("task", "clearPassword schedule(" + time + ")");
 			timer.schedule(task, time);
 		}
 		else

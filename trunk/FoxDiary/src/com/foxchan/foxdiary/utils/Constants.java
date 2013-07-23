@@ -98,4 +98,11 @@ public class Constants {
 				Constants.DIARY_TEMP_AUDIO);
 	}
 	
+	/** 用户的名称的键 */
+	public static final String USER_NAME_KEY = "user_name";
+	/** 用户的名称的值 */
+	public static final String USER_NAME_VALUE = "fox_diary_owner";
+	/** 用户密码的键 */
+	public static final String USER_PASSWORD_KEY = "user_password_key";
+	
 }

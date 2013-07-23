@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/widget_padding"
-        android:text="@string/widget_confirm_dialog_title"
+        android:text="@string/widget_dialog_warning_title"
         android:textColor="@color/white"
         android:textSize="@dimen/h3" />
 

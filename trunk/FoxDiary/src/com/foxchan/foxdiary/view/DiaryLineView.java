@@ -202,11 +202,12 @@ public class DiaryLineView extends Activity {
 		tvShowDate = (TextView)findViewById(R.id.diary_line_header_title);
 		
 		//设置显示的日期为当前的日期
-		if(CollectionUtils.isEmpty(diaries)){
-			showDate = new Date();
-		} else {
-			showDate = diaries.get(0).getCreateDate();
-		}
+//		if(CollectionUtils.isEmpty(diaries)){
+//			showDate = new Date();
+//		} else {
+//			showDate = diaries.get(0).getCreateDate();
+//		}
+		showDate = new Date();
 		String showDateStr = DateUtils.formatDate(showDate, "yyyy年MM月dd日");
 		tvShowDate.setText(showDateStr);
 		
@@ -353,6 +354,14 @@ public class DiaryLineView extends Activity {
 		diaryLineAdapter.notifyDataSetChanged();
 		FoxToast.showToast(this, R.string.diary_line_delete_success, Toast.LENGTH_SHORT);
 		activeDiaryIndex = -1;
+	}
+
+	@Override
+	protected void onDestroy() {
+		if(fcdDeleteDiary != null){
+			fcdDeleteDiary.dismiss();
+		}
+		super.onDestroy();
 	}
 	
 }
