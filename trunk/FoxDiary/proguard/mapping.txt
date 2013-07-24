@@ -2003,6 +2003,7 @@ com.foxchan.foxdb.core.Session -> com.foxchan.foxdb.b.e:
     java.lang.Object findObject(java.lang.String,java.lang.Object[],java.lang.Class) -> a
     java.lang.Object findObjectFrom(java.lang.Object,java.lang.String,java.lang.Class) -> a
     java.util.List executeQuery(java.lang.String,java.lang.Class) -> a
+    void executeUpdate(java.lang.String) -> a
 com.foxchan.foxdb.engine.Pager -> com.foxchan.foxdb.c.a:
     java.util.List content -> a
     int startPage -> b
@@ -2056,6 +2057,7 @@ com.foxchan.foxdb.engine.SessionImpl -> com.foxchan.foxdb.c.d:
     java.lang.Object findObject(java.lang.String,java.lang.Object[],java.lang.Class) -> a
     java.lang.Object findObjectFrom(java.lang.Object,java.lang.String,java.lang.Class) -> a
     java.util.List executeQuery(java.lang.String,java.lang.Class) -> a
+    void executeUpdate(java.lang.String) -> a
     void addNewColumn(java.util.List) -> a
 com.foxchan.foxdb.engine.TableInfo -> com.foxchan.foxdb.c.e:
     java.lang.String className -> h
@@ -2824,18 +2826,19 @@ com.foxchan.foxdiary.view.DiaryWriteWordsView$2 -> com.foxchan.foxdiary.view.am:
     void onClick(android.view.View) -> onClick
 com.foxchan.foxdiary.view.secure.PasswordManageView -> com.foxchan.foxdiary.view.secure.PasswordManageView:
     com.foxchan.foxdiary.core.AppConfig config -> a
-    android.widget.RelativeLayout rlHeader -> b
-    com.foxchan.foxdiary.core.widgets.locuspassword.LocusPasswordPanel passwordPanel -> c
-    android.widget.Button btnCreatePassword -> d
-    android.widget.Button btnResetPassword -> e
-    android.widget.Button btnSavePassword -> f
-    android.widget.ImageView ivBg -> g
-    android.view.animation.Animation aniFadeIn -> h
-    android.view.animation.Animation aniScale -> i
-    android.view.animation.Animation aniFadeOut -> j
-    com.foxchan.foxdiary.entity.Pictures pictures -> k
-    java.lang.String newPassword -> l
-    java.lang.String oldPassword -> m
+    com.foxchan.foxdb.core.FoxDB db -> b
+    android.widget.RelativeLayout rlHeader -> c
+    com.foxchan.foxdiary.core.widgets.locuspassword.LocusPasswordPanel passwordPanel -> d
+    android.widget.Button btnCreatePassword -> e
+    android.widget.Button btnResetPassword -> f
+    android.widget.Button btnSavePassword -> g
+    android.widget.ImageView ivBg -> h
+    android.view.animation.Animation aniFadeIn -> i
+    android.view.animation.Animation aniScale -> j
+    android.view.animation.Animation aniFadeOut -> k
+    com.foxchan.foxdiary.entity.Pictures pictures -> l
+    java.lang.String newPassword -> m
+    java.lang.String oldPassword -> n
     void onCreate(android.os.Bundle) -> onCreate
     java.lang.String access$0(com.foxchan.foxdiary.view.secure.PasswordManageView) -> a
     void access$1(com.foxchan.foxdiary.view.secure.PasswordManageView,java.lang.String) -> a
@@ -2908,10 +2911,12 @@ com.foxchan.foxutils.tool.Closer -> com.foxchan.foxutils.b.b:
     void close(java.io.OutputStream) -> a
     void close(java.io.FileInputStream) -> a
 com.foxchan.foxutils.tool.FileUtils -> com.foxchan.foxutils.b.c:
+    java.lang.String buildFilePath(java.lang.String[]) -> a
     java.lang.String buildFileName(java.lang.String[],java.lang.String) -> a
-    void deleteFile(java.io.File) -> b
+    void deleteFile(java.io.File) -> a
     void deleteFile(java.lang.String) -> a
-    void deleteDir(java.io.File) -> a
+    void deleteDir(java.io.File) -> b
+    void deleteDir(java.lang.String) -> b
     boolean persistFileToSdcard(java.lang.String,java.lang.String,java.io.File) -> a
 com.foxchan.foxutils.tool.PhoneUtils -> com.foxchan.foxutils.b.d:
     int getWindowWidth(android.app.Activity) -> a
