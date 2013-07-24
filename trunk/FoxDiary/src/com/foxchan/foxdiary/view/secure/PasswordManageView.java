@@ -8,6 +8,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -49,6 +50,8 @@ public class PasswordManageView extends Activity {
 	private Button btnResetPassword;
 	/** 确认密码的按钮 */
 	private Button btnSavePassword;
+	/** 应用返回图标 */
+	private LinearLayout llAppBack;
 	/** 背景图片 */
 	private ImageView ivBg;
 	/** 渐入动画 */
@@ -124,7 +127,7 @@ public class PasswordManageView extends Activity {
 
 				@Override
 				public void onClick(View v) {
-					passwordPanel.clearPassword(2000);
+					passwordPanel.clearPassword(100);
 					FoxToast.showToast(PasswordManageView.this,
 							R.string.secure_reinput_password, Toast.LENGTH_SHORT);
 				}
@@ -240,6 +243,15 @@ public class PasswordManageView extends Activity {
 				}
 			});
 		}
+		//初始化应用的返回图标按钮
+		llAppBack = (LinearLayout)findViewById(R.id.diary_write_back);
+		llAppBack.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
 	}
 	
 	/**
