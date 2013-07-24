@@ -152,7 +152,7 @@ public class LocusPasswordPanel extends View
 			h = w;
 		}
 
-		locus_round_original = BitmapFactory.decodeResource(this.getResources(), R.drawable.locus_round_original);
+		locus_round_original = BitmapFactory.decodeResource(this.getResources(), R.drawable.locus_round_original_alpha);
 		locus_round_click = BitmapFactory.decodeResource(this.getResources(), R.drawable.locus_round_click);
 		locus_round_click_error = BitmapFactory.decodeResource(this.getResources(), R.drawable.locus_round_click_error);
 
