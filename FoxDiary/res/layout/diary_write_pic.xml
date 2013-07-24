@@ -51,7 +51,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="4dip"
             android:background="@drawable/red_circle"
-            android:src="@drawable/icon_delete_white" />
+            android:src="@drawable/icon_content_discard_white" />
     </RelativeLayout>
 
 </RelativeLayout>
