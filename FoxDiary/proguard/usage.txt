@@ -1235,7 +1235,6 @@ com.foxchan.foxdb.core.Session:
     public abstract int findCount(java.lang.String,java.lang.Object[],java.lang.Class)
     public abstract java.util.List listFrom(java.lang.Object,java.lang.String,java.lang.Class)
     public abstract java.util.List listFrom(int,int,java.lang.String,java.lang.Object[],java.util.LinkedHashMap,java.lang.Object,java.lang.String,java.lang.Class)
-    public abstract void executeUpdate(java.lang.String)
 com.foxchan.foxdb.core.Transaction
 com.foxchan.foxdb.engine.Pager:
     private int endPage
@@ -1262,7 +1261,6 @@ com.foxchan.foxdb.engine.SessionImpl:
     186:186:public java.util.List list(java.lang.String,java.lang.Object[],java.util.LinkedHashMap,java.lang.Class)
     210:210:public java.util.List listFrom(java.lang.Object,java.lang.String,java.lang.Class)
     217:242:public java.util.List listFrom(int,int,java.lang.String,java.lang.Object[],java.util.LinkedHashMap,java.lang.Object,java.lang.String,java.lang.Class)
-    281:282:public void executeUpdate(java.lang.String)
     286:288:public com.foxchan.foxdb.core.Transaction beginTransaction()
     293:294:public void endTransaction()
     298:298:public android.database.sqlite.SQLiteDatabase getDB()
@@ -1512,8 +1510,8 @@ com.foxchan.foxdiary.view.DiaryWriteView:
 com.foxchan.foxdiary.view.DiaryWriteVoiceView:
     public static final int UPDATE_RECORD_LONG
 com.foxchan.foxdiary.view.secure.PasswordManageView:
-    230:232:private void showCreatePasswordButton()
-    238:240:private void showSavePasswordButton()
+    249:251:private void showCreatePasswordButton()
+    257:259:private void showSavePasswordButton()
 com.foxchan.foxutils.FoxTest:
     public static final java.lang.String TAG
 com.foxchan.foxutils.R:
