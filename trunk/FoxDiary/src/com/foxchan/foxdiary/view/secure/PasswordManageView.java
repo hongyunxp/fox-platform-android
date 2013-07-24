@@ -86,9 +86,9 @@ public class PasswordManageView extends Activity {
 			//删除原来的所有日记信息
 			Session session = db.getCurrentSession();
 			String diaryTableName = TableInfo.getInstance(Diary.class).getTableName();
-			session.executeUpdate("DELETE FROM " + diaryTableName);
+			session.executeUpdate("DROP TABLE IF EXISTS " + diaryTableName);
 			String recordTableName = TableInfo.getInstance(Record.class).getTableName();
-			session.executeUpdate("DELETE FROM " + recordTableName);
+			session.executeUpdate("DROP TABLE IF EXISTS " + recordTableName);
 			FileUtils.deleteDir(FileUtils.buildFilePath(new String[]{
 					SdCardUtils.getSdCardPath(), Constants.APP_RESOURCE
 			}));
