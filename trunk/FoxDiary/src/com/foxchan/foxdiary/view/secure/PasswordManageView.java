@@ -2,7 +2,6 @@ package com.foxchan.foxdiary.view.secure;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -12,15 +11,22 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.foxchan.foxdb.core.FoxDB;
+import com.foxchan.foxdb.core.Session;
+import com.foxchan.foxdb.engine.TableInfo;
 import com.foxchan.foxdiary.core.AppConfig;
 import com.foxchan.foxdiary.core.R;
 import com.foxchan.foxdiary.core.widgets.FoxToast;
 import com.foxchan.foxdiary.core.widgets.locuspassword.LocusPasswordPanel;
+import com.foxchan.foxdiary.entity.Diary;
 import com.foxchan.foxdiary.entity.Picture;
 import com.foxchan.foxdiary.entity.Pictures;
+import com.foxchan.foxdiary.entity.Record;
 import com.foxchan.foxdiary.utils.Constants;
 import com.foxchan.foxdiary.view.DiaryLineView;
 import com.foxchan.foxutils.data.StringUtils;
+import com.foxchan.foxutils.tool.FileUtils;
+import com.foxchan.foxutils.tool.SdCardUtils;
 
 /**
  * 管理用户的密码的界面（包括创建新密码、修改密码）
@@ -31,6 +37,7 @@ import com.foxchan.foxutils.data.StringUtils;
 public class PasswordManageView extends Activity {
 	
 	private AppConfig config;
+	private FoxDB db;
 	
 	/** 标题栏 */
 	private RelativeLayout rlHeader;
@@ -62,6 +69,7 @@ public class PasswordManageView extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.secure_password_manage);
+		db = FoxDB.create(this, Constants.DIARY_DB_NAME, Constants.DIARY_DB_VERSION);
 		
 		//初始化数据
 		config = AppConfig.getInstance(this);
@@ -75,6 +83,16 @@ public class PasswordManageView extends Activity {
 		btnSavePassword = (Button)findViewById(R.id.password_manage_save_password);
 		
 		if(StringUtils.isEmpty(oldPassword)){
+			//删除原来的所有日记信息
+			Session session = db.getCurrentSession();
+			String diaryTableName = TableInfo.getInstance(Diary.class).getTableName();
+			session.executeUpdate("DELETE FROM " + diaryTableName);
+			String recordTableName = TableInfo.getInstance(Record.class).getTableName();
+			session.executeUpdate("DELETE FROM " + recordTableName);
+			FileUtils.deleteDir(FileUtils.buildFilePath(new String[]{
+					SdCardUtils.getSdCardPath(), Constants.APP_RESOURCE
+			}));
+			
 			FoxToast.showToast(PasswordManageView.this, String.format(
 					getString(R.string.secure_password_tip),
 					passwordPanel.getPasswordMinLength()), Toast.LENGTH_LONG);
@@ -167,6 +185,7 @@ public class PasswordManageView extends Activity {
 			pictures.addPicture(new Picture("测试一", R.drawable.guide_pic1));
 			pictures.addPicture(new Picture("测试二", R.drawable.guide_pic2));
 			pictures.addPicture(new Picture("测试三", R.drawable.guide_pic3));
+			pictures.addPicture(new Picture("测试三", R.drawable.guide_pic4));
 			
 			//开始播放第一个动画
 			ivBg.setBackgroundDrawable(pictures.getPictureAt(0).getDrawable(PasswordManageView.this));
