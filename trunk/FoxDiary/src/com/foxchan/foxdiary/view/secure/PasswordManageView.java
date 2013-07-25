@@ -1,6 +1,5 @@
 package com.foxchan.foxdiary.view.secure;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +16,7 @@ import com.foxchan.foxdb.core.Session;
 import com.foxchan.foxdb.engine.TableInfo;
 import com.foxchan.foxdiary.core.AppConfig;
 import com.foxchan.foxdiary.core.R;
+import com.foxchan.foxdiary.core.widgets.FoxActivity;
 import com.foxchan.foxdiary.core.widgets.FoxToast;
 import com.foxchan.foxdiary.core.widgets.locuspassword.LocusPasswordPanel;
 import com.foxchan.foxdiary.entity.Diary;
@@ -35,7 +35,7 @@ import com.foxchan.foxutils.tool.SdCardUtils;
  * @version 1.0.0
  * @create 2013-6-21
  */
-public class PasswordManageView extends Activity {
+public class PasswordManageView extends FoxActivity {
 	
 	private AppConfig config;
 	private FoxDB db;
