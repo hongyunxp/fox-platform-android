@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,6 +24,7 @@ import com.foxchan.foxdiary.adapter.DiaryLineAdapter;
 import com.foxchan.foxdiary.adapter.DiaryLineAdapter.NodeListener;
 import com.foxchan.foxdiary.core.AppContext;
 import com.foxchan.foxdiary.core.R;
+import com.foxchan.foxdiary.core.widgets.FoxActivity;
 import com.foxchan.foxdiary.core.widgets.FoxConfirmDialog;
 import com.foxchan.foxdiary.core.widgets.FoxToast;
 import com.foxchan.foxdiary.core.widgets.RefreshListView;
@@ -41,7 +41,7 @@ import com.foxchan.foxutils.tool.FileUtils;
  * @author gulangxiangjie@gmail.com
  * @create 2013-4-16
  */
-public class DiaryLineView extends Activity {
+public class DiaryLineView extends FoxActivity {
 	
 	/** 状态：正在删除日记 */
 	private static final int STATE_DIARY_DELETING = 0;

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -35,6 +34,7 @@ import com.foxchan.foxdb.core.FoxDB;
 import com.foxchan.foxdb.core.Session;
 import com.foxchan.foxdiary.core.AppContext;
 import com.foxchan.foxdiary.core.R;
+import com.foxchan.foxdiary.core.widgets.FoxActivity;
 import com.foxchan.foxdiary.core.widgets.FoxConfirmDialog;
 import com.foxchan.foxdiary.core.widgets.FoxToast;
 import com.foxchan.foxdiary.entity.Diary;
@@ -51,7 +51,7 @@ import com.foxchan.foxutils.tool.FileUtils;
  * @author foxchan@live.cn
  * @create 2013-4-22
  */
-public class DiaryWriteView extends Activity {
+public class DiaryWriteView extends FoxActivity {
 	
 	/** Activity Code：从相册中选择图片 */
 	public static final int ACTIVITY_CODE_IMAGE_FROM_ALBUM = 1;
