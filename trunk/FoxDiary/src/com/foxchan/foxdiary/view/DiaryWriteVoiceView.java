@@ -72,6 +72,8 @@ public class DiaryWriteVoiceView extends FakeActivity {
 	private ImageButton ibPlayRecord;
 	/** 停止播放当前的录音记录 */
 	private ImageButton ibShutdownRecord;
+	/** 录音状态 */
+	private TextView tvRunningState;
 	
 	//与录音相关的对象
 	private MediaRecorder mediaRecorder;
@@ -125,6 +127,7 @@ public class DiaryWriteVoiceView extends FakeActivity {
 		ibRecordingStop = (ImageButton)layoutView.findViewById(R.id.diary_write_voice_stop_record);
 		tvRecordingLong = (TextView)layoutView.findViewById(R.id.diary_write_voice_record_long);
 		tvRecordingLong.setText(DateUtils.formatTimeLong(recordLong));
+		tvRunningState = (TextView)layoutView.findViewById(R.id.diary_write_voice_record_state);
 		
 		ivWheelLeft = (ImageView)layoutView.findViewById(R.id.diary_write_voice_record_wheel_left);
 		ivWheelRight = (ImageView)layoutView.findViewById(R.id.diary_write_voice_record_wheel_right);
@@ -147,6 +150,8 @@ public class DiaryWriteVoiceView extends FakeActivity {
 					ibRecordingStop.setVisibility(View.VISIBLE);
 					ivWheelLeft.startAnimation(aniWheelReverse);
 					ivWheelRight.startAnimation(aniWheelReverse);
+					tvRunningState.setText(R.string.diary_write_recording);
+					tvRunningState.setVisibility(View.VISIBLE);
 					//隐藏录音文件标志
 					rlRecord.setVisibility(View.INVISIBLE);
 				} catch (Exception e) {
@@ -170,6 +175,7 @@ public class DiaryWriteVoiceView extends FakeActivity {
 				tvRecordLong.setText(tvRecordingLong.getText());
 				tvRecordingLong.setText(R.string.time_temp_zero);
 				rlRecord.setVisibility(View.VISIBLE);
+				tvRunningState.setVisibility(View.GONE);
 				//停止录音
 				stopRecording();
 			}
@@ -202,6 +208,8 @@ public class DiaryWriteVoiceView extends FakeActivity {
 						ivWheelLeft.startAnimation(aniWheel);
 						ivWheelRight.startAnimation(aniWheel);
 						recordLong = 0;
+						tvRunningState.setText(R.string.diary_write_playing);
+						tvRunningState.setVisibility(View.VISIBLE);
 						//显示停止播放的按钮
 						ibPlayRecord.setVisibility(View.GONE);
 						ibShutdownRecord.setVisibility(View.VISIBLE);
@@ -229,6 +237,7 @@ public class DiaryWriteVoiceView extends FakeActivity {
 					ibPlayRecord.setVisibility(View.VISIBLE);
 					ibShutdownRecord.setVisibility(View.GONE);
 					recordLong = -1;
+					tvRunningState.setVisibility(View.GONE);
 					recordThread.isRecording = false;
 					tvRecordingLong.setText(R.string.time_temp_zero);
 				}
@@ -338,6 +347,7 @@ public class DiaryWriteVoiceView extends FakeActivity {
 				tvRecordingLong.setText(R.string.time_temp_zero);
 				ibPlayRecord.setVisibility(View.VISIBLE);
 				ibShutdownRecord.setVisibility(View.GONE);
+				tvRunningState.setVisibility(View.GONE);
 			}
 		});
 	}

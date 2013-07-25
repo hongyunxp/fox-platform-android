@@ -45,9 +45,23 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="74dip"
                 android:layout_marginLeft="43dip"
+                android:gravity="center_vertical"
                 android:text="@string/time_temp_zero"
                 android:textColor="@color/white"
                 android:textSize="28sp" />
+
+            <TextView
+                android:id="@+id/diary_write_voice_record_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="36dip"
+                android:layout_marginLeft="43dip"
+                android:gravity="center_vertical"
+                android:text="@string/diary_write_recording"
+                android:textColor="@color/white"
+                android:textSize="@dimen/h4"
+                android:visibility="gone" />
 
             <ImageButton
                 android:id="@+id/diary_write_voice_start_record"
