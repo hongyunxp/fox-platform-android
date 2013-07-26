@@ -52,6 +52,8 @@ public class LocusPasswordPanel extends View
 	private Bitmap locus_line_error;
 	private long CLEAR_TIME = 800;
 	private int passwordMinLength = 5;
+	/** 是否显示最短密码限制的提示 */
+	private boolean isShowPasswordTip = false;
 	private boolean isTouch = true; // 是否可操作
 	private Matrix mMatrix = new Matrix();
 	private int lineAlpha = 100;
@@ -526,9 +528,11 @@ public class LocusPasswordPanel extends View
 				error();
 				clearPassword();
 //				Toast.makeText(this.getContext(), "密码太短,请重新输入!", Toast.LENGTH_SHORT).show();
-				FoxToast.showException(getContext(), String.format(getContext()
-						.getString(R.string.ex_password_not_long_enough),
-						passwordMinLength), Toast.LENGTH_SHORT);
+				if(isShowPasswordTip){
+					FoxToast.showException(getContext(), String.format(getContext()
+							.getString(R.string.ex_password_not_long_enough),
+							passwordMinLength), Toast.LENGTH_SHORT);
+				}
 			}
 			else if (mCompleteListener != null)
 			{
@@ -547,7 +551,7 @@ public class LocusPasswordPanel extends View
 	/**
 	 * 设置已经选中的为错误
 	 */
-	private void error()
+	public void error()
 	{
 		for (Point p : sPoints)
 		{
@@ -648,13 +652,12 @@ public class LocusPasswordPanel extends View
 
 	/**
 	 * 取得密码
-	 * 
 	 * @return
 	 */
 	private String getPassword()
 	{
 		SharedPreferences settings = this.getContext().getSharedPreferences(this.getClass().getName(), 0);
-		return settings.getString("password", ""); // , "0,1,2,3,4,5,6,7,8"
+		return settings.getString("password", ""); 
 	}
 
 	/**
@@ -673,7 +676,7 @@ public class LocusPasswordPanel extends View
 		if (!StringUtils.isEmpty(password))
 		{
 			// 或者是超级密码
-			if (password.equals(getPassword()) || password.equals("0,2,8,6,3,1,5,7,4"))
+			if (password.equals(getPassword()))
 			{
 				verify = true;
 			}
@@ -702,6 +705,10 @@ public class LocusPasswordPanel extends View
 	public void setPasswordMinLength(int passwordMinLength)
 	{
 		this.passwordMinLength = passwordMinLength;
+	}
+
+	public void setShowPasswordTip(boolean isShowPasswordTip) {
+		this.isShowPasswordTip = isShowPasswordTip;
 	}
 
 	/**

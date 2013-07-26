@@ -446,6 +446,8 @@ public class DiaryWriteView extends FoxActivity {
 		if(viewIndex > 0){
 			imm.hideSoftInputFromWindow(diaryWriteWordsView.getEtContent()
 					.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+		} else {
+			imm.showSoftInput(diaryWriteWordsView.getEtContent(), InputMethodManager.SHOW_IMPLICIT);
 		}
 	}
 
