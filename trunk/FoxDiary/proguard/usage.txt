@@ -1384,67 +1384,6 @@ com.foxchan.foxdiary.core.widgets.locuspassword.LocusPasswordPanel:
     675:684:public boolean verifyPassword(java.lang.String)
     694:698:public void resetPassWord(java.lang.String)
     707:708:public void setPasswordMinLength(int)
-com.foxchan.foxdiary.entity.Diary:
-    78:79:public void setId(java.lang.String)
-    91:92:public void setTitle(java.lang.String)
-    143:143:public android.graphics.Bitmap getImage()
-    147:148:public void setImage(android.graphics.Bitmap)
-    155:156:public void setVoice(java.io.File)
-    167:167:public java.lang.Boolean getHasVoice()
-    171:172:public void setHasVoice(java.lang.Boolean)
-    206:206:public com.foxchan.foxdiary.entity.TimeLineNodeStyle getStyle()
-    244:244:public java.lang.String getCreateDateStr()
-com.foxchan.foxdiary.entity.Emotion:
-    30:31:public void setId(int)
-    38:39:public void setDrawableId(int)
-com.foxchan.foxdiary.entity.Emotions:
-    12:12:public Emotions()
-com.foxchan.foxdiary.entity.Picture:
-    48:48:public int getId()
-    52:53:public void setId(int)
-    56:56:public java.lang.String getTitle()
-    60:61:public void setTitle(java.lang.String)
-    64:64:public java.lang.String getDescription()
-    68:69:public void setDescription(java.lang.String)
-    72:72:public int getResourceId()
-    76:77:public void setResourceId(int)
-com.foxchan.foxdiary.entity.Pictures:
-    28:31:public Pictures(android.content.Context,java.util.List)
-    61:66:public com.foxchan.foxdiary.entity.Picture prevPicture()
-com.foxchan.foxdiary.entity.Record:
-    private java.lang.String id
-    45:45:public java.lang.String getId()
-    49:50:public void setId(java.lang.String)
-    57:58:public void setPath(java.lang.String)
-com.foxchan.foxdiary.entity.TimeLineNodeStyle:
-    public static final int STYLE_CYAN
-    public static final int STYLE_GREEN
-    public static final int STYLE_RED
-    public static final int STYLE_PURPLE
-    public static final int STYLE_ORANGE
-    public static final int STYLE_DARK_BLUE
-    public static final int STYLE_COUNT
-    private int timeColor
-    private int nodeBg
-    private int balloonBg
-    private int contentColor
-    43:47:public TimeLineNodeStyle(int)
-    56:57:private void init(int,int,int)
-    68:76:private void init(int,int,int,int)
-    83:84:public static com.foxchan.foxdiary.entity.TimeLineNodeStyle getRandomStyle()
-    96:96:public int getTimeColor()
-    100:101:public void setTimeColor(int)
-    104:104:public int getNodeBg()
-    108:109:public void setNodeBg(int)
-    112:112:public int getBalloonBg()
-    116:117:public void setBalloonBg(int)
-    120:120:public int getContentColor()
-    124:125:public void setContentColor(int)
-com.foxchan.foxdiary.entity.Weather:
-    25:26:public void setId(int)
-    33:34:public void setDrawableId(int)
-com.foxchan.foxdiary.entity.Weathers:
-    12:12:public Weathers()
 com.foxchan.foxdiary.exception.DiaryEmptyException:
     private static final long serialVersionUID
     24:25:public DiaryEmptyException(java.lang.String,java.lang.Throwable)
