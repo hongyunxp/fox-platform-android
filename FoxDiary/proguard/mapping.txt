@@ -2408,88 +2408,143 @@ com.foxchan.foxdiary.core.widgets.locuspassword.Point -> com.foxchan.foxdiary.co
     float y -> e
     int state -> f
     int index -> g
-com.foxchan.foxdiary.entity.Diary -> com.foxchan.foxdiary.b.a:
-    java.lang.String id -> a
-    java.lang.String title -> b
-    java.lang.String imagePath -> c
-    android.graphics.Bitmap image -> d
-    com.foxchan.foxdiary.entity.Record record -> e
-    java.io.File voice -> f
-    java.lang.Boolean hasVoice -> g
-    java.lang.String content -> h
-    int emotionId -> i
-    java.util.Date createDate -> j
-    int timeLineNodeStyleId -> k
-    int weatherId -> l
-    java.lang.String location -> m
-    java.lang.String getId() -> a
-    java.lang.String getImagePath() -> b
-    void setImagePath(java.lang.String) -> a
-    com.foxchan.foxdiary.entity.Record getRecord() -> c
-    void setRecord(com.foxchan.foxdiary.entity.Record) -> a
-    java.lang.String getContent() -> d
-    void setContent(java.lang.String) -> b
-    int getEmotionId() -> e
-    void setEmotionId(int) -> a
-    java.util.Date getCreateDate() -> f
-    void setCreateDate(java.util.Date) -> a
-    void setTimeLineNodeStyleId(int) -> b
-    int getWeatherId() -> g
-    void setWeatherId(int) -> c
-    java.lang.String getLocation() -> h
-    void setLocation(java.lang.String) -> c
-    android.graphics.Bitmap photo(android.content.Context) -> a
-    boolean hasWords() -> i
-    boolean hasPhoto() -> j
-    boolean hasVoice(com.foxchan.foxdb.core.Session) -> a
-    java.lang.String getCreateDatetimeStr() -> k
-    void flush(com.foxchan.foxdiary.entity.Diary) -> a
-com.foxchan.foxdiary.entity.Emotion -> com.foxchan.foxdiary.b.b:
-    int id -> a
-    int drawableId -> b
-    int getId() -> a
-    int getDrawableId() -> b
-com.foxchan.foxdiary.entity.Emotions -> com.foxchan.foxdiary.b.c:
-    android.util.SparseArray emotionMap -> a
-    android.util.SparseArray emotionMapById -> b
-    com.foxchan.foxdiary.entity.Emotion getEmotionById(int) -> a
-    com.foxchan.foxdiary.entity.Emotion getEmotionByRadioButton(int) -> b
-com.foxchan.foxdiary.entity.Picture -> com.foxchan.foxdiary.b.d:
-    int id -> a
-    java.lang.String title -> b
-    java.lang.String description -> c
-    int resourceId -> d
-    android.graphics.drawable.Drawable drawable -> e
-    android.graphics.drawable.Drawable getDrawable(android.content.Context) -> a
-com.foxchan.foxdiary.entity.Pictures -> com.foxchan.foxdiary.b.e:
-    android.content.Context context -> a
-    java.util.List pictures -> b
-    int currentIndex -> c
-    void addPicture(com.foxchan.foxdiary.entity.Picture) -> a
-    com.foxchan.foxdiary.entity.Picture nextPicture() -> a
-    com.foxchan.foxdiary.entity.Picture getPictureAt$70aed352() -> b
-com.foxchan.foxdiary.entity.Record -> com.foxchan.foxdiary.b.f:
-    java.lang.String path -> a
-    long length -> b
-    java.lang.String getPath() -> a
-    long getLength() -> b
-    void setLength(long) -> a
-com.foxchan.foxdiary.entity.Weather -> com.foxchan.foxdiary.b.g:
-    int id -> a
-    int drawableId -> b
-    int getId() -> a
-    int getDrawableId() -> b
-com.foxchan.foxdiary.entity.Weathers -> com.foxchan.foxdiary.b.h:
-    android.util.SparseArray weatherMap -> a
-    android.util.SparseArray weatherMapById -> b
-    com.foxchan.foxdiary.entity.Weather getWeatherById(int) -> a
-    com.foxchan.foxdiary.entity.Weather getWeatherByRadioButton(int) -> b
-com.foxchan.foxdiary.exception.DiaryEmptyException -> com.foxchan.foxdiary.c.a:
-com.foxchan.foxdiary.exception.DiaryException -> com.foxchan.foxdiary.c.b:
-com.foxchan.foxdiary.utils.Closer -> com.foxchan.foxdiary.d.a:
+com.foxchan.foxdiary.entity.Diary -> com.foxchan.foxdiary.entity.Diary:
+    java.lang.String id -> id
+    java.lang.String title -> title
+    java.lang.String imagePath -> imagePath
+    android.graphics.Bitmap image -> image
+    com.foxchan.foxdiary.entity.Record record -> record
+    java.io.File voice -> voice
+    java.lang.Boolean hasVoice -> hasVoice
+    java.lang.String content -> content
+    int emotionId -> emotionId
+    java.util.Date createDate -> createDate
+    int timeLineNodeStyleId -> timeLineNodeStyleId
+    int weatherId -> weatherId
+    java.lang.String location -> location
+    java.lang.String getId() -> getId
+    void setId(java.lang.String) -> setId
+    java.lang.String getTitle() -> getTitle
+    void setTitle(java.lang.String) -> setTitle
+    java.lang.String getImagePath() -> getImagePath
+    void setImagePath(java.lang.String) -> setImagePath
+    com.foxchan.foxdiary.entity.Record getRecord() -> getRecord
+    void setRecord(com.foxchan.foxdiary.entity.Record) -> setRecord
+    java.lang.String getContent() -> getContent
+    void setContent(java.lang.String) -> setContent
+    int getEmotionId() -> getEmotionId
+    void setEmotionId(int) -> setEmotionId
+    java.util.Date getCreateDate() -> getCreateDate
+    void setCreateDate(java.util.Date) -> setCreateDate
+    int getTimeLineNodeStyleId() -> getTimeLineNodeStyleId
+    void setTimeLineNodeStyleId(int) -> setTimeLineNodeStyleId
+    android.graphics.Bitmap getImage() -> getImage
+    void setImage(android.graphics.Bitmap) -> setImage
+    java.io.File getVoice() -> getVoice
+    void setVoice(java.io.File) -> setVoice
+    int getWeatherId() -> getWeatherId
+    void setWeatherId(int) -> setWeatherId
+    java.lang.Boolean getHasVoice() -> getHasVoice
+    void setHasVoice(java.lang.Boolean) -> setHasVoice
+    java.lang.String getLocation() -> getLocation
+    void setLocation(java.lang.String) -> setLocation
+    android.graphics.Bitmap photo(android.content.Context) -> photo
+    com.foxchan.foxdiary.entity.TimeLineNodeStyle getStyle() -> getStyle
+    boolean hasWords() -> hasWords
+    boolean hasPhoto() -> hasPhoto
+    boolean hasVoice(com.foxchan.foxdb.core.Session) -> hasVoice
+    java.lang.String getCreateDateStr() -> getCreateDateStr
+    java.lang.String getCreateDatetimeStr() -> getCreateDatetimeStr
+    void checkVoice(com.foxchan.foxdb.core.Session) -> checkVoice
+    void flush(com.foxchan.foxdiary.entity.Diary) -> flush
+com.foxchan.foxdiary.entity.Emotion -> com.foxchan.foxdiary.entity.Emotion:
+    int id -> id
+    int drawableId -> drawableId
+    int getId() -> getId
+    void setId(int) -> setId
+    int getDrawableId() -> getDrawableId
+    void setDrawableId(int) -> setDrawableId
+com.foxchan.foxdiary.entity.Emotions -> com.foxchan.foxdiary.entity.Emotions:
+    android.util.SparseArray emotionMap -> emotionMap
+    android.util.SparseArray emotionMapById -> emotionMapById
+    com.foxchan.foxdiary.entity.Emotion getEmotionById(int) -> getEmotionById
+    com.foxchan.foxdiary.entity.Emotion getEmotionByRadioButton(int) -> getEmotionByRadioButton
+com.foxchan.foxdiary.entity.Picture -> com.foxchan.foxdiary.entity.Picture:
+    int id -> id
+    java.lang.String title -> title
+    java.lang.String description -> description
+    int resourceId -> resourceId
+    android.graphics.drawable.Drawable drawable -> drawable
+    int getId() -> getId
+    void setId(int) -> setId
+    java.lang.String getTitle() -> getTitle
+    void setTitle(java.lang.String) -> setTitle
+    java.lang.String getDescription() -> getDescription
+    void setDescription(java.lang.String) -> setDescription
+    int getResourceId() -> getResourceId
+    void setResourceId(int) -> setResourceId
+    android.graphics.drawable.Drawable getDrawable(android.content.Context) -> getDrawable
+com.foxchan.foxdiary.entity.Pictures -> com.foxchan.foxdiary.entity.Pictures:
+    android.content.Context context -> context
+    java.util.List pictures -> pictures
+    int currentIndex -> currentIndex
+    void addPicture(com.foxchan.foxdiary.entity.Picture) -> addPicture
+    com.foxchan.foxdiary.entity.Picture nextPicture() -> nextPicture
+    com.foxchan.foxdiary.entity.Picture prevPicture() -> prevPicture
+    com.foxchan.foxdiary.entity.Picture getPictureAt(int) -> getPictureAt
+    void getInstance() -> getInstance
+com.foxchan.foxdiary.entity.Record -> com.foxchan.foxdiary.entity.Record:
+    java.lang.String id -> id
+    java.lang.String path -> path
+    long length -> length
+    java.lang.String getId() -> getId
+    void setId(java.lang.String) -> setId
+    java.lang.String getPath() -> getPath
+    void setPath(java.lang.String) -> setPath
+    long getLength() -> getLength
+    void setLength(long) -> setLength
+com.foxchan.foxdiary.entity.TimeLineNodeStyle -> com.foxchan.foxdiary.entity.TimeLineNodeStyle:
+    int STYLE_CYAN -> STYLE_CYAN
+    int STYLE_GREEN -> STYLE_GREEN
+    int STYLE_RED -> STYLE_RED
+    int STYLE_PURPLE -> STYLE_PURPLE
+    int STYLE_ORANGE -> STYLE_ORANGE
+    int STYLE_DARK_BLUE -> STYLE_DARK_BLUE
+    int STYLE_COUNT -> STYLE_COUNT
+    int timeColor -> timeColor
+    int nodeBg -> nodeBg
+    int balloonBg -> balloonBg
+    int contentColor -> contentColor
+    void init(int,int,int) -> init
+    void init(int,int,int,int) -> init
+    com.foxchan.foxdiary.entity.TimeLineNodeStyle getRandomStyle() -> getRandomStyle
+    int getRandomStyleId() -> getRandomStyleId
+    int getTimeColor() -> getTimeColor
+    void setTimeColor(int) -> setTimeColor
+    int getNodeBg() -> getNodeBg
+    void setNodeBg(int) -> setNodeBg
+    int getBalloonBg() -> getBalloonBg
+    void setBalloonBg(int) -> setBalloonBg
+    int getContentColor() -> getContentColor
+    void setContentColor(int) -> setContentColor
+com.foxchan.foxdiary.entity.Weather -> com.foxchan.foxdiary.entity.Weather:
+    int id -> id
+    int drawableId -> drawableId
+    int getId() -> getId
+    void setId(int) -> setId
+    int getDrawableId() -> getDrawableId
+    void setDrawableId(int) -> setDrawableId
+com.foxchan.foxdiary.entity.Weathers -> com.foxchan.foxdiary.entity.Weathers:
+    android.util.SparseArray weatherMap -> weatherMap
+    android.util.SparseArray weatherMapById -> weatherMapById
+    com.foxchan.foxdiary.entity.Weather getWeatherById(int) -> getWeatherById
+    com.foxchan.foxdiary.entity.Weather getWeatherByRadioButton(int) -> getWeatherByRadioButton
+com.foxchan.foxdiary.exception.DiaryEmptyException -> com.foxchan.foxdiary.b.a:
+com.foxchan.foxdiary.exception.DiaryException -> com.foxchan.foxdiary.b.b:
+com.foxchan.foxdiary.utils.Closer -> com.foxchan.foxdiary.c.a:
     void close(java.io.FileInputStream) -> a
     void close(java.io.FileOutputStream) -> a
-com.foxchan.foxdiary.utils.Constants -> com.foxchan.foxdiary.d.b:
+com.foxchan.foxdiary.utils.Constants -> com.foxchan.foxdiary.c.b:
     java.lang.String buildDiaryTempImageName() -> a
     java.lang.String buildDiaryAudioPath() -> b
     java.lang.String buildTempDiaryAudioName() -> c
