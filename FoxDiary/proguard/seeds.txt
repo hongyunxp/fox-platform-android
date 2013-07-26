@@ -8,6 +8,10 @@ android.support.v4.app.FragmentManagerState
 android.support.v4.app.FragmentManagerState: android.os.Parcelable$Creator CREATOR
 android.support.v4.app.FragmentState
 android.support.v4.app.FragmentState: android.os.Parcelable$Creator CREATOR
+android.support.v4.app.FragmentTabHost
+android.support.v4.app.FragmentTabHost: FragmentTabHost(android.content.Context,android.util.AttributeSet)
+android.support.v4.app.FragmentTabHost$SavedState
+android.support.v4.app.FragmentTabHost$SavedState: android.os.Parcelable$Creator CREATOR
 android.support.v4.content.ModernAsyncTask$Status: android.support.v4.content.ModernAsyncTask$Status[] values()
 android.support.v4.content.ModernAsyncTask$Status: android.support.v4.content.ModernAsyncTask$Status valueOf(java.lang.String)
 android.support.v4.view.PagerTabStrip
@@ -43,6 +47,8 @@ com.foxchan.foxdiary.core.AppContext
 com.foxchan.foxdiary.core.AppContext: AppContext()
 com.foxchan.foxdiary.core.AppStart
 com.foxchan.foxdiary.core.AppStart: AppStart()
+com.foxchan.foxdiary.core.widgets.FoxActivity
+com.foxchan.foxdiary.core.widgets.FoxActivity: FoxActivity()
 com.foxchan.foxdiary.core.widgets.RefreshListView
 com.foxchan.foxdiary.core.widgets.RefreshListView: RefreshListView(android.content.Context)
 com.foxchan.foxdiary.core.widgets.RefreshListView: RefreshListView(android.content.Context,android.util.AttributeSet)

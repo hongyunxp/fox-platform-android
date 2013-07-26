@@ -104,6 +104,8 @@ public class DiaryWriteWordsView extends FakeActivity {
 		if(!StringUtils.isEmpty(wordsContent)){
 			setDiaryContent(wordsContent);
 			config.removeProperties(Constants.DIARY_TEMP_WORDS);
+			etContent.requestFocus();
+			etContent.requestFocusFromTouch();
 		}
 		super.onResume();
 	}

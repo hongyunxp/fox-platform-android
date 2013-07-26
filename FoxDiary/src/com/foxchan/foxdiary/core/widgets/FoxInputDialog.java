@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.foxchan.foxdiary.core.R;
+import com.foxchan.foxutils.data.StringUtils;
 import com.foxchan.foxutils.tool.PhoneUtils;
 
 /**
@@ -101,6 +102,25 @@ public class FoxInputDialog extends Dialog {
 		 */
 		void onClick(String content, FoxInputDialog dialog);
 		
+	}
+
+	@Override
+	public void show() {
+		etContent.setEnabled(true);
+		etContent.requestFocus();
+		etContent.requestFocusFromTouch();
+		String content = etContent.getText().toString();
+		if(!StringUtils.isEmpty(content)){
+			etContent.setSelection(content.length());
+		}
+		super.show();
+	}
+
+	@Override
+	public void hide() {
+		etContent.clearFocus();
+		etContent.setEnabled(false);
+		super.hide();
 	}
 
 }

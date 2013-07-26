@@ -99,6 +99,7 @@ public class PasswordManageView extends FoxActivity {
 			FoxToast.showToast(PasswordManageView.this, String.format(
 					getString(R.string.secure_password_tip),
 					passwordPanel.getPasswordMinLength()), Toast.LENGTH_LONG);
+			passwordPanel.setShowPasswordTip(true);
 			//绑定密码盘输入完成的事件
 			passwordPanel.setOnCompleteListener(new LocusPasswordPanel.OnCompleteListener() {
 				@Override
@@ -159,6 +160,7 @@ public class PasswordManageView extends FoxActivity {
 				}
 			});
 		} else {
+			passwordPanel.setShowPasswordTip(false);
 			rlHeader.setVisibility(View.GONE);
 			btnResetPassword.setVisibility(View.GONE);
 			passwordPanel.setOnCompleteListener(new LocusPasswordPanel.OnCompleteListener(){
@@ -169,9 +171,10 @@ public class PasswordManageView extends FoxActivity {
 						toDiaryLineView();
 					} else {
 						passwordPanel.clearPassword();
-						FoxToast.showException(PasswordManageView.this,
-								R.string.secure_password_error,
-								Toast.LENGTH_SHORT);
+						passwordPanel.error();
+//						FoxToast.showException(PasswordManageView.this,
+//								R.string.secure_password_error,
+//								Toast.LENGTH_SHORT);
 					}
 				}
 			});
