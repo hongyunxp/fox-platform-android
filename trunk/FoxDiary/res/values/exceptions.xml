@@ -6,6 +6,7 @@
     
     <string name="ex_image_not_found">没有找到该图片。</string>
     <string name="ex_voice_not_found">没有找到该录音文件。</string>
+    <string name="ex_voice_device_not_support">抱歉，您当前的系统暂时不支持录音日记。</string>
     
     <string name="ex_password_not_long_enough">密码至少%1$s位，请重新输入。</string>
     <string name="ex_diary_cant_be_modify">抱歉，只有今天写的日记才能被修改。</string>
