@@ -9,6 +9,7 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -322,6 +323,8 @@ public class DiaryWriteVoiceView extends FakeActivity {
 	 * 初始化媒体播放器
 	 */
 	private void initMediaPlayer(){
+		//禁止魅族的录音功能
+		if(android.os.Build.BRAND.equals("Meizu")) return;
 		mediaPlayer = new MediaPlayer();
 		try {
 			mediaPlayer.setDataSource(audioPath);

@@ -1376,14 +1376,14 @@ com.foxchan.foxdiary.core.widgets.RefreshListView:
     private static final int MAX_Y_OVERSCROLL_DISTANCE
     428:429:public void setExistMoreData(boolean)
 com.foxchan.foxdiary.core.widgets.locuspassword.LocusPasswordPanel:
-    339:342:public int[] getArrayIndex(int)
-    563:564:public void markError()
-    571:576:public void markError(long)
-    656:657:private java.lang.String getPassword()
-    667:667:public boolean isPasswordEmpty()
-    672:681:public boolean verifyPassword(java.lang.String)
-    691:695:public void resetPassWord(java.lang.String)
-    704:705:public void setPasswordMinLength(int)
+    341:344:public int[] getArrayIndex(int)
+    567:568:public void markError()
+    575:580:public void markError(long)
+    659:660:private java.lang.String getPassword()
+    670:670:public boolean isPasswordEmpty()
+    675:684:public boolean verifyPassword(java.lang.String)
+    694:698:public void resetPassWord(java.lang.String)
+    707:708:public void setPasswordMinLength(int)
 com.foxchan.foxdiary.entity.Diary:
     78:79:public void setId(java.lang.String)
     91:92:public void setTitle(java.lang.String)
@@ -1503,15 +1503,15 @@ com.foxchan.foxdiary.view.DiaryWriteView:
     public static final int ACTIVITY_CODE_IMAGE_CUT
     private static final int STATE_DIARY_SAVING
     private static final int STATE_DIARY_SAVED
-    497:497:public java.lang.String getVoiceName()
-    509:509:public int getWeatherId()
-    517:517:public int getEmotionId()
-    525:525:public java.lang.String getLocation()
+    499:499:public java.lang.String getVoiceName()
+    511:511:public int getWeatherId()
+    519:519:public int getEmotionId()
+    527:527:public java.lang.String getLocation()
 com.foxchan.foxdiary.view.DiaryWriteVoiceView:
     public static final int UPDATE_RECORD_LONG
 com.foxchan.foxdiary.view.secure.PasswordManageView:
-    261:263:private void showCreatePasswordButton()
-    269:271:private void showSavePasswordButton()
+    264:266:private void showCreatePasswordButton()
+    272:274:private void showSavePasswordButton()
 com.foxchan.foxutils.FoxTest:
     public static final java.lang.String TAG
 com.foxchan.foxutils.R:

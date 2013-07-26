@@ -2286,6 +2286,8 @@ com.foxchan.foxdiary.core.widgets.FoxInputDialog -> com.foxchan.foxdiary.core.wi
     android.widget.ImageButton ibNegative -> e
     com.foxchan.foxdiary.core.widgets.FoxInputDialog setOnPositiveButtonClickListener(com.foxchan.foxdiary.core.widgets.FoxInputDialog$OnClickListener) -> a
     com.foxchan.foxdiary.core.widgets.FoxInputDialog setOnNegativeButtonClickListener(com.foxchan.foxdiary.core.widgets.FoxInputDialog$OnClickListener) -> b
+    void show() -> show
+    void hide() -> hide
     android.widget.EditText access$0(com.foxchan.foxdiary.core.widgets.FoxInputDialog) -> a
 com.foxchan.foxdiary.core.widgets.FoxInputDialog$1 -> com.foxchan.foxdiary.core.widgets.f:
     com.foxchan.foxdiary.core.widgets.FoxInputDialog this$0 -> a
@@ -2370,25 +2372,28 @@ com.foxchan.foxdiary.core.widgets.locuspassword.LocusPasswordPanel -> com.foxcha
     android.graphics.Bitmap locus_line_error -> s
     long CLEAR_TIME -> t
     int passwordMinLength -> u
-    boolean isTouch -> v
-    android.graphics.Matrix mMatrix -> w
-    int lineAlpha -> x
+    boolean isShowPasswordTip -> v
+    boolean isTouch -> w
+    android.graphics.Matrix mMatrix -> x
+    int lineAlpha -> y
     boolean movingNoPoint -> a
     float moveingX -> b
     float moveingY -> c
-    java.util.Timer timer -> y
-    java.util.TimerTask task -> z
-    com.foxchan.foxdiary.core.widgets.locuspassword.LocusPasswordPanel$OnCompleteListener mCompleteListener -> A
+    java.util.Timer timer -> z
+    java.util.TimerTask task -> A
+    com.foxchan.foxdiary.core.widgets.locuspassword.LocusPasswordPanel$OnCompleteListener mCompleteListener -> B
     void onDraw(android.graphics.Canvas) -> onDraw
     void drawLine(android.graphics.Canvas,com.foxchan.foxdiary.core.widgets.locuspassword.Point,com.foxchan.foxdiary.core.widgets.locuspassword.Point) -> a
     float switchDegrees(float,float) -> a
     com.foxchan.foxdiary.core.widgets.locuspassword.Point checkSelectPoint(float,float) -> b
-    void reset() -> c
+    void reset() -> d
     boolean onTouchEvent(android.view.MotionEvent) -> onTouchEvent
-    void clearPassword() -> a
+    void error() -> a
+    void clearPassword() -> b
     void clearPassword(long) -> a
     void setOnCompleteListener(com.foxchan.foxdiary.core.widgets.locuspassword.LocusPasswordPanel$OnCompleteListener) -> a
-    int getPasswordMinLength() -> b
+    int getPasswordMinLength() -> c
+    void setShowPasswordTip(boolean) -> a
     void access$0(com.foxchan.foxdiary.core.widgets.locuspassword.LocusPasswordPanel) -> a
 com.foxchan.foxdiary.core.widgets.locuspassword.LocusPasswordPanel$1 -> com.foxchan.foxdiary.core.widgets.locuspassword.a:
     com.foxchan.foxdiary.core.widgets.locuspassword.LocusPasswordPanel this$0 -> a
