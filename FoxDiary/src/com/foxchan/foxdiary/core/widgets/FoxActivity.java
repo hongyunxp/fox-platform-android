@@ -27,12 +27,14 @@ public abstract class FoxActivity extends Activity {
 		switch(keyCode){
 		case KeyEvent.KEYCODE_VOLUME_DOWN:
 			am.adjustStreamVolume(AudioManager.STREAM_MUSIC,
-					AudioManager.ADJUST_LOWER, AudioManager.FLAG_SHOW_UI);
-			break;
+					AudioManager.ADJUST_LOWER, AudioManager.FLAG_PLAY_SOUND
+							| AudioManager.FLAG_SHOW_UI);
+			return true;
 		case KeyEvent.KEYCODE_VOLUME_UP:
 			am.adjustStreamVolume(AudioManager.STREAM_MUSIC,
-					AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI);
-			break;
+					AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND
+							| AudioManager.FLAG_SHOW_UI);
+			return true;
 		}
 		return super.onKeyDown(keyCode, event);
 	}
