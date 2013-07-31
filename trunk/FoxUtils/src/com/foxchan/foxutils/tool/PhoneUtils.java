@@ -44,6 +44,17 @@ public class PhoneUtils {
 	}
 	
 	/**
+	 * 获得手机的屏幕高度
+	 * @param activity
+	 * @return			返回手机的屏幕高度
+	 */
+	public static int getWindowHeight(Activity activity){
+		WindowManager manager = activity.getWindowManager();
+		Display display = manager.getDefaultDisplay();
+		return display.getHeight();
+	}
+	
+	/**
 	 * 获得设备上的Android的版本号
 	 * @return	返回设备上的Android的版本号
 	 */
