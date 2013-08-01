@@ -1,9 +1,8 @@
-package com.foxchan.metroui;
+package com.foxchan.metroui.widget;
 
-import android.app.Activity;
-import android.os.Bundle;
+import android.content.Context;
 import android.os.Handler;
-import android.view.Menu;
+import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
@@ -11,21 +10,31 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.ScaleAnimation;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.foxchan.foxanimation.rotate.Rotate3dAnimation;
-import com.foxchan.metroui.widget.RotateImageView;
 
-public class AppStart extends Activity {
+/**
+ * 磁贴控件
+ * @author foxchan@live.cn
+ * @version 1.0.0
+ * @create 2013年8月2日
+ */
+public class CubeView extends RelativeLayout {
 	
+	/** 正面的图片控件 */
 	private RotateImageView ivFront;
+	/** 反面的图片控件 */
 	private RotateImageView ivBack;
-	private RelativeLayout rlContainer;
-	private Button btnShowFront;
-	private Button btnShowBack;
+	/** 控件的左间距 */
+	private int marginLeft;
+	/** 控件的上间距 */
+	private int marginTop;
+	/** 是否是第一次加载控件的标志 */
+	private boolean isFirst = true;
+	/** 磁贴被选中执行的监听器 */
+	private OnCubeStartListener onCubeStartListener;
 	
 	private Handler handler = new Handler();
 	private Runnable frontRunnable = new Runnable() {
@@ -42,35 +51,29 @@ public class AppStart extends Activity {
 			showBack();
 		}
 	};
+	
+	public CubeView(Context context) {
+		super(context);
+	}
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.app_start);
-		rlContainer = (RelativeLayout)findViewById(R.id.metro_imageview_container);
-		ivFront = (RotateImageView)findViewById(R.id.metro_imageview_front);
-		ivBack = (RotateImageView)findViewById(R.id.metro_imageview_back);
-		btnShowFront = (Button)findViewById(R.id.show_front);
-		btnShowBack = (Button)findViewById(R.id.show_back);
-		
+	public CubeView(Context context, AttributeSet attrs) {
+		super(context, attrs);
+	}
+
+	public CubeView(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs, defStyle);
+	}
+	
+	/**
+	 * 初始化控件
+	 */
+	private void init(){
+		ivFront = (RotateImageView)getChildAt(0);
+		ivBack = (RotateImageView)getChildAt(1);
 		//因为要旋转，所以需要缓存视图的
-		rlContainer.setPersistentDrawingCache(ViewGroup.PERSISTENT_ANIMATION_CACHE);
-		btnShowFront.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				handler.post(frontRunnable);
-			}
-		});
-		btnShowBack.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				handler.post(backRunnable);
-			}
-		});
+		setPersistentDrawingCache(ViewGroup.PERSISTENT_ANIMATION_CACHE);
 		ivFront.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				handler.post(backRunnable);
@@ -89,14 +92,14 @@ public class AppStart extends Activity {
 	 * 显示正面
 	 */
 	private void showFront(){
-		applyRotation(-1, 0, -90, ivFront, ivBack, rlContainer, Rotate3dAnimation.Y);
+		applyRotation(-1, 0, -90, ivFront, ivBack, this, Rotate3dAnimation.Y);
 	}
 	
 	/**
 	 * 显示反面
 	 */
 	private void showBack(){
-		applyRotation(1, 0, 90, ivFront, ivBack, rlContainer, Rotate3dAnimation.Y);
+		applyRotation(1, 0, 90, ivFront, ivBack, this, Rotate3dAnimation.Y);
 	}
 	
 	/**
@@ -191,11 +194,9 @@ public class AppStart extends Activity {
 			largerAnimation = new ScaleAnimation(0.4f, 1.0f, 0.4f, 1.0f,
 					Animation.RELATIVE_TO_SELF, 0.2f,
 					Animation.RELATIVE_TO_SELF, 0.5f);
-			largerAnimation.setDuration(500);
 			smallerAnimation = new ScaleAnimation(1.0f, 0.6f, 1.0f, 0.6f,
 					Animation.RELATIVE_TO_SELF, 0.2f,
 					Animation.RELATIVE_TO_SELF, 0.5f);
-			smallerAnimation.setDuration(500);
 		}
 
 		@Override
@@ -222,21 +223,77 @@ public class AppStart extends Activity {
 				animationSet = new AnimationSet(true);
 				animationSet.addAnimation(rotation);
 			}
-			rotation.setDuration(500);
 			rotation.setFillAfter(true);
 			// 动画插入器 减速
 			rotation.setInterpolator(new DecelerateInterpolator());
-
+			rotation.setAnimationListener(new Animation.AnimationListener() {
+				
+				@Override
+				public void onAnimationStart(Animation animation) {
+					RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+							getLayoutParams());
+					if(mPosition > -1){//显示反面
+						params.setMargins(0, 0, params.rightMargin, params.bottomMargin);
+					} else {//显示正面
+						params.setMargins(marginLeft, marginTop, params.rightMargin, params.bottomMargin);
+					}
+					setLayoutParams(params);
+					for(int i = 0; i < getChildCount(); i++){
+						final View child = getChildAt(i);
+						measureChild(child, MeasureSpec.EXACTLY,  MeasureSpec.EXACTLY);
+					}
+					bringToFront();
+				}
+				
+				@Override
+				public void onAnimationRepeat(Animation animation) {
+				}
+				
+				@Override
+				public void onAnimationEnd(Animation animation) {
+					if(onCubeStartListener != null){
+						onCubeStartListener.onCubeStart();
+					}
+				}
+			});
+			animationSet.setDuration(300);
 			vgContainer.startAnimation(animationSet);
 		}
 		
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.app_start, menu);
-		return true;
+	protected void onLayout(boolean changed, int l, int t, int r, int b) {
+		if(isFirst){
+			init();
+			marginLeft = l;
+			marginTop = t;
+			isFirst = false;
+		}
+		super.onLayout(changed, l, t, r, b);
+	}
+	
+	/**
+	 * 绑定磁贴被选中执行的监听器
+	 * @param onCubeStartListener	磁贴被选中执行的监听器
+	 */
+	public void setOnCubeStartListener(OnCubeStartListener onCubeStartListener) {
+		this.onCubeStartListener = onCubeStartListener;
 	}
 
+	/**
+	 * 磁贴被选中执行的监听器
+	 * @author foxchan@live.cn
+	 * @version 1.0.0
+	 * @create 2013年8月2日
+	 */
+	public interface OnCubeStartListener {
+		
+		/**
+		 * 执行被选中执行后需要执行的方法
+		 */
+		void onCubeStart();
+		
+	}
+	
 }
