@@ -376,4 +376,20 @@ public class RotateImageView extends ImageView {
 		this.vHeight = vHeight;
 	}
 
+	public boolean getIsWidthFillScreen() {
+		return isWidthFillScreen;
+	}
+
+	public void setIsWidthFillScreen(boolean isWidthFillScreen) {
+		this.isWidthFillScreen = isWidthFillScreen;
+	}
+
+	public boolean getIsHeightFillScreen() {
+		return isHeightFillScreen;
+	}
+
+	public void setIsHeightFillScreen(boolean isHeightFillScreen) {
+		this.isHeightFillScreen = isHeightFillScreen;
+	}
+
 }

@@ -51,6 +51,14 @@ public class CubeView extends RelativeLayout {
 			showBack();
 		}
 	};
+	private Runnable startCubeRunnable = new Runnable() {
+		
+		@Override
+		public void run() {
+			onCubeStartListener.onCubeStart();
+			handler.post(frontRunnable);
+		}
+	};
 	
 	public CubeView(Context context) {
 		super(context);
@@ -248,8 +256,7 @@ public class CubeView extends RelativeLayout {
 				@Override
 				public void onAnimationEnd(Animation animation) {
 					if(onCubeStartListener != null && mPosition > -1){
-						onCubeStartListener.onCubeStart();
-//						handler.post(frontRunnable);
+						handler.postDelayed(startCubeRunnable, 200);
 					}
 				}
 			});
