@@ -1,10 +1,8 @@
 package com.foxchan.metroui.widget;
 
 import android.content.Context;
-import android.graphics.Matrix;
 import android.os.Handler;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
@@ -232,8 +230,6 @@ public class CubeView extends RelativeLayout {
 				
 				@Override
 				public void onAnimationStart(Animation animation) {
-					ivBack.setvWidth(1024);
-					ivBack.setvHeight(552);
 					RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
 							getLayoutParams());
 					if(mPosition > -1){//显示反面
@@ -242,9 +238,6 @@ public class CubeView extends RelativeLayout {
 						params.setMargins(marginLeft, marginTop, params.rightMargin, params.bottomMargin);
 					}
 					setLayoutParams(params);
-//					for(int i = 0; i < getChildCount(); i++){
-						
-//					}
 					bringToFront();
 				}
 				
