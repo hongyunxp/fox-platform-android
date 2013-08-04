@@ -16,7 +16,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -53,6 +52,10 @@ public class RotateImageView extends ImageView {
 	private boolean isWidthFillScreen;
 	/** 图片的高度是否需要充满屏幕 */
 	private boolean isHeightFillScreen;
+	/** 窗口的宽度 */
+	private int windowWidth;
+	/** 窗口的高度 */
+	private int windowHeight;
 	private boolean isFinish = true;
 	private boolean isActionMove = false;
 	private boolean isScale = false;
@@ -190,10 +193,12 @@ public class RotateImageView extends ImageView {
 		isHeightFillScreen = a.getBoolean(
 				R.styleable.RotateImageView_is_height_fill_screen, false);
 		if(isWidthFillScreen){
-			vWidth = PhoneUtils.getWindowWidth((Activity)context);
+			windowWidth = PhoneUtils.getWindowWidth((Activity)context);
+			vWidth = windowWidth;
 		}
 		if(isHeightFillScreen){
-			vHeight = PhoneUtils.getWindowHeight((Activity)context);
+			windowHeight = PhoneUtils.getWindowHeight((Activity)context);
+			vHeight = windowHeight;
 		}
 		a.recycle();
 	}
@@ -233,20 +238,21 @@ public class RotateImageView extends ImageView {
 		imageWidth = bd.getIntrinsicWidth();
 		imageHeight = bd.getIntrinsicHeight();
 		//重置图片的大小以适应控件当前的大小
-		Matrix matrix = new Matrix();
-		resetImageView(matrix);
-		setImageMatrix(matrix);
+		if(isWidthFillScreen || isHeightFillScreen){
+			Matrix matrix = new Matrix();
+			resetImageView(matrix);
+			setImageMatrix(matrix);
+		}
 	}
 	
 	public void resetImageView(Matrix matrix){
 		if(imageWidth != vWidth || imageHeight != vHeight){
 			float sx = (float)vWidth / imageWidth;
 			float sy = (float)vHeight / imageHeight;
-			Log.d("cqm", "vWidth = " + vWidth);
 			matrix.postScale(sx, sy);
 		}
 	}
-
+	
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
 		super.onTouchEvent(ev);
