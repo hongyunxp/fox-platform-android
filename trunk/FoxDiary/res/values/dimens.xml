@@ -18,6 +18,12 @@
 	<dimen name="diary_line_content_font_size">16sp</dimen>
 	<!-- 添加日记控件 -->
 	<dimen name="diary_write_big_circle_radius">253dip</dimen>
+	<!-- 横版日记控件 -->
+	<dimen name="diary_landspace_bg_padding_left">14.5dp</dimen>
+	<dimen name="diary_landspace_bg_padding_top">13.5dp</dimen>
+	<dimen name="diary_landspace_bg_padding_right">13.6dp</dimen>
+	<dimen name="diary_landspace_bg_padding_bottom">15.8dp</dimen>
+	<dimen name="diary_landscape_image_height">167dp</dimen>
 	
 	<!-- 功能按钮相关数据 -->
 	<dimen name="function_node_width">64dip</dimen>
