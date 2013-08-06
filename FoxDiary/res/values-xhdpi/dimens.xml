@@ -1,0 +1,8 @@
+<resources>
+    <!-- 横版日记控件 -->
+	<dimen name="diary_landspace_bg_padding_left">22dp</dimen>
+	<dimen name="diary_landspace_bg_padding_top">16.5dp</dimen>
+	<dimen name="diary_landspace_bg_padding_right">23.4dp</dimen>
+	<dimen name="diary_landspace_bg_padding_bottom">17.5dp</dimen>
+	<dimen name="diary_landscape_image_height">250dp</dimen>
+</resources>

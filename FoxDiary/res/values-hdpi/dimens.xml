@@ -5,10 +5,10 @@
          screen margins) for sw600dp devices (e.g. 7" tablets) here.
     -->
     <!-- 横版日记控件 -->
-	<dimen name="diary_landspace_bg_padding_left">36dp</dimen>
-	<dimen name="diary_landspace_bg_padding_top">24dp</dimen>
-	<dimen name="diary_landspace_bg_padding_right">36dp</dimen>
-	<dimen name="diary_landspace_bg_padding_bottom">26.5dp</dimen>
+	<dimen name="diary_landspace_bg_padding_left">14.5dp</dimen>
+	<dimen name="diary_landspace_bg_padding_top">13.5dp</dimen>
+	<dimen name="diary_landspace_bg_padding_right">13.6dp</dimen>
+	<dimen name="diary_landspace_bg_padding_bottom">15.8dp</dimen>
 	<dimen name="diary_landscape_image_height">250dp</dimen>
 
 </resources>
