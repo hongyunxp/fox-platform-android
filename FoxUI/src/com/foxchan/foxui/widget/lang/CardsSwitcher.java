@@ -1,13 +1,10 @@
 package com.foxchan.foxui.widget.lang;
 
+import java.util.HashMap;
 import java.util.Random;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Matrix;
-import android.os.Handler;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
@@ -17,6 +14,8 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.view.animation.TranslateAnimation;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 /**
@@ -44,7 +43,11 @@ public class CardsSwitcher extends RelativeLayout implements OnTouchListener, On
 	/** 是否是第一次加载的标志 */
 	private boolean isFirst = true;
 	/** 当前显示在最前面的界面的索引号 */
-	private int currentViewIndex = 0;
+	private int currentItemPosition = 0;
+	/** 当前绑定的数据的总数量 */
+	private int itemCount;
+	/** 界面组件集合 */
+	private HashMap<Integer, View> viewMap = new HashMap<Integer, View>();
 	
 	/** 第一个位移动画 */
 	private TranslateAnimation firstAnimation;
@@ -56,6 +59,8 @@ public class CardsSwitcher extends RelativeLayout implements OnTouchListener, On
 	private GestureDetector gd;
 	/** 是否还有下一个元素的标志 */
 	private boolean hasNext = true;
+	/** 数据适配器 */
+	private BaseAdapter baseAdapter;
 	
 	public CardsSwitcher(Context context) {
 		super(context);
@@ -88,8 +93,11 @@ public class CardsSwitcher extends RelativeLayout implements OnTouchListener, On
 		if(isFirst){
 			isFirst = false;
 			int count = getChildCount();
-			if(count <= 0) return;
-			currentViewIndex = 0;
+			if(count <= 0) {
+				isFirst = true;
+				return;
+			}
+			currentItemPosition = 0;
 			if(count < 2){
 				refreshViews(null, getChildAt(0), null);
 			} else if(count < 3) {
@@ -97,8 +105,6 @@ public class CardsSwitcher extends RelativeLayout implements OnTouchListener, On
 			} else {
 				refreshViews(getChildAt(0), getChildAt(count - 1), getChildAt(count - 2));
 			}
-//			buildFirstTranslateAnimation(0, currView.getMeasuredWidth(), 500, to);
-//			buildSecondTranslateAnimation(currView.getMeasuredWidth(), 500);
 			//旋转界面
 			if(count <= 2){
 				viewRotate(nextView, 10);
@@ -111,9 +117,8 @@ public class CardsSwitcher extends RelativeLayout implements OnTouchListener, On
 					viewRotate(getChildAt(i), 10);
 				}
 			}
-			//绑定触控事件
-//			currView.setOnTouchListener(this);
 		}
+		
 	}
 	
 	/**
@@ -267,13 +272,10 @@ public class CardsSwitcher extends RelativeLayout implements OnTouchListener, On
 
 	@Override
 	public void onShowPress(MotionEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public boolean onSingleTapUp(MotionEvent e) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -285,8 +287,6 @@ public class CardsSwitcher extends RelativeLayout implements OnTouchListener, On
 
 	@Override
 	public void onLongPress(MotionEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -294,17 +294,20 @@ public class CardsSwitcher extends RelativeLayout implements OnTouchListener, On
 			float velocityY) {
 		int x1 = (int)e1.getX();
 		int x2 = (int)e2.getX();
+		int y1 = (int)e1.getY();
+		int y2 = (int)e2.getY();
 		int deltaX = x2 - x1;
-		float absVelocityX = Math.abs(velocityX);
-		float absVelocityY = Math.abs(velocityY);
-		if(deltaX > 0 && absVelocityX > 2000 && absVelocityY < 1200){//向右
-			buildFirstTranslateAnimation(0, currView.getMeasuredWidth(), 500, TO_BEHIND);
-			buildSecondTranslateAnimation(currView.getMeasuredWidth(), 500, TO_BEHIND);
+		int deltaY = y2 - y1;
+		int absDeltaX = Math.abs(deltaX);
+		int absDeltaY = Math.abs(deltaY);
+		if(deltaX > 0 && absDeltaX > 100 && absDeltaY < 50){//向右
+			buildFirstTranslateAnimation(0, currView.getMeasuredWidth(), 300, TO_BEHIND);
+			buildSecondTranslateAnimation(currView.getMeasuredWidth(), 300, TO_BEHIND);
 			currView.startAnimation(firstAnimation);
 		}
-		if(deltaX <= 0 && absVelocityX > 2000 && absVelocityY < 1200){//向左
-			buildFirstTranslateAnimation(0, -prevView.getMeasuredWidth(), 500, TO_FRONT);
-			buildSecondTranslateAnimation(-prevView.getMeasuredWidth(), 500, TO_FRONT);
+		if(deltaX <= 0 && absDeltaX > 100 && absDeltaY < 50){//向左
+			buildFirstTranslateAnimation(0, -prevView.getMeasuredWidth(), 300, TO_FRONT);
+			buildSecondTranslateAnimation(-prevView.getMeasuredWidth(), 300, TO_FRONT);
 			prevView.startAnimation(firstAnimation);
 		}
 		return false;
@@ -316,19 +319,37 @@ public class CardsSwitcher extends RelativeLayout implements OnTouchListener, On
 	}
 	
 	/**
-	 * 交换界面的线程类
-	 * @author foxchan@live.cn
-	 * @version 1.0.0
-	 * @create 2013年8月6日
+	 * 绑定数据适配器
+	 * @param baseAdapter	数据适配器
 	 */
-	private class ViewSwaper implements Runnable{
-
-		@Override
-		public void run() {
-			// TODO Auto-generated method stub
-			
+	public void setAdapter(BaseAdapter baseAdapter){
+		this.baseAdapter = baseAdapter;
+		this.itemCount = baseAdapter.getCount();
+		//清除组件中原有的子控件
+		removeAllViews();
+		if(itemCount <= 5){
+			for(int i = 0; i < itemCount; i++){
+				addView(getViewFromMap(i));
+			}
+		} else {
+			for(int i = 0; i < 5; i++){
+				addView(getViewFromMap(i));
+			}
 		}
-		
+		requestLayout();
 	}
-
+	
+	/**
+	 * 从当前的ViewMap中获得视图
+	 * @param index	要获取的界面的索引号
+	 * @return		从视图缓存中获取控件的布局信息
+	 */
+	private View getViewFromMap(int index){
+		View view = viewMap.get(index);
+		if(view == null){
+			view = viewMap.put(index, baseAdapter.getView(index, null, this));
+		}
+		return view;
+	}
+	
 }
