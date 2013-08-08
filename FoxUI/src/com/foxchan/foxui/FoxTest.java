@@ -38,6 +38,7 @@ public class FoxTest extends Activity {
 	protected void testCardsSwitcher(){
 		setContentView(R.layout.cards_switcher_test);
 		CardsSwitcher cardsSwitcher = (CardsSwitcher)findViewById(R.id.cards_switcher);
+		
 	}
 
 }

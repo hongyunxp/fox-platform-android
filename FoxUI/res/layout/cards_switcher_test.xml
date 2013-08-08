@@ -6,7 +6,8 @@
     <com.foxchan.foxui.widget.lang.CardsSwitcher
         android:id="@+id/cards_switcher"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:background="#FFFFFF" >
 
         <TextView
             android:layout_width="match_parent"

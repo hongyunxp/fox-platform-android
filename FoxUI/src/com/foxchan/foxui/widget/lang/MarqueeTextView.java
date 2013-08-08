@@ -10,40 +10,46 @@ import android.widget.TextView;
 
 import com.foxchan.foxutils.tool.PhoneUtils;
 
-public class FoxMarqueeText extends TextView implements Runnable {
+/**
+ * 支持跑马灯效果的TextView
+ * @create 2013年8月8日
+ * @author foxchan@live.cn
+ * @version 1.0.0
+ */
+public class MarqueeTextView extends TextView implements Runnable {
 	
-	/** 当前字幕滚动的位置 */
+	/** 当前文字滚动的位置 */
 	private int currentScrollX = 0;
 	/** 是否停止滚动的标志 */
 	private boolean isStop;
-	/** 字幕的宽度 */
+	/** 文字的宽度 */
 	private int textWidth;
-	/** 字幕是否有效的标志 */
+	/** 文字是否有效的标志 */
 	private boolean isValid = false;
-	/** 字幕滚动的速度 */
+	/** 文字滚动的速度 */
 	private int scrollSpeed = 2;
 	/** 屏幕的宽度 */
 	private int windowWidth;
-	/** 字幕滚动的次数 */
+	/** 文字滚动的次数 */
 	private int scrollCount = -1;
-	/** 字幕当前滚动的次数 */
+	/** 文字当前滚动的次数 */
 	private int currentScrollNumber = 0;
-	/** 字幕滚动完毕的事件监听器 */
+	/** 文字滚动完毕的事件监听器 */
 	private OnScrollOverListener onScrollOverListener;
 	
 	private Handler handler = new Handler();
 	
-	public FoxMarqueeText(Context context) {
+	public MarqueeTextView(Context context) {
 		super(context);
 		init(context);
 	}
 
-	public FoxMarqueeText(Context context, AttributeSet attrs) {
+	public MarqueeTextView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init(context);
 	}
 
-	public FoxMarqueeText(Context context, AttributeSet attrs, int defStyle) {
+	public MarqueeTextView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		init(context);
 	}
@@ -113,8 +119,6 @@ public class FoxMarqueeText extends TextView implements Runnable {
 	 */
 	public void startScroll(){
 		isStop = false;
-		/*removeCallbacks(this);
-		post(this);*/
 		handler.post(this);
 	}
 	
@@ -182,13 +186,13 @@ public class FoxMarqueeText extends TextView implements Runnable {
 	public interface OnScrollOverListener{
 		
 		/**
-		 * 当字幕滚动次数达到上限后将执行该方法
-		 * @param foxMarqueeText
+		 * 当MarqueeTextView滚动次数达到上限后将执行该方法
+		 * @param marqueeTextView	当前正在使用的MarqueeTextView对象
 		 * @create 2013年8月5日
 		 * @modify 2013年8月5日
 		 * @author foxchan@live.cn
 		 */
-		void onScrollOver(FoxMarqueeText foxMarqueeText);
+		void onScrollOver(MarqueeTextView marqueeTextView);
 		
 	}
 
