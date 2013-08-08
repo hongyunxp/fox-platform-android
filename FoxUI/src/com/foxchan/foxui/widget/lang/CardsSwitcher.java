@@ -13,7 +13,6 @@ import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
@@ -94,23 +93,12 @@ public class CardsSwitcher extends RelativeLayout implements OnTouchListener, On
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+		//测量子控件的大小
+		for(int i = 0; i < getChildCount(); i++){
+			getChildAt(i).measure(widthMeasureSpec, heightMeasureSpec);
+		}
 	}
 	
-	private void measureChildWidth(View child, int l, int t, int r, int b){
-		LayoutParams p = (LayoutParams)child.getLayoutParams();
-		if(p == null){
-			p = (RelativeLayout.LayoutParams)generateDefaultLayoutParams();
-			child.setLayoutParams(p);
-		}
-		
-		if(p.width == RelativeLayout.LayoutParams.WRAP_CONTENT){
-			p.width = 800;
-			p.height = 480;
-			p.leftMargin = 50;
-			p.topMargin = 50;
-		}
-	}
-
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
 		super.onLayout(changed, l, t, r, b);
@@ -128,11 +116,6 @@ public class CardsSwitcher extends RelativeLayout implements OnTouchListener, On
 				refreshViews(getChildAt(count - 2), getChildAt(count - 1), getChildAt(count - 2));
 			} else {
 				refreshViews(getChildAt(0), getChildAt(count - 1), getChildAt(count - 2));
-			}
-			//重置子控件的大小
-			for(int i = 0; i < count; i++){
-				final View child = getChildAt(i);
-				measureChildWidth(child, l, count, r, b);
 			}
 			//旋转界面
 			if(count <= 2){
