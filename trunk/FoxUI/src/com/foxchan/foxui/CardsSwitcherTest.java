@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.foxchan.foxui.core.R;
 import com.foxchan.foxui.widget.lang.CardsSwitcher;
@@ -35,10 +36,26 @@ public class CardsSwitcherTest extends Activity {
 		setContentView(R.layout.cards_switcher_test);
 		cardsSwitcher = (CardsSwitcher)findViewById(R.id.cards_switcher);
 		cards = new ArrayList<CardsSwitcherTest.Card>();
-		for(int i = 0; i < 20; i++){
+		for(int i = 0; i < 5; i++){
 			cards.add(new Card("卡片：" + i, "卡片内容：这是第" + i + "张卡片的内容。"));
 		}
 		adapter = new DataAdapter();
+		cardsSwitcher.setOnFlingListener(new CardsSwitcher.OnFlingListener() {
+			
+			@Override
+			public void onFlingTo(View v, int postion) {
+				if(postion == cards.size() - 1){
+					/*Toast.makeText(v.getContext(), "这是最后一张卡片了", Toast.LENGTH_SHORT).show();
+					int originalCount = cards.size();
+					if(originalCount < 30){
+						for(int i = originalCount; i < originalCount + 10; i++){
+							cards.add(new Card("卡片：" + i, "卡片内容：这是第" + i + "张卡片的内容。"));
+						}
+						adapter.notifyDataSetChanged();
+					}*/
+				}
+			}
+		});
 		cardsSwitcher.setAdapter(adapter);
 	}
 	

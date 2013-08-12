@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="FoxUI">  
+        <attr name="child_margin" format="dimension" />  
+        <attr name="child_margin_left" format="dimension" />  
+        <attr name="child_margin_top" format="dimension" />  
+        <attr name="child_margin_right" format="dimension" />  
+        <attr name="child_margin_bottom" format="dimension" />  
+    </declare-styleable>
+</resources>
