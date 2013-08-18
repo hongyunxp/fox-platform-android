@@ -1,10 +1,15 @@
 package com.foxchan.foxdiary.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 
+import com.foxchan.foxdiary.entity.Diary;
+import com.foxchan.foxdiary.view.DiaryLandscapeView;
 import com.foxchan.foxdiary.view.DiaryLineView;
 
 public class AppStart extends Activity {
@@ -13,7 +18,17 @@ public class AppStart extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.diary_landscape);
-//		toDiaryLineView();
+		toDiaryLineView();
+		/*List<Diary> diaries = new ArrayList<Diary>();
+		for(int i = 0; i < 4; i++){
+			Diary diary = new Diary();
+			diary.setContent("这是日记" + i + "的内容。");
+			diary.setLocation("这是第" + i + "个地址");
+			diaries.add(diary);
+		}
+		DiaryLandscapeView diaryLandscapeView = new DiaryLandscapeView(this, diaries);
+		diaryLandscapeView.onCreate(savedInstanceState);
+		setContentView(diaryLandscapeView.layoutView());*/
 	}
 
 	@Override
@@ -31,5 +46,5 @@ public class AppStart extends Activity {
 		startActivity(intent);
 		finish();
 	}
-
+	
 }
