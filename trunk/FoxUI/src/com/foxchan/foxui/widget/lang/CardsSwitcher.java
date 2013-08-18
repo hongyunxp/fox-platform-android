@@ -33,6 +33,8 @@ import com.foxchan.foxutils.tool.PhoneUtils;
 public class CardsSwitcher extends RelativeLayout implements OnTouchListener, OnGestureListener {
 	
 	public static final String TAG = "CardsSwitcher";
+	/** 保持原位 */
+	private static final int TO_NO_WHERE = -1;
 	/** 切换到最前面 */
 	private static final int TO_FRONT = 0;
 	/** 切换到最后面 */
