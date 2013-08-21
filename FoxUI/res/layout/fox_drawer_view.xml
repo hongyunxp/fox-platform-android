@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.foxchan.foxui.widget.lang.SlidingDrawer xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/fox_drawer_view"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
@@ -30,6 +30,19 @@
     </LinearLayout>
     
     <LinearLayout
+        android:id="@+id/fox_drawer_view_middle"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@android:color/white"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:layout_width="320dip"
+            android:layout_height="fill_parent"
+            android:background="@drawable/fox_drawer_main" />
+    </LinearLayout>
+    
+    <LinearLayout
         android:id="@+id/fox_drawer_view_right"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -54,17 +67,4 @@
             android:dividerHeight="0.6dip" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/fox_drawer_view_middle"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@android:color/white"
-        android:orientation="vertical" >
-
-        <ImageView
-            android:layout_width="320dip"
-            android:layout_height="fill_parent"
-            android:background="@drawable/fox_drawer_main" />
-    </LinearLayout>
-
-</RelativeLayout>
+</com.foxchan.foxui.widget.lang.SlidingDrawer>
